@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InnaYa Design Studio — website
 
-## Getting Started
+Photo-led interior design studio site: **Next.js 16 (App Router)**, **Tailwind CSS 4**, **next-intl** (English, Ukrainian, Russian), **react-icons**, and **Pexels**-based placeholders until real project photography is added.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local
+# Add PEXELS_API_KEY for interior placeholders; add Resend keys to enable the contact form.
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` — you will be redirected to a locale prefix (`/en`, `/uk`, `/ru`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Purpose |
+|----------|---------|
+| `PEXELS_API_KEY` | Server-side Pexels search for warm, interior-related placeholder images (`lib/pexels.ts`). Optional: without it, image blocks use the accent fill. |
+| `RESEND_API_KEY` | Sends contact form inquiries via [Resend](https://resend.com). |
+| `RESEND_FROM` | Verified sender address in Resend (e.g. `InnaYa <onboarding@resend.dev>`). |
+| `CONTACT_TO` | Optional override for the recipient inbox (defaults to `innaya.d.studio@gmail.com` in code). |
 
-## Learn More
+Never commit `.env.local`. Rotate any API key that was shared in chat or logs.
 
-To learn more about Next.js, take a look at the following resources:
+## Content & i18n
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Copy lives in `messages/en.json`, `messages/uk.json`, and `messages/ru.json`.
+- Portfolio slugs are listed in [`content/projects.ts`](content/projects.ts); per-project titles and bodies are under `portfolioItems` in each locale file.
+- Add `public/logo.png` when the client asset is ready (header currently uses the translated brand name).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Vercel
 
-## Deploy on Vercel
+1. Push the repo to GitHub.
+2. Create a Vercel project from the repo; set the root directory if this app lives in a subfolder.
+3. Add the same environment variables in **Project → Settings → Environment Variables**.
+4. Redeploy after changing env vars.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` — development with Turbopack
+- `npm run build` — production build
+- `npm run start` — run production build locally
+- `npm run lint` — ESLint

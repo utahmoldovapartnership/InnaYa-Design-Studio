@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "siteName": "InnaYa Design Studio",
+    "description": "Interior and exterior design, space planning, and turnkey fit-out for discerning clients across Ukraine, Moldova, and Europe."
+  },
+  "nav": {
+    "brand": "InnaYa Design Studio",
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "menu": "Menu",
+    "closeMenu": "Close"
+  },
+  "footer": {
+    "brand": "InnaYa Design Studio",
+    "tagline": "Interior and exterior design with clarity, craft, and calm.",
+    "contactLink": "Start a project",
+    "rights": "© InnaYa Design Studio. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Interior design studio",
+      "title": "Spaces that feel considered, calm, and unmistakably yours.",
+      "subtitle": "Interior and exterior design, bespoke furniture, and turnkey delivery — with transparent process from first sketch to final styling.",
+      "cta": "Book a consultation"
+    },
+    "values": {
+      "eyebrow": "How we work",
+      "title": "Honesty, transparency, and results you can anticipate.",
+      "body": [
+        "We guide residential and commercial clients through a structured path: brief, survey, planning, and a full design package with visuals you can trust.",
+        "Whether you are buying new property or refreshing an existing home, we help you see the full potential of the space — without noise or ornament for its own sake."
+      ]
+    },
+    "editorial1": {
+      "eyebrow": "Services",
+      "title": "From measured drawings to VR walkthroughs.",
+      "body": [
+        "Our design projects include demolition and construction plans, reflected ceiling plans, electrical layouts, and full wall elevations with detailing you can build from.",
+        "Rendered stills, working video walkthroughs, and presentation films help you feel the space long before installation begins."
+      ]
+    },
+    "editorial2": {
+      "eyebrow": "Delivery",
+      "title": "Author supervision and turnkey fit-out — when you want continuity.",
+      "body": [
+        "We collaborate with trusted partners for turnkey delivery, and we can stay on site with author supervision billed hourly so intent is preserved in every joint and finish.",
+        "Product design covers built-in and freestanding furniture — conceived to fit your architecture, not the catalogue."
+      ]
+    },
+    "selected": {
+      "eyebrow": "Portfolio",
+      "title": "Selected interiors",
+      "view": "View"
+    },
+    "process": {
+      "eyebrow": "Process",
+      "title": "From first contact to handover",
+      "steps": [
+        "Design brief / technical specification",
+        "As-built survey plan",
+        "Space planning solution",
+        "Design project (plans, elevations, details, visualisations, walkthroughs)",
+        "Optional author supervision",
+        "Optional turnkey fit-out through partners"
+      ]
+    }
+  },
+  "about": {
+    "title": "About the studio",
+    "lead": "InnaYa Design Studio is an independent practice for interior and exterior design, space planning, and bespoke furniture — serving clients who value clarity and craft.",
+    "experience": "With over seventeen years of professional experience, we balance imagination with buildable documentation.",
+    "education": "Higher professional education (specialist degree with distinction), plus advanced training in Revit, Enscape, and Rhinoceros.",
+    "regionsTitle": "Where we work",
+    "regionsBody": "We work in Ukraine, Moldova, across Europe, and internationally by arrangement. We collaborate primarily with Ukrainian- and Russian-speaking clients outside excluded jurisdictions.",
+    "regionsNote": "We do not take on new projects for clients based in the Russian Federation or Belarus.",
+    "storyTitle": "Studio note",
+    "storyBody": "A fuller personal story from the principal designer will appear here — for now, know that our process is built on listening first, documenting carefully, and delivering predictable, delightful outcomes."
+  },
+  "services": {
+    "title": "Services",
+    "intro": "Comprehensive design for homes, apartments, and commercial spaces — from first survey to VR presentation and optional turnkey delivery.",
+    "pricingLead": "Indicative design fees from €25 per square metre for survey, planning, and design packages; product design and supervision are quoted individually.",
+    "consultationTitle": "Consultations",
+    "consultationBody": "We offer online consultations and a complimentary initial conversation covering your goals and a preliminary estimate of our fees.",
+    "spacePlanningTitle": "Space planning",
+    "spacePlanningIntro": "Clients receive a complete planning track including:",
+    "spacePlanningItems": [
+      "Design brief / brief technical specification",
+      "As-built survey plan",
+      "Space planning solution",
+      "Design project: general demolition/construction plan",
+      "General floor plan",
+      "General ceiling plan",
+      "General electrical plan",
+      "Plans and elevations of all walls in every room",
+      "Details and nodes",
+      "Visualisations (rendered images)",
+      "Working video walkthroughs of the designed interior",
+      "Presentation video walkthrough",
+      "Option for author supervision",
+      "Option for turnkey fit-out through partners"
+    ],
+    "interiorTitle": "Interior & exterior design",
+    "interiorBody": "Residential and commercial environments of every scale — new construction, renovation, and adaptive reuse — composed in any aesthetic direction you choose, without pompous classic pastiche.",
+    "productTitle": "Product design",
+    "productBody": "Built-in and freestanding furniture designed to integrate with architecture, lighting, and daily rituals.",
+    "extrasTitle": "VR, supervision, and delivery",
+    "extrasItems": [
+      "VR project presentation for immersive reviews",
+      "Author supervision on an hourly basis",
+      "Turnkey fit-out and procurement via vetted partners",
+      "Online consultations for remote clients"
+    ],
+    "pricingTitle": "Pricing models",
+    "pricingItems": [
+      "Per square metre — surveys, space planning, and design projects",
+      "Individual pricing — bespoke furniture and product design",
+      "Per square metre — fit-out and procurement where applicable",
+      "Hourly — author supervision on site"
+    ]
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Placeholder case studies — replace imagery and narratives when project photography is ready.",
+    "detail": {
+      "firm": "Studio",
+      "location": "Location",
+      "year": "Year",
+      "status": "Status",
+      "typology": "Typology",
+      "statusValue": "Concept / visualization",
+      "back": "All projects"
+    }
+  },
+  "portfolioItems": {
+    "lakeside-retreat": {
+      "title": "Lakeside retreat",
+      "location": "Private residence — Europe",
+      "excerpt": "Warm minimal envelope with tactile plaster and oak joinery.",
+      "typology": "Residential",
+      "year": "2025",
+      "body": [
+        "A calm residential concept balancing daylight, neutral warmth, and precisely framed views. Built-in storage disappears into wall planes while freestanding pieces anchor each zone.",
+        "Deliverables included full spatial planning, millwork documentation, and rendered studies for key rooms — ready for your own photography to replace these temporary visuals."
+      ]
+    },
+    "urban-atelier": {
+      "title": "Urban atelier",
+      "location": "Boutique workspace — Moldova",
+      "excerpt": "Compact commercial interior with layered lighting and acoustic calm.",
+      "typology": "Commercial",
+      "year": "2025",
+      "body": [
+        "Designed for focused work and small client meetings, the atelier uses soft contrast, textile walls, and discreet services integration.",
+        "The palette stays quiet so art and product samples become the focal points — ideal for creative practices that host guests by appointment."
+      ]
+    },
+    "soft-hotel-suite": {
+      "title": "Soft hotel suite",
+      "location": "Hospitality concept",
+      "excerpt": "Guest room study with tactile upholstery and sculptural lighting.",
+      "typology": "Hospitality",
+      "year": "2024",
+      "body": [
+        "A hospitality study exploring how softness, sound, and scent can be choreographed without clutter. Lighting scenes shift from day to evening with minimal controls.",
+        "Furniture layouts prioritise circulation for housekeeping while keeping the guest experience residential in tone."
+      ]
+    },
+    "residential-loft": {
+      "title": "Residential loft",
+      "location": "City apartment",
+      "excerpt": "Open plan with defined micro-zones and custom kitchen architecture.",
+      "typology": "Residential",
+      "year": "2024",
+      "body": [
+        "The loft uses a single material spine — stained oak — to tie kitchen, library, and entry. Blackened steel moments add crispness without coldness.",
+        "Ceiling services were reorganised to allow cleaner volumes; lighting tracks are integrated into joinery reveals for a gallery-like ceiling plane."
+      ]
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "Share a few details — we will respond by email or your preferred messenger.",
+    "emailValue": "innaya.d.studio@gmail.com",
+    "phoneMd": "+373 60 285 316",
+    "phoneUa": "+380 66 185 5688",
+    "emailLabel": "Email",
+    "phoneNote": "Viber, Telegram, and WhatsApp are available on the Ukraine line.",
+    "labelMd": "Moldova",
+    "labelUa": "Ukraine",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "projectType": "Project type",
+      "projectResidential": "Residential",
+      "projectCommercial": "Commercial",
+      "projectOther": "Other / not sure",
+      "message": "Message",
+      "submit": "Send inquiry",
+      "sending": "Sending…",
+      "success": "Thank you — we received your message and will reply shortly.",
+      "error": "Something went wrong. Please try again or email us directly.",
+      "notConfigured": "The inquiry form is not yet connected to email. Please write to us directly.",
+      "validation": {
+        "required": "This field is required.",
+        "email": "Enter a valid email address."
+      }
+    },
+    "honeypotLabel": "Website"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or was moved.",
+    "cta": "Return home"
+  }
+}
