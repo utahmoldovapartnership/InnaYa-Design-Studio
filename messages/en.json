@@ -15,14 +15,15 @@
   },
   "footer": {
     "brand": "InnaYa Design Studio",
-    "tagline": "Interior and exterior design with clarity, craft, and calm.",
-    "contactLink": "Start a project",
-    "rights": "© InnaYa Design Studio. All rights reserved."
+    "tagline": "Interior and exterior design shaped around how you live.",
+    "contactLink": "Book a Consultation",
+    "rights": "© {year} InnaYa Design Studio. All rights reserved."
   },
   "home": {
     "hero": {
-      "title": "Spaces that feel considered, calm, and unmistakably yours.",
-      "cta": "Book a consultation"
+      "title": "Let's design a space perfect for you.",
+      "subtitle": "Interior design, bespoke furniture, and turnkey delivery across Ukraine, Moldova, and Europe.",
+      "cta": "Book a Consultation"
     },
     "values": {
       "eyebrow": "How we work",
@@ -38,7 +39,8 @@
       "body": [
         "Our design projects include demolition and construction plans, reflected ceiling plans, electrical layouts, and full wall elevations with detailing you can build from.",
         "Rendered stills, working video walkthroughs, and presentation films help you feel the space long before installation begins."
-      ]
+      ],
+      "cta": "View services"
     },
     "editorial2": {
       "eyebrow": "Delivery",
@@ -82,7 +84,25 @@
     "intro": "Comprehensive design for homes, apartments, and commercial spaces — from first survey to VR presentation and optional turnkey delivery.",
     "pricingLead": "Indicative design fees from €25 per square metre for survey, planning, and design packages; product design and supervision are quoted individually.",
     "consultationTitle": "Consultations",
-    "consultationBody": "We offer online consultations and a complimentary initial conversation covering your goals and a preliminary estimate of our fees.",
+    "consultationBody": "We offer online consultations and a complimentary initial conversation covering your goals, scope, and a preliminary estimate of our fees. There is no obligation to commission work afterward.",
+    "consultationPrepareTitle": "What to have ready",
+    "consultationPrepareItems": [
+      "Property location, approximate size (m²), and whether the project is new build, renovation, or fit-out only",
+      "Any available floor plans, surveys, or photos — sketches and phone pictures are fine",
+      "Your target timeline and a realistic budget range for design (and fit-out, if known)",
+      "Rooms and functions you need, plus fixed constraints such as lease rules, listed status, or structural limits",
+      "Reference images or short notes on mood, materials, and what to avoid (optional but helpful)",
+      "Who will attend the call and make decisions on your side"
+    ],
+    "consultationExpectTitle": "What to expect",
+    "consultationExpectItems": [
+      "A focused 45–60 minute video call (or in person when we are in the same region)",
+      "A structured conversation about how you will use the space, priorities, and non-negotiables",
+      "An overview of our process, typical deliverables, and project phases",
+      "A preliminary fee indication based on scope and square metres — refined after survey and brief",
+      "Straightforward guidance on whether our services match your scale, timing, and location",
+      "Clear next steps if you choose to proceed, with no pressure to commit during the call"
+    ],
     "spacePlanningTitle": "Space planning",
     "spacePlanningIntro": "Clients receive a complete planning track including:",
     "spacePlanningItems": [

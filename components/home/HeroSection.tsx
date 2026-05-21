@@ -11,10 +11,11 @@ const CONTENT_PARALLAX = 0.25;
 type Props = {
   photos: PexelsPhoto[];
   title: string;
+  subtitle: string;
   cta: string;
 };
 
-export function HeroSection({ photos, title, cta }: Props) {
+export function HeroSection({ photos, title, subtitle, cta }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollOffset, setScrollOffset] = useState(0);
   const [sectionHeight, setSectionHeight] = useState(0);
@@ -69,6 +70,15 @@ export function HeroSection({ photos, title, cta }: Props) {
     ? undefined
     : `translate3d(0, ${scrollOffset * CONTENT_PARALLAX}px, 0)`;
 
+  const scrollDown = () => {
+    const next = sectionRef.current?.nextElementSibling;
+    if (!next) return;
+    next.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -86,23 +96,50 @@ export function HeroSection({ photos, title, cta }: Props) {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-5 py-20 text-center will-change-transform"
+        className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-between px-5 py-16 text-center will-change-transform md:py-20"
         style={{
           transform: contentTransform,
           opacity: fade,
         }}
       >
-        <h1 className="max-w-2xl font-serif text-2xl leading-snug text-background md:text-3xl lg:text-4xl">
-          {title}
-        </h1>
-        <div className="pointer-events-auto mt-6">
-          <Link
-            href="/contact"
-            className="inline-block rounded-full border border-background bg-background/10 px-5 py-2 text-sm font-medium tracking-wide text-background backdrop-blur-sm transition-colors hover:bg-background hover:text-ink md:px-6 md:py-2.5"
-          >
-            {cta}
-          </Link>
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <h1 className="max-w-2xl font-serif text-2xl leading-snug text-background md:text-3xl lg:text-4xl">
+            {title}
+          </h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-background/90 md:text-lg">
+            {subtitle}
+          </p>
+          <div className="pointer-events-auto mt-6">
+            <Link
+              href="/contact"
+              className="inline-block rounded-full border border-background bg-background/10 px-5 py-2 text-sm font-medium tracking-wide text-background backdrop-blur-sm transition-colors hover:bg-background hover:text-ink md:px-6 md:py-2.5"
+            >
+              {cta}
+            </Link>
+          </div>
         </div>
+
+        <button
+          type="button"
+          onClick={scrollDown}
+          aria-label="Scroll to content"
+          className="pointer-events-auto shrink-0 text-background/80 transition-colors hover:text-background animate-hero-arrow"
+        >
+          <svg
+            className="h-7 w-7"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m0 0 6.75-6.75M12 19.5 5.25 12.75"
+            />
+          </svg>
+        </button>
       </div>
     </section>
   );

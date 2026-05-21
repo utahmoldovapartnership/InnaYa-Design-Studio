@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
@@ -41,7 +42,7 @@ export function Header() {
       ref={headerRef}
       className="sticky top-0 z-50 border-b border-accent/60 bg-background/90 backdrop-blur-md"
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 md:px-8">
+      <div className="mx-auto flex max-w-page items-center justify-between gap-6 px-5 py-4 md:px-8">
         <Link
           href="/"
           className="font-serif text-xl tracking-tight text-ink md:text-2xl"
@@ -69,12 +70,17 @@ export function Header() {
           <LocaleSwitcher />
           <button
             type="button"
-            className="rounded border border-accent px-3 py-1.5 text-sm text-ink"
+            className="p-2 text-ink transition-colors hover:text-muted"
             aria-expanded={open}
             aria-controls="mobile-nav"
+            aria-label={open ? t("closeMenu") : t("menu")}
             onClick={() => setOpen((v) => !v)}
           >
-            {open ? t("closeMenu") : t("menu")}
+            {open ? (
+              <HiX className="h-5 w-5" aria-hidden />
+            ) : (
+              <HiMenu className="h-5 w-5" aria-hidden />
+            )}
           </button>
         </div>
       </div>

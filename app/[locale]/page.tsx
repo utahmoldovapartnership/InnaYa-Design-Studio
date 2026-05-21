@@ -33,7 +33,7 @@ export default async function HomePage({
     <>
       <Hero photos={photos.slice(0, 4)} />
       <section className="bg-accent/25 px-5 py-20 md:px-8">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-page text-center">
           <p className="text-xs uppercase tracking-[0.25em] text-muted">
             {t("values.eyebrow")}
           </p>
@@ -55,6 +55,8 @@ export default async function HomePage({
         photo={photos[5] ?? null}
         imageSide="left"
         sizes="(max-width: 768px) 100vw, 50vw"
+        ctaHref="/services"
+        ctaLabel={t("editorial1.cta")}
       />
       <EditorialSection
         eyebrow={t("editorial2.eyebrow")}
@@ -65,7 +67,7 @@ export default async function HomePage({
         sizes="(max-width: 768px) 100vw, 50vw"
       />
       <section className="border-t border-accent/50 bg-background px-5 py-20 md:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-page">
           <p className="text-xs uppercase tracking-[0.25em] text-muted">
             {t("process.eyebrow")}
           </p>

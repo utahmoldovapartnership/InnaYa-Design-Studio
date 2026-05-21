@@ -1,4 +1,5 @@
 import { InteriorImage } from "@/components/ui/InteriorImage";
+import { Link } from "@/i18n/navigation";
 import type { PexelsPhoto } from "@/lib/pexels";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   photo: PexelsPhoto | null;
   imageSide: "left" | "right";
   sizes: string;
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
 export function EditorialSection({
@@ -17,6 +20,8 @@ export function EditorialSection({
   photo,
   imageSide,
   sizes,
+  ctaHref,
+  ctaLabel,
 }: Props) {
   const textBlock = (
     <div className="flex flex-col justify-center gap-5 px-5 py-12 md:px-10 lg:px-16">
@@ -29,6 +34,16 @@ export function EditorialSection({
           <p key={i}>{paragraph}</p>
         ))}
       </div>
+      {ctaHref && ctaLabel ? (
+        <div className="pt-2">
+          <Link
+            href={ctaHref}
+            className="inline-block rounded-full bg-ink px-5 py-2 text-sm font-medium tracking-wide text-background transition-colors hover:bg-ink/90"
+          >
+            {ctaLabel}
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 
@@ -38,7 +53,6 @@ export function EditorialSection({
       aspectClass="min-h-[320px] md:min-h-[420px]"
       sizes={sizes}
       className="md:min-h-full"
-      showCredit={!!photo}
     />
   );
 

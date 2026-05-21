@@ -18,6 +18,8 @@
   --color-muted-2: var(--muted-2);
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-display), ui-serif, Georgia, serif;
+  /* Narrower than max-w-6xl (72rem) — more side margin on large viewports */
+  --max-width-page: 64rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -39,4 +41,20 @@ body {
 
 .font-serif {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
+}
+
+@keyframes hero-arrow-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(9px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-hero-arrow {
+    animation: hero-arrow-nudge 2.25s ease-in-out infinite;
+  }
 }

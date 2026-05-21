@@ -30,9 +30,9 @@ export default async function PortfolioIndexPage({
 
   return (
     <div className="px-5 py-16 md:px-8 md:py-24">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-page">
         <h1 className="font-serif text-4xl text-ink md:text-5xl">{t("title")}</h1>
-        <p className="mt-4 max-w-2xl text-muted leading-relaxed">{t("subtitle")}</p>
+        <p className="mt-4 text-muted leading-relaxed">{t("subtitle")}</p>
         <div className="mt-14 grid gap-10 sm:grid-cols-2">
           {projectList.map((project, index) => {
             const photo = photos[index + 7] ?? photos[index] ?? null;

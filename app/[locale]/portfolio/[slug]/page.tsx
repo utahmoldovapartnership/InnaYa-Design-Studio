@@ -43,25 +43,30 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const photos = await getCachedInteriorPhotos();
   const index = projectList.findIndex((p) => p.slug === slug);
   const hero = photos[index + 7] ?? photos[index] ?? null;
-  const gallery = [photos[index + 8], photos[index + 9]].filter(
-    (p): p is NonNullable<typeof p> => !!p?.src,
-  );
+  const galleryOffsets = [8, 9, 10, 11];
+  const gallery = galleryOffsets
+    .map((offset) => photos[(index + offset) % photos.length])
+    .filter((p): p is NonNullable<typeof p> => !!p?.src)
+    .filter(
+      (photo, i, arr) => arr.findIndex((p) => p.id === photo.id) === i,
+    );
 
   const body = tp.raw(`${slug}.body`) as string[];
 
   return (
     <article>
       <div className="border-b border-accent/50 px-5 py-10 md:px-8 md:py-14">
-        <Link
-          href="/portfolio"
-          className="text-xs uppercase tracking-[0.2em] text-muted hover:text-ink"
-        >
-          {t("back")}
-        </Link>
-        <h1 className="mt-6 font-serif text-4xl text-ink md:text-5xl lg:text-6xl">
-          {tp(`${slug}.title`)}
-        </h1>
-        <dl className="mt-10 grid gap-6 border-t border-accent/40 pt-8 sm:grid-cols-2 md:grid-cols-4">
+        <div className="mx-auto max-w-page">
+          <Link
+            href="/portfolio"
+            className="text-xs uppercase tracking-[0.2em] text-muted hover:text-ink"
+          >
+            {t("back")}
+          </Link>
+          <h1 className="mt-6 font-serif text-4xl text-ink md:text-5xl lg:text-6xl">
+            {tp(`${slug}.title`)}
+          </h1>
+          <dl className="mt-10 grid gap-6 border-t border-accent/40 pt-8 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-2">
               {t("firm")}
@@ -92,7 +97,8 @@ export default async function PortfolioDetailPage({ params }: Props) {
             </dt>
             <dd className="mt-1 text-ink">{t("statusValue")}</dd>
           </div>
-        </dl>
+          </dl>
+        </div>
       </div>
 
       <InteriorImage
@@ -101,10 +107,9 @@ export default async function PortfolioDetailPage({ params }: Props) {
         sizes="100vw"
         className="w-full"
         priority
-        showCredit={!!hero}
       />
 
-      <div className="mx-auto max-w-3xl px-5 py-14 md:px-8 md:py-20">
+      <div className="mx-auto max-w-page px-5 py-14 md:px-8 md:py-20">
         <div className="space-y-6 text-lg leading-relaxed text-muted">
           {body.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
@@ -120,7 +125,6 @@ export default async function PortfolioDetailPage({ params }: Props) {
               photo={photo}
               aspectClass="aspect-[4/3]"
               sizes="50vw"
-              showCredit
             />
           ))}
         </div>

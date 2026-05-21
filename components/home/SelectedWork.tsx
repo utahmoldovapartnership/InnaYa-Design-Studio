@@ -14,7 +14,7 @@ export async function SelectedWork({ photos }: Props) {
 
   return (
     <section className="border-t border-accent/60 bg-background px-5 py-20 md:px-8">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-page">
         <p className="text-xs uppercase tracking-[0.25em] text-muted">
           {t("eyebrow")}
         </p>

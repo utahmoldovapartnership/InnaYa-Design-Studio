@@ -25,7 +25,7 @@ export default async function ContactPage({
   const t = await getTranslations("contact");
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-14 px-5 py-16 md:grid-cols-2 md:gap-16 md:px-8 md:py-24">
+    <div className="mx-auto grid max-w-page gap-14 px-5 py-16 md:grid-cols-2 md:gap-16 md:px-8 md:py-24">
       <div>
         <h1 className="font-serif text-4xl text-ink md:text-5xl">{t("title")}</h1>
         <p className="mt-6 leading-relaxed text-muted">{t("intro")}</p>

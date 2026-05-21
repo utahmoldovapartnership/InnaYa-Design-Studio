@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PexelsPhoto } from "@/lib/pexels";
 
 const SLIDE_INTERVAL_MS = 5500;
@@ -35,14 +35,6 @@ export function HeroCarousel({ photos }: Props) {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  const goTo = useCallback(
-    (next: number) => {
-      if (slides.length === 0) return;
-      setIndex(((next % slides.length) + slides.length) % slides.length);
-    },
-    [slides.length],
-  );
 
   useEffect(() => {
     if (reduceMotion || slides.length <= 1) return;
@@ -97,29 +89,6 @@ export function HeroCarousel({ photos }: Props) {
           </figure>
         ))}
       </div>
-      {slides.length > 1 ? (
-        <div
-          className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 gap-2"
-          role="tablist"
-          aria-label="Slide navigation"
-        >
-          {slides.map((photo, i) => (
-            <button
-              key={photo.id}
-              type="button"
-              role="tab"
-              aria-label={`Go to slide ${i + 1}`}
-              aria-selected={i === index}
-              onClick={() => goTo(i)}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                i === index
-                  ? "bg-background"
-                  : "bg-background/40 hover:bg-background/70"
-              }`}
-            />
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }

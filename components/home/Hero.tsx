@@ -10,6 +10,11 @@ export async function Hero({ photos }: Props) {
   const t = await getTranslations("home.hero");
 
   return (
-    <HeroSection photos={photos} title={t("title")} cta={t("cta")} />
+    <HeroSection
+      photos={photos}
+      title={t("title")}
+      subtitle={t("subtitle")}
+      cta={t("cta")}
+    />
   );
 }
