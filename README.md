@@ -1,13 +1,13 @@
 # InnaYa Design Studio — website
 
-Photo-led interior design studio site: **Next.js 16 (App Router)**, **Tailwind CSS 4**, **next-intl** (English, Ukrainian, Russian), **react-icons**, and **Pexels**-based placeholders until real project photography is added.
+Photo-led interior design studio site: **Next.js 16 (App Router)**, **Tailwind CSS 4**, **next-intl** (English, Ukrainian, Russian), **react-icons**, and curated **Pexels** placeholder images until real project photography is added.
 
 ## Local development
 
 ```bash
 npm install
 cp .env.example .env.local
-# Add PEXELS_API_KEY for interior placeholders; add Resend keys to enable the contact form.
+# Add Resend keys to enable the contact form.
 npm run dev
 ```
 
@@ -17,7 +17,6 @@ Open `http://localhost:3000` — you will be redirected to a locale prefix (`/en
 
 | Variable | Purpose |
 |----------|---------|
-| `PEXELS_API_KEY` | Server-side Pexels search for warm, interior-related placeholder images (`lib/pexels.ts`). Optional: without it, image blocks use the accent fill. |
 | `RESEND_API_KEY` | Sends contact form inquiries via [Resend](https://resend.com). |
 | `RESEND_FROM` | Verified sender address in Resend (e.g. `InnaYa <onboarding@resend.dev>`). |
 | `CONTACT_TO` | Optional override for the recipient inbox (defaults to `innaya.d.studio@gmail.com` in code). |
