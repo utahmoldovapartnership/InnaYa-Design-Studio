@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -124,13 +125,13 @@ export function ContactForm() {
         <p className="text-sm text-red-800">{errorMessage}</p>
       ) : null}
 
-      <button
+      <Button
         type="submit"
         disabled={status === "sending"}
-        className="mt-2 inline-flex self-start items-center justify-center rounded-full bg-ink px-5 py-2 text-sm font-medium tracking-wide text-background transition-colors hover:bg-ink/90 disabled:opacity-50"
+        className="mt-2 self-start"
       >
         {status === "sending" ? t("sending") : t("submit")}
-      </button>
+      </Button>
     </form>
   );
 }

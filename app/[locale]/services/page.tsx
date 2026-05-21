@@ -56,7 +56,7 @@ export default async function ServicesPage({
 
   return (
     <article>
-      <div className="mx-auto max-w-page px-5 pt-16 pb-12 md:px-8 md:pt-24 md:pb-14">
+      <div className="mx-auto max-w-nav px-5 pt-16 pb-12 md:px-8 md:pt-24 md:pb-14">
         <h1 className="font-serif text-4xl text-ink md:text-5xl">{t("title")}</h1>
         <p className="mt-8 text-lg leading-relaxed text-muted">{t("intro")}</p>
         <p className="mt-6 text-sm leading-relaxed text-muted-2">
@@ -71,7 +71,7 @@ export default async function ServicesPage({
         priority
       />
 
-      <div className="mx-auto max-w-page px-5 py-16 md:px-8 md:py-20">
+      <div className="mx-auto max-w-nav px-5 py-16 md:px-8 md:py-20">
         <section>
           <h2 className="font-serif text-2xl text-ink md:text-3xl">
             {t("consultationTitle")}
@@ -101,14 +101,15 @@ export default async function ServicesPage({
       </div>
 
       <section className="border-t border-accent/50 bg-accent/20">
-        <div className="grid lg:grid-cols-2 lg:items-stretch">
-          <InteriorImage
-            photo={pickPhoto(photos, 2)}
-            aspectClass="min-h-[360px] lg:min-h-[480px] lg:h-full"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="h-full w-full"
-          />
-          <div className="flex flex-col justify-center px-5 py-16 md:px-8 md:py-20 lg:px-12 lg:py-24 xl:px-16">
+        <div className="mx-auto max-w-nav px-5 md:px-8">
+          <div className="grid lg:grid-cols-2 lg:items-stretch">
+            <InteriorImage
+              photo={pickPhoto(photos, 2)}
+              aspectClass="min-h-[360px] lg:min-h-[480px] lg:h-full"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-full w-full"
+            />
+            <div className="flex flex-col justify-center py-16 md:py-20 lg:pl-8 lg:py-24">
             <h2 className="font-serif text-2xl text-ink md:text-3xl">
               {t("spacePlanningTitle")}
             </h2>
@@ -119,11 +120,12 @@ export default async function ServicesPage({
               <List items={spaceItems} />
             </div>
           </div>
+          </div>
         </div>
       </section>
 
       <section className="border-t border-accent/50">
-        <div className="mx-auto max-w-page px-5 py-16 md:px-8 md:py-20">
+        <div className="mx-auto max-w-nav px-5 py-16 md:px-8 md:py-20">
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
             <InteriorImage
               photo={pickPhoto(photos, 4)}
@@ -152,7 +154,7 @@ export default async function ServicesPage({
       </section>
 
       <section className="border-t border-accent/50">
-        <div className="mx-auto max-w-page px-5 md:px-8">
+        <div className="mx-auto max-w-nav px-5 md:px-8">
           <div className="grid items-center gap-10 py-16 md:gap-12 md:py-20 lg:grid-cols-2 lg:py-24">
             <div>
               <h2 className="font-serif text-2xl text-ink md:text-3xl">
@@ -180,7 +182,7 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      <div className="mx-auto max-w-page border-t border-accent/50 px-5 py-16 md:px-8 md:py-20">
+      <div className="mx-auto max-w-nav border-t border-accent/50 px-5 py-16 md:px-8 md:py-20">
         <section>
           <h2 className="font-serif text-2xl text-ink">{t("pricingTitle")}</h2>
           <div className="mt-4">

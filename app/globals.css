@@ -21,6 +21,7 @@
   --font-family-brand: var(--font-brand), var(--font-display), ui-serif, Georgia, serif;
   /* Readable page width — narrower than max-w-6xl for more side margin */
   --max-width-page: 56rem;
+  --max-width-nav: 60rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

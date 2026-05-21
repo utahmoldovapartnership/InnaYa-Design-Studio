@@ -43,7 +43,7 @@ export function Header() {
       ref={headerRef}
       className="sticky top-0 z-50 border-b border-accent/60 bg-background/90 backdrop-blur-md"
     >
-      <div className="mx-auto flex max-w-page items-center justify-between gap-6 px-5 py-4 md:px-8">
+      <div className="mx-auto flex max-w-nav items-center justify-between gap-6 px-5 py-4 md:px-8">
         <Link
           href="/"
           className={`${brandFont.className} inline-flex translate-y-0.5 items-center self-center leading-none text-base tracking-wide text-ink md:text-lg`}

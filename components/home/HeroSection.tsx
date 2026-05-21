@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { Link } from "@/i18n/navigation";
+import { ButtonLink } from "@/components/ui/Button";
 import type { PexelsPhoto } from "@/lib/pexels";
 
 const IMAGE_PARALLAX = 0.4;
@@ -110,12 +110,9 @@ export function HeroSection({ photos, title, subtitle, cta }: Props) {
             {subtitle}
           </p>
           <div className="pointer-events-auto mt-6">
-            <Link
-              href="/contact"
-              className="inline-block rounded-full border border-background bg-background/10 px-5 py-2 text-sm font-medium tracking-wide text-background backdrop-blur-sm transition-colors hover:bg-background hover:text-ink md:px-6 md:py-2.5"
-            >
+            <ButtonLink href="/contact" variant="light">
               {cta}
-            </Link>
+            </ButtonLink>
           </div>
         </div>
 

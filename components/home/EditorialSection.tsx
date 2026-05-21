@@ -1,5 +1,5 @@
 import { InteriorImage } from "@/components/ui/InteriorImage";
-import { Link } from "@/i18n/navigation";
+import { ButtonLink } from "@/components/ui/Button";
 import type { PexelsPhoto } from "@/lib/pexels";
 
 type Props = {
@@ -36,12 +36,7 @@ export function EditorialSection({
       </div>
       {ctaHref && ctaLabel ? (
         <div className="pt-2">
-          <Link
-            href={ctaHref}
-            className="inline-block rounded-full bg-ink px-5 py-2 text-sm font-medium tracking-wide text-background transition-colors hover:bg-ink/90"
-          >
-            {ctaLabel}
-          </Link>
+          <ButtonLink href={ctaHref}>{ctaLabel}</ButtonLink>
         </div>
       ) : null}
     </div>

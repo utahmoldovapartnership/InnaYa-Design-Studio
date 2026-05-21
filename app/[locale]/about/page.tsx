@@ -28,7 +28,7 @@ export default async function AboutPage({
 
   return (
     <article>
-      <div className="mx-auto max-w-page px-5 py-16 md:px-8 md:py-24">
+      <div className="mx-auto max-w-nav px-5 py-16 md:px-8 md:py-24">
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
           <InteriorImage
             photo={photo}
@@ -51,7 +51,7 @@ export default async function AboutPage({
         </div>
       </div>
 
-      <div className="mx-auto max-w-page border-t border-accent/50 px-5 pb-16 md:px-8 md:pb-24">
+      <div className="mx-auto max-w-nav border-t border-accent/50 px-5 pb-16 md:px-8 md:pb-24">
         <h2 className="mt-14 font-serif text-2xl text-ink md:mt-16">
           {t("regionsTitle")}
         </h2>
