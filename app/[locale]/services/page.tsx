@@ -1,4 +1,5 @@
 import { InteriorImage } from "@/components/ui/InteriorImage";
+import { ParallaxInteriorImage } from "@/components/ui/ParallaxInteriorImage";
 import { getCachedInteriorPhotos } from "@/lib/pexels";
 import type { PexelsPhoto } from "@/lib/pexels";
 import { getTranslations } from "next-intl/server";
@@ -63,14 +64,12 @@ export default async function ServicesPage({
         </p>
       </div>
 
-      <section className="border-y border-accent/50">
-        <InteriorImage
-          photo={pickPhoto(photos, 0)}
-          aspectClass="min-h-[42vh] md:min-h-[52vh]"
-          sizes="100vw"
-          priority
-        />
-      </section>
+      <ParallaxInteriorImage
+        photo={pickPhoto(photos, 0)}
+        aspectClass="min-h-[42vh] md:min-h-[52vh]"
+        sizes="100vw"
+        priority
+      />
 
       <div className="mx-auto max-w-page px-5 py-16 md:px-8 md:py-20">
         <section>

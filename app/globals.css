@@ -18,8 +18,9 @@
   --color-muted-2: var(--muted-2);
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-display), ui-serif, Georgia, serif;
-  /* Narrower than max-w-6xl (72rem) — more side margin on large viewports */
-  --max-width-page: 64rem;
+  --font-family-brand: var(--font-brand), var(--font-display), ui-serif, Georgia, serif;
+  /* Readable page width — narrower than max-w-6xl for more side margin */
+  --max-width-page: 56rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

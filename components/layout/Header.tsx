@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link, usePathname } from "@/i18n/navigation";
+import { brandFont } from "@/lib/fonts/brand";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
 const links = [
@@ -45,7 +46,7 @@ export function Header() {
       <div className="mx-auto flex max-w-page items-center justify-between gap-6 px-5 py-4 md:px-8">
         <Link
           href="/"
-          className="font-serif text-xl tracking-tight text-ink md:text-2xl"
+          className={`${brandFont.className} inline-flex translate-y-0.5 items-center self-center leading-none text-base tracking-wide text-ink md:text-lg`}
           onClick={() => setOpen(false)}
         >
           {t("brand")}

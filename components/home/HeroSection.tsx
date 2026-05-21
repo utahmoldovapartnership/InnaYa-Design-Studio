@@ -103,10 +103,10 @@ export function HeroSection({ photos, title, subtitle, cta }: Props) {
         }}
       >
         <div className="flex flex-1 flex-col items-center justify-center">
-          <h1 className="max-w-2xl font-serif text-2xl leading-snug text-background md:text-3xl lg:text-4xl">
+          <h1 className="max-w-2xl font-serif text-3xl leading-snug text-background md:text-4xl lg:text-5xl">
             {title}
           </h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-background/90 md:text-lg">
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-background/90 md:text-xl">
             {subtitle}
           </p>
           <div className="pointer-events-auto mt-6">

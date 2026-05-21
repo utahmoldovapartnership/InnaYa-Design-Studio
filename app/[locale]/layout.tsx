@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { routing } from "@/i18n/routing";
+import { brandFont } from "@/lib/fonts/brand";
 import "../globals.css";
 
 const serif = Cormorant_Garamond({
@@ -42,7 +43,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={locale}
-      className={`${sans.variable} ${serif.variable} h-full scroll-smooth antialiased`}
+      className={`${sans.variable} ${serif.variable} ${brandFont.variable} h-full scroll-smooth antialiased`}
     >
       <body className="font-sans min-h-full bg-background text-ink">
         <NextIntlClientProvider messages={messages}>

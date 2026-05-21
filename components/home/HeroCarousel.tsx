@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { PexelsPhoto } from "@/lib/pexels";
 
 const SLIDE_INTERVAL_MS = 5500;
@@ -13,10 +13,23 @@ type Props = {
 
 export function HeroCarousel({ photos }: Props) {
   const slides = photos.filter((p) => p?.src).slice(0, 4);
+  const loopSlides =
+    slides.length > 1 ? [...slides, slides[0]!] : slides;
+
   const [index, setIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [slideWidth, setSlideWidth] = useState(0);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const resetToStart = useCallback(() => {
+    setTransitionEnabled(false);
+    setIndex(0);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setTransitionEnabled(true));
+    });
+  }, []);
 
   useEffect(() => {
     setReduceMotion(
@@ -37,12 +50,25 @@ export function HeroCarousel({ photos }: Props) {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || slides.length <= 1) return;
+    if (slides.length <= 1) return;
     const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % slides.length);
+      setIndex((i) => (i < slides.length ? i + 1 : i));
     }, SLIDE_INTERVAL_MS);
     return () => window.clearInterval(id);
-  }, [reduceMotion, slides.length]);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (!reduceMotion || slides.length <= 1 || index !== slides.length) return;
+    resetToStart();
+  }, [index, reduceMotion, slides.length, resetToStart]);
+
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (reduceMotion) return;
+    if (e.propertyName !== "transform" || e.target !== trackRef.current) return;
+    if (slides.length > 1 && index === slides.length) {
+      resetToStart();
+    }
+  };
 
   if (slides.length === 0) {
     return (
@@ -54,6 +80,9 @@ export function HeroCarousel({ photos }: Props) {
   }
 
   const offsetPx = slideWidth > 0 ? index * slideWidth : 0;
+  const activeIndex = index === slides.length ? 0 : index;
+  const useTransition =
+    transitionEnabled && !reduceMotion && slideWidth > 0;
 
   return (
     <div
@@ -63,17 +92,19 @@ export function HeroCarousel({ photos }: Props) {
       aria-label="Featured interior photography"
     >
       <div
+        ref={trackRef}
         className="flex h-full min-h-full motion-reduce:transition-none"
         style={{
           transform: `translate3d(-${offsetPx}px, 0, 0)`,
-          transition: reduceMotion
-            ? "none"
-            : `transform ${TRANSITION_MS}ms ease-in-out`,
+          transition: useTransition
+            ? `transform ${TRANSITION_MS}ms ease-in-out`
+            : "none",
         }}
+        onTransitionEnd={handleTransitionEnd}
       >
-        {slides.map((photo, i) => (
+        {loopSlides.map((photo, i) => (
           <figure
-            key={photo.id}
+            key={`${photo.id}-${i}`}
             className="relative h-full min-h-full w-full shrink-0 grow-0 basis-full"
             style={slideWidth > 0 ? { width: slideWidth } : undefined}
             aria-hidden={i !== index}
@@ -89,6 +120,9 @@ export function HeroCarousel({ photos }: Props) {
           </figure>
         ))}
       </div>
+      <p className="sr-only" aria-live="polite">
+        Slide {activeIndex + 1} of {slides.length}
+      </p>
     </div>
   );
 }

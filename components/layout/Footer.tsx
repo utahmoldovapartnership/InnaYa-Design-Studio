@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { FaEnvelope, FaInstagram, FaPhone, FaTiktok } from "react-icons/fa6";
 import { Link } from "@/i18n/navigation";
+import { brandFont } from "@/lib/fonts/brand";
 
 export async function Footer() {
   const t = await getTranslations("footer");
@@ -10,7 +11,9 @@ export async function Footer() {
     <footer className="border-t border-accent/80 bg-accent/15">
       <div className="mx-auto flex max-w-page flex-col gap-8 px-5 py-12 md:flex-row md:items-start md:justify-between md:px-8">
         <div className="max-w-md">
-          <p className="font-serif text-xl text-ink">{t("brand")}</p>
+          <p className={`${brandFont.className} text-lg tracking-wide text-ink`}>
+            {t("brand")}
+          </p>
           <p className="mt-2 text-sm leading-relaxed text-muted">{t("tagline")}</p>
 
           <div className="mt-6 space-y-3 text-sm text-muted">

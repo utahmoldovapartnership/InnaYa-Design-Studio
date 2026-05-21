@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { InteriorImage } from "@/components/ui/InteriorImage";
+import { SlideUnderline } from "@/components/ui/SlideUnderline";
 import { projectList } from "@/content/projects";
 import { getCachedInteriorPhotos } from "@/lib/pexels";
 import { Link } from "@/i18n/navigation";
@@ -48,8 +49,8 @@ export default async function PortfolioIndexPage({
                   sizes="(max-width: 640px) 100vw, 50vw"
                   className="rounded-sm"
                 />
-                <h2 className="mt-4 font-serif text-2xl text-ink group-hover:underline group-hover:underline-offset-4">
-                  {tp(`${project.slug}.title`)}
+                <h2 className="mt-4 font-serif text-2xl text-ink">
+                  <SlideUnderline>{tp(`${project.slug}.title`)}</SlideUnderline>
                 </h2>
                 <p className="mt-1 text-sm text-muted">
                   {tp(`${project.slug}.location`)}
