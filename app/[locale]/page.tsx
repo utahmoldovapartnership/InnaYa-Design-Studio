@@ -31,7 +31,7 @@ export default async function HomePage({
 
   return (
     <>
-      <Hero photo={photos[0] ?? null} />
+      <Hero photos={photos.slice(0, 4)} />
       <section className="bg-accent/25 px-5 py-20 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs uppercase tracking-[0.25em] text-muted">
@@ -47,7 +47,7 @@ export default async function HomePage({
           </div>
         </div>
       </section>
-      <SelectedWork photos={photos.slice(1, 5)} />
+      <SelectedWork photos={photos.slice(4, 8)} />
       <EditorialSection
         eyebrow={t("editorial1.eyebrow")}
         title={t("editorial1.title")}

@@ -5,6 +5,7 @@
   },
   "nav": {
     "brand": "InnaYa Design Studio",
+    "home": "Home",
     "about": "About",
     "services": "Services",
     "portfolio": "Portfolio",
@@ -20,9 +21,7 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Interior design studio",
       "title": "Spaces that feel considered, calm, and unmistakably yours.",
-      "subtitle": "Interior and exterior design, bespoke furniture, and turnkey delivery — with transparent process from first sketch to final styling.",
       "cta": "Book a consultation"
     },
     "values": {

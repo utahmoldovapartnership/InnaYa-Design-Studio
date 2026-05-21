@@ -1,11 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
 const links = [
+  { key: "home" as const, href: "/" },
   { key: "about" as const, href: "/about" },
   { key: "services" as const, href: "/services" },
   { key: "portfolio" as const, href: "/portfolio" },
@@ -16,9 +17,30 @@ export function Header() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const syncHeight = () => {
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${el.offsetHeight}px`,
+      );
+    };
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-accent/60 bg-background/90 backdrop-blur-md">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-accent/60 bg-background/90 backdrop-blur-md"
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 md:px-8">
         <Link
           href="/"
@@ -28,7 +50,7 @@ export function Header() {
           {t("brand")}
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
           {links.map(({ key, href }) => (
             <Link
               key={key}
@@ -43,7 +65,7 @@ export function Header() {
           <LocaleSwitcher />
         </nav>
 
-        <div className="flex items-center gap-3 md:hidden">
+        <div className="flex items-center gap-2 md:hidden">
           <LocaleSwitcher />
           <button
             type="button"

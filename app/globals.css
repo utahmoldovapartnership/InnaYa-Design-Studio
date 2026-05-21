@@ -6,6 +6,7 @@
   --accent: #e4d8cf;
   --muted: #5c5652;
   --muted-2: #8a847f;
+  --header-height: 4.5rem;
 }
 
 @theme inline {
