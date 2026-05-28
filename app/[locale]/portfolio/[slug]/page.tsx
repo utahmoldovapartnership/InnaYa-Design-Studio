@@ -50,8 +50,8 @@ export default async function PortfolioDetailPage({ params }: Props) {
       : Array.from({ length: 10 }, () => null);
 
   return (
-    <article className="min-h-screen bg-white px-5 pb-6 md:h-screen md:overflow-hidden md:px-8 md:pb-8">
-      <div className="no-scrollbar mx-auto flex w-full max-w-[1400px] flex-col gap-8 pt-4 md:grid md:h-full md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:overflow-y-auto md:pt-6">
+    <article className="min-h-screen bg-white px-5 pb-0 md:h-screen md:overflow-hidden md:px-8 md:pb-0">
+      <div className="no-scrollbar mx-auto flex w-full max-w-[1400px] flex-col gap-8 pt-4 md:grid md:h-full md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:overflow-y-auto md:pt-0 md:pb-0">
         <aside className="shrink-0 md:sticky md:top-0 md:self-start md:pr-8">
           <Link
             href="/portfolio"

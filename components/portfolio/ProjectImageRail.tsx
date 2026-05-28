@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import type { PexelsPhoto } from "@/lib/pexels";
 
@@ -15,6 +15,10 @@ type GalleryItem = {
   renderIndex: number;
 };
 
+const SCROLL_ANCHOR_OFFSET = 32;
+/** Only jump between duplicate cycles near the seam, not while viewing last images in the middle set. */
+const LOOP_EDGE_PX = 120;
+
 function findScrollParent(node: HTMLElement | null): HTMLElement | null {
   let current = node?.parentElement ?? null;
   while (current) {
@@ -25,11 +29,17 @@ function findScrollParent(node: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
+function getItemTopInScrollParent(
+  item: HTMLElement,
+  scrollParent: HTMLElement,
+): number {
+  const parentRect = scrollParent.getBoundingClientRect();
+  const itemRect = item.getBoundingClientRect();
+  return itemRect.top - parentRect.top + scrollParent.scrollTop;
+}
+
 function useDesktopGallery() {
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(min-width: 768px)").matches;
-  });
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -50,7 +60,10 @@ export function ProjectImageRail({ gallery }: Props) {
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const scrollParentRef = useRef<HTMLElement | null>(null);
   const cycleHeightRef = useRef(0);
+  const cycleStartScrollRef = useRef(0);
+  const itemOffsetsRef = useRef<number[]>([]);
   const isAdjustingScrollRef = useRef(false);
+  const isScrollingToDotRef = useRef(false);
   const hasInitializedLoopRef = useRef(false);
 
   const baseGallery = useMemo(() => (gallery.length > 0 ? gallery : [null]), [gallery]);
@@ -77,64 +90,84 @@ export function ProjectImageRail({ gallery }: Props) {
     }));
   }, [isDesktop, repeatedGallery, baseGallery]);
 
-  useEffect(() => {
-    hasInitializedLoopRef.current = false;
-  }, [isDesktop, validCount]);
+  const updateActiveDot = useCallback(() => {
+    if (isAdjustingScrollRef.current || isScrollingToDotRef.current) return;
+
+    const scrollParent = scrollParentRef.current;
+    const cycleHeight = cycleHeightRef.current;
+    const offsets = itemOffsetsRef.current;
+    if (!scrollParent || cycleHeight <= 0 || offsets.length === 0) return;
+
+    const posInCycle =
+      ((scrollParent.scrollTop - cycleStartScrollRef.current) % cycleHeight +
+        cycleHeight) %
+      cycleHeight;
+    const anchor = posInCycle + SCROLL_ANCHOR_OFFSET;
+
+    let nextIndex = 0;
+    for (let i = 0; i < offsets.length; i++) {
+      if (offsets[i] <= anchor + 1) {
+        nextIndex = i;
+      }
+    }
+
+    setActiveIndex((prev) => (prev === nextIndex ? prev : nextIndex));
+  }, []);
 
   useLayoutEffect(() => {
-    const items = itemRefs.current.filter((node): node is HTMLDivElement => !!node);
-    if (items.length === 0) return;
-
-    const scrollRoot = isDesktop ? findScrollParent(railRef.current) : null;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visibleEntries.length === 0) return;
-
-        const nextIndex = Number(
-          visibleEntries[0].target.getAttribute("data-real-index"),
-        );
-        if (!Number.isNaN(nextIndex)) {
-          setActiveIndex(nextIndex);
-        }
-      },
-      {
-        root: scrollRoot,
-        threshold: [0.3, 0.5, 0.7, 0.9],
-      },
-    );
-
-    items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
-  }, [displayGallery, isDesktop]);
-
-  useLayoutEffect(() => {
-    if (!isDesktop) return;
+    if (!isDesktop) {
+      hasInitializedLoopRef.current = false;
+      itemOffsetsRef.current = [];
+      cycleHeightRef.current = 0;
+      return;
+    }
 
     let cancelled = false;
     let attachedScrollParent: HTMLElement | null = null;
+    let dotRaf = 0;
+
+    const scheduleActiveDotUpdate = () => {
+      if (dotRaf) return;
+      dotRaf = requestAnimationFrame(() => {
+        dotRaf = 0;
+        updateActiveDot();
+      });
+    };
 
     const onScroll = () => {
-      if (isAdjustingScrollRef.current) return;
       const current = scrollParentRef.current;
       const loopHeight = cycleHeightRef.current;
-      if (!current || loopHeight <= 0) return;
 
-      const y = current.scrollTop;
-      const upperThreshold = loopHeight * 1.75;
-      const lowerThreshold = loopHeight * 0.5;
+      if (
+        !isAdjustingScrollRef.current &&
+        !isScrollingToDotRef.current &&
+        current &&
+        loopHeight > 0
+      ) {
+        const relativeY = current.scrollTop - cycleStartScrollRef.current;
 
-      if (y > upperThreshold || y < lowerThreshold) {
-        isAdjustingScrollRef.current = true;
-        current.scrollTop += y > upperThreshold ? -loopHeight : loopHeight;
-        requestAnimationFrame(() => {
-          isAdjustingScrollRef.current = false;
-        });
+        if (relativeY > loopHeight - LOOP_EDGE_PX) {
+          isAdjustingScrollRef.current = true;
+          current.scrollTop -= loopHeight;
+          requestAnimationFrame(() => {
+            isAdjustingScrollRef.current = false;
+            updateActiveDot();
+          });
+          return;
+        }
+
+        if (relativeY < -LOOP_EDGE_PX) {
+          isAdjustingScrollRef.current = true;
+          current.scrollTop += loopHeight;
+          requestAnimationFrame(() => {
+            isAdjustingScrollRef.current = false;
+            updateActiveDot();
+          });
+          return;
+        }
       }
+
+      scheduleActiveDotUpdate();
     };
 
     const setup = () => {
@@ -147,14 +180,16 @@ export function ProjectImageRail({ gallery }: Props) {
         return;
       }
 
-      const firstItem = itemRefs.current[0];
-      const secondCycleFirstItem = itemRefs.current[validCount];
-      if (!firstItem || !secondCycleFirstItem) {
+      const firstCycleStart = itemRefs.current[0];
+      const middleCycleStart = itemRefs.current[validCount];
+      if (!firstCycleStart || !middleCycleStart) {
         requestAnimationFrame(setup);
         return;
       }
 
-      const cycleHeight = secondCycleFirstItem.offsetTop - firstItem.offsetTop;
+      const firstTop = getItemTopInScrollParent(firstCycleStart, scrollParent);
+      const middleTop = getItemTopInScrollParent(middleCycleStart, scrollParent);
+      const cycleHeight = middleTop - firstTop;
       if (cycleHeight <= 0) {
         requestAnimationFrame(setup);
         return;
@@ -163,30 +198,54 @@ export function ProjectImageRail({ gallery }: Props) {
       scrollParentRef.current = scrollParent;
       cycleHeightRef.current = cycleHeight;
 
+      itemOffsetsRef.current = Array.from({ length: validCount }, (_, i) => {
+        const el = itemRefs.current[validCount + i];
+        if (!el) return 0;
+        return getItemTopInScrollParent(el, scrollParent) - middleTop;
+      });
+
       if (!hasInitializedLoopRef.current) {
-        scrollParent.scrollTop += cycleHeight;
+        const startScrollTop = middleTop - SCROLL_ANCHOR_OFFSET;
+        scrollParent.scrollTop = startScrollTop;
+        cycleStartScrollRef.current = startScrollTop;
         hasInitializedLoopRef.current = true;
       }
+
+      updateActiveDot();
 
       attachedScrollParent?.removeEventListener("scroll", onScroll);
       attachedScrollParent = scrollParent;
       attachedScrollParent.addEventListener("scroll", onScroll, { passive: true });
     };
 
+    hasInitializedLoopRef.current = false;
     setup();
 
     return () => {
       cancelled = true;
+      if (dotRaf) cancelAnimationFrame(dotRaf);
       attachedScrollParent?.removeEventListener("scroll", onScroll);
     };
-  }, [isDesktop, displayGallery, validCount]);
+  }, [isDesktop, displayGallery, validCount, updateActiveDot]);
 
   const scrollToImage = (index: number) => {
-    const targetIndex = isDesktop ? validCount + index : index;
-    itemRefs.current[targetIndex]?.scrollIntoView({
+    const scrollParent =
+      scrollParentRef.current ?? findScrollParent(railRef.current);
+    const offsets = itemOffsetsRef.current;
+    if (!scrollParent || index < 0 || index >= offsets.length) return;
+
+    setActiveIndex(index);
+    isScrollingToDotRef.current = true;
+
+    scrollParent.scrollTo({
+      top: Math.max(0, cycleStartScrollRef.current + offsets[index]!),
       behavior: "smooth",
-      block: "center",
     });
+
+    window.setTimeout(() => {
+      isScrollingToDotRef.current = false;
+      updateActiveDot();
+    }, 700);
   };
 
   const scrollToTop = () => {
@@ -196,8 +255,8 @@ export function ProjectImageRail({ gallery }: Props) {
   return (
     <section ref={railRef} className="pr-1">
       <div className="md:grid md:grid-cols-[24px_minmax(0,1fr)] md:gap-4">
-        <div className="hidden md:block">
-          <div className="sticky top-1/2 -translate-y-1/2">
+        <div className="relative hidden md:block">
+          <div className="sticky top-1/2 z-10 -translate-y-1/2">
             <div className="flex flex-col items-center gap-1.5">
               {Array.from({ length: validCount }, (_, index) => {
                 const isActive = index === activeIndex;
@@ -210,7 +269,7 @@ export function ProjectImageRail({ gallery }: Props) {
                     className="grid h-6 w-6 place-items-center rounded-full transition-colors hover:bg-ink/5"
                   >
                     <span
-                      className={`rounded-full transition-all duration-300 ${
+                      className={`rounded-full transition-all duration-300 ease-out ${
                         isActive
                           ? "h-2.5 w-2.5 bg-ink/80 shadow-[0_0_0_3px_rgba(10,10,10,0.08)]"
                           : "h-1.5 w-1.5 bg-ink/35 hover:bg-ink/55"
