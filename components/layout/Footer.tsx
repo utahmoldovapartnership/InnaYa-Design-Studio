@@ -9,7 +9,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-accent/80 bg-accent/15">
-      <div className="mx-auto flex max-w-nav flex-col gap-8 px-5 py-12 md:flex-row md:items-start md:justify-between md:px-8">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-start md:justify-between md:px-8">
         <div className="max-w-md">
           <p className={`${brandFont.className} text-lg tracking-wide text-ink`}>
             {t("brand")}
@@ -68,7 +68,7 @@ export async function Footer() {
         </div>
       </div>
       <div className="border-t border-accent/40 py-4">
-        <p className="mx-auto max-w-nav px-5 text-center text-xs text-muted-2 md:px-8">
+        <p className="mx-auto w-full max-w-[1200px] px-5 text-center text-xs text-muted-2 md:px-8">
           {t("rights", { year: new Date().getFullYear() })}
         </p>
       </div>

@@ -16,7 +16,7 @@
   --color-ink: var(--foreground);
   --color-muted: var(--muted);
   --color-muted-2: var(--muted-2);
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-display), ui-serif, Georgia, serif;
   --font-family-brand: var(--font-brand), var(--font-display), ui-serif, Georgia, serif;
   /* Readable page width — narrower than max-w-6xl for more side margin */
@@ -39,6 +39,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .font-serif {

@@ -56,7 +56,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-5 border border-accent/60 bg-accent/10 p-6 md:p-8"
+      className="flex flex-col gap-5 rounded-sm border border-accent/60 bg-accent/10 p-6 md:p-8"
     >
       <input
         type="text"
@@ -72,7 +72,7 @@ export function ContactForm() {
         <input
           name="name"
           required
-          className="border border-accent/80 bg-background px-3 py-2 text-ink outline-none ring-0 focus:border-ink"
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none ring-0 focus:border-ink"
         />
       </label>
 
@@ -82,7 +82,7 @@ export function ContactForm() {
           name="email"
           type="email"
           required
-          className="border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
         />
       </label>
 
@@ -92,7 +92,7 @@ export function ContactForm() {
           name="phone"
           type="tel"
           required
-          className="border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
         />
       </label>
 
@@ -100,7 +100,7 @@ export function ContactForm() {
         <span className="text-muted">{t("projectType")}</span>
         <select
           name="projectType"
-          className="border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
           defaultValue="residential"
         >
           <option value="residential">{t("projectResidential")}</option>
@@ -114,7 +114,7 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={4}
-          className="resize-y border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          className="resize-y rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
         />
       </label>
 

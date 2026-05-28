@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { InteriorImage } from "@/components/ui/InteriorImage";
+import { ProjectImageRail } from "@/components/portfolio/ProjectImageRail";
 import { getProjectBySlug, projectList } from "@/content/projects";
 import { routing } from "@/i18n/routing";
 import { getCachedInteriorPhotos } from "@/lib/pexels";
@@ -42,93 +42,62 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const tMeta = await getTranslations("meta");
   const photos = await getCachedInteriorPhotos();
   const index = projectList.findIndex((p) => p.slug === slug);
-  const hero = photos[index + 7] ?? photos[index] ?? null;
-  const galleryOffsets = [8, 9, 10, 11];
-  const gallery = galleryOffsets
-    .map((offset) => photos[(index + offset) % photos.length])
-    .filter((p): p is NonNullable<typeof p> => !!p?.src)
-    .filter(
-      (photo, i, arr) => arr.findIndex((p) => p.id === photo.id) === i,
-    );
-
-  const body = tp.raw(`${slug}.body`) as string[];
+  const gallery =
+    photos.length > 0
+      ? Array.from({ length: 10 }, (_, offset) => {
+          return photos[(index + 7 + offset) % photos.length] ?? null;
+        })
+      : Array.from({ length: 10 }, () => null);
 
   return (
-    <article>
-      <div className="border-b border-accent/50 px-5 py-10 md:px-8 md:py-14">
-        <div className="mx-auto max-w-page">
+    <article className="h-screen overflow-hidden bg-white px-5 pb-6 md:px-8 md:pb-8">
+      <div className="no-scrollbar mx-auto grid h-full w-full max-w-[1400px] gap-8 overflow-y-auto pt-4 md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:pt-6">
+        <aside className="md:sticky md:top-0 md:self-start md:pr-8">
           <Link
             href="/portfolio"
             className="text-xs uppercase tracking-[0.2em] text-muted hover:text-ink"
           >
-            {t("back")}
+            &lsaquo; {t("backShort")}
           </Link>
-          <h1 className="mt-6 font-serif text-4xl text-ink md:text-5xl lg:text-6xl">
+          <h1 className="mt-5 font-serif text-4xl text-ink md:text-5xl">
             {tp(`${slug}.title`)}
           </h1>
-          <dl className="mt-10 grid gap-6 border-t border-accent/40 pt-8 sm:grid-cols-2 md:grid-cols-4">
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-2">
-              {t("firm")}
-            </dt>
-            <dd className="mt-1 text-ink">{tMeta("siteName")}</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-2">
-              {t("location")}
-            </dt>
-            <dd className="mt-1 text-ink">{tp(`${slug}.location`)}</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-2">
-              {t("year")}
-            </dt>
-            <dd className="mt-1 text-ink">{tp(`${slug}.year`)}</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-2">
-              {t("typology")}
-            </dt>
-            <dd className="mt-1 text-ink">{tp(`${slug}.typology`)}</dd>
-          </div>
-          <div className="sm:col-span-2">
-            <dt className="text-xs uppercase tracking-wider text-muted-2">
-              {t("status")}
-            </dt>
-            <dd className="mt-1 text-ink">{t("statusValue")}</dd>
-          </div>
+          <dl className="mt-8 space-y-5 border-t border-accent/40 pt-6">
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-2">
+                {t("firm")}
+              </dt>
+              <dd className="mt-1 text-ink">{tMeta("siteName")}</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-2">
+                {t("location")}
+              </dt>
+              <dd className="mt-1 text-ink">{tp(`${slug}.location`)}</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-2">
+                {t("year")}
+              </dt>
+              <dd className="mt-1 text-ink">{tp(`${slug}.year`)}</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-2">
+                {t("typology")}
+              </dt>
+              <dd className="mt-1 text-ink">{tp(`${slug}.typology`)}</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-2">
+                {t("status")}
+              </dt>
+              <dd className="mt-1 text-ink">{t("statusValue")}</dd>
+            </div>
           </dl>
-        </div>
+        </aside>
+
+        <ProjectImageRail gallery={gallery} />
       </div>
-
-      <InteriorImage
-        photo={hero}
-        aspectClass="aspect-[21/9] max-h-[70vh]"
-        sizes="100vw"
-        className="w-full"
-        priority
-      />
-
-      <div className="mx-auto max-w-page px-5 py-14 md:px-8 md:py-20">
-        <div className="space-y-6 text-lg leading-relaxed text-muted">
-          {body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
-      </div>
-
-      {gallery.length > 0 ? (
-        <div className="grid gap-px bg-accent/40 md:grid-cols-2">
-          {gallery.map((photo) => (
-            <InteriorImage
-              key={photo.id}
-              photo={photo}
-              aspectClass="aspect-[4/3]"
-              sizes="50vw"
-            />
-          ))}
-        </div>
-      ) : null}
     </article>
   );
 }

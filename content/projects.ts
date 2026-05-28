@@ -3,6 +3,8 @@ export const projectList = [
   { slug: "urban-atelier" },
   { slug: "soft-hotel-suite" },
   { slug: "residential-loft" },
+  { slug: "sholomitska-residence" },
+  { slug: "riverbank-flat" },
 ] as const;
 
 export type ProjectSlug = (typeof projectList)[number]["slug"];

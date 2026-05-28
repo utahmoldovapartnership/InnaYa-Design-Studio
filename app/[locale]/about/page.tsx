@@ -1,6 +1,5 @@
-import { InteriorImage } from "@/components/ui/InteriorImage";
-import { getCachedInteriorPhotos } from "@/lib/pexels";
 import { getTranslations } from "next-intl/server";
+import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
 export async function generateMetadata({
   params,
@@ -23,45 +22,49 @@ export default async function AboutPage({
 }) {
   await params;
   const t = await getTranslations("about");
-  const photos = await getCachedInteriorPhotos();
-  const photo = photos[7] ?? photos[0] ?? null;
 
   return (
-    <article>
-      <div className="mx-auto max-w-nav px-5 py-16 md:px-8 md:py-24">
-        <div className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
-          <InteriorImage
-            photo={photo}
-            aspectClass="min-h-[360px] md:min-h-[480px]"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="rounded-sm"
-          />
-          <div>
-            <h1 className="font-serif text-4xl text-ink md:text-5xl">
-              {t("title")}
-            </h1>
-            <p className="mt-8 text-lg leading-relaxed text-muted">
+    <section className="relative -mt-[var(--header-height)] h-dvh min-h-dvh w-full overflow-hidden">
+      <img
+        src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-ink/55" aria-hidden />
+
+      <div className="relative z-10 mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] -translate-y-4 items-center px-5 md:-translate-y-6 md:px-8">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <div className="ml-auto w-full max-w-xl space-y-5 text-left md:w-1/2">
+            <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
               {t("lead")}
             </p>
-            <p className="mt-6 leading-relaxed text-muted">
+            <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
               {t("experience")}
             </p>
-            <p className="mt-4 leading-relaxed text-muted">{t("education")}</p>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-nav border-t border-accent/50 px-5 pb-16 md:px-8 md:pb-24">
-        <h2 className="mt-14 font-serif text-2xl text-ink md:mt-16">
-          {t("regionsTitle")}
-        </h2>
-        <p className="mt-4 leading-relaxed text-muted">{t("regionsBody")}</p>
-        <p className="mt-4 border-l-2 border-accent pl-4 text-sm leading-relaxed text-muted">
-          {t("regionsNote")}
-        </p>
-        <h2 className="mt-14 font-serif text-2xl text-ink">{t("storyTitle")}</h2>
-        <p className="mt-4 leading-relaxed text-muted">{t("storyBody")}</p>
+      <div className="absolute right-5 bottom-5 z-20 flex items-center gap-4 md:right-8 md:bottom-8">
+        <a
+          href="https://www.instagram.com/innaya_d_studio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white transition-opacity hover:opacity-75"
+          aria-label={`${t("title")} Instagram`}
+        >
+          <FaInstagram className="h-6 w-6" />
+        </a>
+        <a
+          href="https://www.tiktok.com/@innaya.design"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white transition-opacity hover:opacity-75"
+          aria-label={`${t("title")} TikTok`}
+        >
+          <FaTiktok className="h-6 w-6" />
+        </a>
       </div>
-    </article>
+    </section>
   );
 }

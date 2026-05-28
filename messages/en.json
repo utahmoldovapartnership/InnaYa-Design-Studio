@@ -7,7 +7,7 @@
     "brand": "InnaYa Design Studio",
     "home": "Home",
     "about": "About",
-    "services": "Services",
+    "services": "Technologies",
     "portfolio": "Portfolio",
     "contact": "Contact",
     "menu": "Menu",
@@ -70,8 +70,8 @@
   },
   "about": {
     "title": "About the studio",
-    "lead": "InnaYa Design Studio is an independent practice for interior and exterior design, space planning, and bespoke furniture — serving clients who value clarity and craft.",
-    "experience": "With over seventeen years of professional experience, we balance imagination with buildable documentation.",
+    "lead": "InnaYa Design Studio is an independent practice for interior and exterior design, space planning, and bespoke furniture. We create calm, functional spaces through a clear process from first idea to final delivery.",
+    "experience": "With over seventeen years of experience, we pair creative direction with clear, buildable documentation.",
     "education": "Higher professional education (specialist degree with distinction), plus advanced training in Revit, Enscape, and Rhinoceros.",
     "regionsTitle": "Where we work",
     "regionsBody": "We work in Ukraine, Moldova, across Europe, and internationally by arrangement. We collaborate primarily with Ukrainian- and Russian-speaking clients outside excluded jurisdictions.",
@@ -82,6 +82,12 @@
   "services": {
     "title": "Services",
     "intro": "Comprehensive design for homes, apartments, and commercial spaces — from first survey to VR presentation and optional turnkey delivery.",
+    "measurementBody": "We use a Leica distance meter to quickly capture accurate dimensions, wall geometry, and key site conditions before design begins. It helps us reduce guesswork, build reliable plans faster, and make early design decisions with more confidence.",
+    "measurementImageAlt": "Leica distance meter used for room and surface dimensions",
+    "measurementVideoTitle": "Room measurement tool demo background",
+    "muteVideo": "Mute video",
+    "unmuteVideo": "Unmute video",
+    "volumeControl": "Video volume",
     "pricingLead": "Indicative design fees from €25 per square metre for survey, planning, and design packages; product design and supervision are quoted individually.",
     "consultationTitle": "Consultations",
     "consultationBody": "We offer online consultations and a complimentary initial conversation covering your goals, scope, and a preliminary estimate of our fees. There is no obligation to commission work afterward.",
@@ -150,7 +156,8 @@
       "status": "Status",
       "typology": "Typology",
       "statusValue": "Concept / visualization",
-      "back": "All projects"
+      "back": "All projects",
+      "backShort": "Back"
     }
   },
   "portfolioItems": {
@@ -197,6 +204,28 @@
         "The loft uses a single material spine — stained oak — to tie kitchen, library, and entry. Blackened steel moments add crispness without coldness.",
         "Ceiling services were reorganised to allow cleaner volumes; lighting tracks are integrated into joinery reveals for a gallery-like ceiling plane."
       ]
+    },
+    "sholomitska-residence": {
+      "title": "Sholomitska residence",
+      "location": "Private apartment — Kyiv",
+      "excerpt": "Warm contemporary apartment with calm textures and bespoke joinery.",
+      "typology": "Residential",
+      "year": "2025",
+      "body": [
+        "A high-comfort city residence designed around soft natural finishes, integrated storage, and flexible social zones for daily life.",
+        "The project package included full planning, finish schedules, and visualisations to guide implementation with confidence."
+      ]
+    },
+    "riverbank-flat": {
+      "title": "Riverbank flat",
+      "location": "City apartment — Odesa",
+      "excerpt": "Coastal urban interior with muted tones and crafted details.",
+      "typology": "Residential",
+      "year": "2025",
+      "body": [
+        "This concept balances light, privacy, and spatial flow in a compact footprint, using layered lighting and built-in elements.",
+        "Documentation covered planning, custom furniture, and room-by-room visual studies for streamlined execution."
+      ]
     }
   },
   "contact": {
@@ -206,7 +235,7 @@
     "phoneMd": "+373 60 285 316",
     "phoneUa": "+380 66 185 5688",
     "emailLabel": "Email",
-    "phoneNote": "Viber, Telegram, and WhatsApp are available on the Ukraine line.",
+    "phoneNote": "Viber, Telegram, WhatsApp",
     "labelMd": "Moldova",
     "labelUa": "Ukraine",
     "form": {

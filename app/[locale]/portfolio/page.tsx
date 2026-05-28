@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { InteriorImage } from "@/components/ui/InteriorImage";
-import { SlideUnderline } from "@/components/ui/SlideUnderline";
 import { projectList } from "@/content/projects";
 import { getCachedInteriorPhotos } from "@/lib/pexels";
 import { Link } from "@/i18n/navigation";
@@ -25,39 +24,64 @@ export default async function PortfolioIndexPage({
   params: Promise<{ locale: string }>;
 }) {
   await params;
-  const t = await getTranslations("portfolio");
   const tp = await getTranslations("portfolioItems");
   const photos = await getCachedInteriorPhotos();
+  const projectPhotoOffsets = [2, 9, 5, 12, 1, 6];
+  const totalTiles = projectList.length;
+  const projectAreaBySlug: Record<string, string> = {
+    "lakeside-retreat": "130",
+    "urban-atelier": "95",
+    "soft-hotel-suite": "72",
+    "residential-loft": "118",
+    "sholomitska-residence": "130",
+    "riverbank-flat": "88",
+  };
 
   return (
-    <div className="px-5 py-16 md:px-8 md:py-24">
-      <div className="mx-auto max-w-page">
-        <h1 className="font-serif text-4xl text-ink md:text-5xl">{t("title")}</h1>
-        <p className="mt-4 text-muted leading-relaxed">{t("subtitle")}</p>
-        <div className="mt-14 grid gap-10 sm:grid-cols-2">
-          {projectList.map((project, index) => {
-            const photo = photos[index + 7] ?? photos[index] ?? null;
+    <div className="px-5 pt-10 pb-16 md:px-8 md:pt-14 md:pb-24">
+      <div className="mx-auto w-full max-w-[1200px]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {Array.from({ length: totalTiles }, (_, index) => {
+            const project = projectList[index];
+            const projectPhoto =
+              photos.length > 0
+                ? photos[
+                    projectPhotoOffsets[index % projectPhotoOffsets.length] %
+                      photos.length
+                  ] ?? null
+                : null;
+            const photo = projectPhoto;
+            const title = tp(`${project.slug}.title`);
+            const location = tp(`${project.slug}.location`);
+            const locationLabel = location.split("—").pop()?.trim() ?? location;
+            const area = projectAreaBySlug[project.slug] ?? "120";
+
             return (
               <Link
                 key={project.slug}
                 href={`/portfolio/${project.slug}`}
-                className="group block"
+                className="group relative block"
               >
                 <InteriorImage
                   photo={photo}
-                  aspectClass="aspect-[4/5]"
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="rounded-sm"
+                  alt={title}
+                  aspectClass="aspect-[4/3]"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="relative rounded-sm"
                 />
-                <h2 className="mt-4 font-serif text-2xl text-ink">
-                  <SlideUnderline>{tp(`${project.slug}.title`)}</SlideUnderline>
-                </h2>
-                <p className="mt-1 text-sm text-muted">
-                  {tp(`${project.slug}.location`)}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-2">
-                  {tp(`${project.slug}.excerpt`)}
-                </p>
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-sm bg-black/25"
+                  aria-hidden
+                />
+                <div className="pointer-events-none absolute bottom-6 left-7 md:bottom-8 md:left-8">
+                  <h2 className="text-[clamp(0.95rem,0.85vw+0.72rem,1.55rem)] font-semibold leading-[1.1] text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.45)]">
+                    {title}
+                  </h2>
+                  <div className="mt-1 flex items-center gap-1.5 text-[clamp(0.72rem,0.35vw+0.62rem,1rem)] font-medium leading-none text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]">
+                    <span>{area} m²</span>
+                    <span>{locationLabel}</span>
+                  </div>
+                </div>
               </Link>
             );
           })}
