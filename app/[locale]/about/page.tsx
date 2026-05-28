@@ -38,16 +38,14 @@ export default async function AboutPage({
       }
     >
       <div className="flex h-full min-h-0 flex-col overflow-hidden pt-[var(--header-height)]">
-        <div className="flex min-h-0 flex-1 items-center px-5 md:px-8">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <div className="ml-auto w-full max-w-xl space-y-5 text-left md:w-1/2">
-              <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
-                {t("lead")}
-              </p>
-              <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
-                {t("experience")}
-              </p>
-            </div>
+        <div className="flex min-h-0 flex-1 items-center justify-center px-5 md:px-8">
+          <div className="w-full max-w-xl space-y-5 text-center">
+            <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
+              {t("lead")}
+            </p>
+            <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
+              {t("experience")}
+            </p>
           </div>
         </div>
 

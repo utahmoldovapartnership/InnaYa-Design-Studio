@@ -311,7 +311,7 @@ export function ProjectImageRail({ gallery }: Props) {
             <button
               type="button"
               onClick={scrollToTop}
-              className="mt-6 w-full text-left text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink md:hidden"
+              className="mt-6 w-full pb-8 text-left text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink md:hidden"
             >
               &uarr; {t("backToTop")}
             </button>
