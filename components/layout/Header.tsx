@@ -237,12 +237,12 @@ export function Header() {
           </div>
 
           <nav className="px-5 pt-6 pb-8" aria-label="Mobile links">
-            <ul className="mx-auto flex w-full max-w-[1200px] flex-col gap-4">
+            <ul className="mx-auto flex w-full max-w-[1200px] flex-col gap-3">
               {links.map(({ key, href }) => (
                 <li key={key}>
                   <Link
                     href={href}
-                  className={`block py-1 text-4xl font-bold ${
+                  className={`block py-1 text-2xl font-bold ${
                     isActiveLink(href)
                       ? isDarkNavPage
                         ? "text-ink opacity-90 underline underline-offset-4"

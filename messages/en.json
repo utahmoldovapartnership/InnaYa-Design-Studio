@@ -157,7 +157,8 @@
       "typology": "Typology",
       "statusValue": "Concept / visualization",
       "back": "All projects",
-      "backShort": "Back"
+      "backShort": "Back",
+      "backToTop": "Back to top"
     }
   },
   "portfolioItems": {

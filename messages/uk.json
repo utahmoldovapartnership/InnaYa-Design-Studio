@@ -157,7 +157,8 @@
       "typology": "Типологія",
       "statusValue": "Концепція / візуалізація",
       "back": "Усі проєкти",
-      "backShort": "Назад"
+      "backShort": "Назад",
+      "backToTop": "Нагору"
     }
   },
   "portfolioItems": {

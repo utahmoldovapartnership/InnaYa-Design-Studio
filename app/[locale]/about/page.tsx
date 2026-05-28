@@ -37,38 +37,40 @@ export default async function AboutPage({
         />
       }
     >
-      <div className="mt-[var(--header-height)] flex min-h-[calc(100svh-var(--header-height))] min-h-[calc(100dvh-var(--header-height))] -translate-y-4 items-center px-5 md:-translate-y-6 md:px-8">
-        <div className="mx-auto w-full max-w-[1200px]">
-          <div className="ml-auto w-full max-w-xl space-y-5 text-left md:w-1/2">
-            <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
-              {t("lead")}
-            </p>
-            <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
-              {t("experience")}
-            </p>
+      <div className="flex h-full min-h-0 flex-col overflow-hidden pt-[var(--header-height)]">
+        <div className="flex min-h-0 flex-1 items-center px-5 md:px-8">
+          <div className="mx-auto w-full max-w-[1200px]">
+            <div className="ml-auto w-full max-w-xl space-y-5 text-left md:w-1/2">
+              <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
+                {t("lead")}
+              </p>
+              <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
+                {t("experience")}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="absolute right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-20 flex items-center gap-4 md:right-8 md:bottom-8">
-        <a
-          href="https://www.instagram.com/innaya_d_studio/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white transition-opacity hover:opacity-75"
-          aria-label={`${t("title")} Instagram`}
-        >
-          <FaInstagram className="h-6 w-6" />
-        </a>
-        <a
-          href="https://www.tiktok.com/@innaya.design"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white transition-opacity hover:opacity-75"
-          aria-label={`${t("title")} TikTok`}
-        >
-          <FaTiktok className="h-6 w-6" />
-        </a>
+        <div className="flex shrink-0 items-center justify-end gap-4 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8">
+          <a
+            href="https://www.instagram.com/innaya_d_studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white transition-opacity hover:opacity-75"
+            aria-label={`${t("title")} Instagram`}
+          >
+            <FaInstagram className="h-6 w-6" />
+          </a>
+          <a
+            href="https://www.tiktok.com/@innaya.design"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white transition-opacity hover:opacity-75"
+            aria-label={`${t("title")} TikTok`}
+          >
+            <FaTiktok className="h-6 w-6" />
+          </a>
+        </div>
       </div>
     </EdgeToEdgeHero>
   );

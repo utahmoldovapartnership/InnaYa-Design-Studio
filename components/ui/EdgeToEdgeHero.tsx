@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useEffect, type ReactNode } from "react";
 
 type Props = {
   media: ReactNode;
@@ -12,15 +14,30 @@ type Props = {
  * Requires `viewport-fit=cover` on the document viewport.
  */
 export function EdgeToEdgeHero({ media, children, className = "" }: Props) {
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
+    };
+  }, []);
+
   return (
     <section
-      className={`hero-edge-section relative -mt-[var(--header-height)] min-h-[100svh] min-h-[100dvh] w-full ${className}`.trim()}
+      className={`hero-edge-section relative -mt-[var(--header-height)] h-[100dvh] max-h-[100dvh] w-full overflow-hidden ${className}`.trim()}
     >
       <div className="hero-fixed-backdrop" aria-hidden>
         {media}
         <div className="absolute inset-0 bg-ink/55" />
       </div>
-      <div className="relative z-10 min-h-[100svh] min-h-[100dvh]">{children}</div>
+      <div className="relative z-10 flex h-full flex-col overflow-hidden">
+        {children}
+      </div>
     </section>
   );
 }

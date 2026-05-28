@@ -157,7 +157,8 @@
       "typology": "Типология",
       "statusValue": "Концепция / визуализация",
       "back": "Все проекты",
-      "backShort": "Назад"
+      "backShort": "Назад",
+      "backToTop": "Наверх"
     }
   },
   "portfolioItems": {

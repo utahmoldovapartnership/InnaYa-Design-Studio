@@ -31,7 +31,6 @@ export default async function HomePage({
 
   return (
     <EdgeToEdgeHero
-      className="pt-[var(--header-height)]"
       media={
         <video
           className="hero-fixed-backdrop__media"
@@ -49,25 +48,27 @@ export default async function HomePage({
         </video>
       }
     >
-      <div className="absolute right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-20 flex items-center gap-4 md:right-8 md:bottom-8">
-        <a
-          href="https://www.instagram.com/innaya_d_studio/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white transition-opacity hover:opacity-75"
-          aria-label={`${t("brand")} Instagram`}
-        >
-          <FaInstagram className="h-6 w-6" />
-        </a>
-        <a
-          href="https://www.tiktok.com/@innaya.design"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white transition-opacity hover:opacity-75"
-          aria-label={`${t("brand")} TikTok`}
-        >
-          <FaTiktok className="h-6 w-6" />
-        </a>
+      <div className="flex h-full flex-col justify-end px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8">
+        <div className="flex items-center justify-end gap-4">
+          <a
+            href="https://www.instagram.com/innaya_d_studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white transition-opacity hover:opacity-75"
+            aria-label={`${t("brand")} Instagram`}
+          >
+            <FaInstagram className="h-6 w-6" />
+          </a>
+          <a
+            href="https://www.tiktok.com/@innaya.design"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white transition-opacity hover:opacity-75"
+            aria-label={`${t("brand")} TikTok`}
+          >
+            <FaTiktok className="h-6 w-6" />
+          </a>
+        </div>
       </div>
     </EdgeToEdgeHero>
   );

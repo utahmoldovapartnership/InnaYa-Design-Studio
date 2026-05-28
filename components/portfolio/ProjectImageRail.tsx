@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import type { PexelsPhoto } from "@/lib/pexels";
 
@@ -24,9 +25,27 @@ function findScrollParent(node: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
+function useDesktopGallery() {
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 768px)").matches;
+  });
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
+}
+
 export function ProjectImageRail({ gallery }: Props) {
+  const t = useTranslations("portfolio.detail");
+  const isDesktop = useDesktopGallery();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [infiniteScroll, setInfiniteScroll] = useState(false);
   const railRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const scrollParentRef = useRef<HTMLElement | null>(null);
@@ -50,30 +69,23 @@ export function ProjectImageRail({ gallery }: Props) {
   );
 
   const displayGallery: GalleryItem[] = useMemo(() => {
-    if (infiniteScroll) return repeatedGallery;
+    if (isDesktop) return repeatedGallery;
     return baseGallery.map((photo, realIndex) => ({
       photo,
       realIndex,
       renderIndex: realIndex,
     }));
-  }, [infiniteScroll, repeatedGallery, baseGallery]);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const update = () => setInfiniteScroll(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
+  }, [isDesktop, repeatedGallery, baseGallery]);
 
   useEffect(() => {
     hasInitializedLoopRef.current = false;
-    itemRefs.current = [];
-  }, [infiniteScroll, validCount]);
+  }, [isDesktop, validCount]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const items = itemRefs.current.filter((node): node is HTMLDivElement => !!node);
     if (items.length === 0) return;
+
+    const scrollRoot = isDesktop ? findScrollParent(railRef.current) : null;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -91,35 +103,20 @@ export function ProjectImageRail({ gallery }: Props) {
         }
       },
       {
+        root: scrollRoot,
         threshold: [0.3, 0.5, 0.7, 0.9],
       },
     );
 
     items.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
-  }, [displayGallery]);
+  }, [displayGallery, isDesktop]);
 
-  useEffect(() => {
-    if (!infiniteScroll) return;
+  useLayoutEffect(() => {
+    if (!isDesktop) return;
 
-    const rail = railRef.current;
-    const scrollParent = findScrollParent(rail);
-    if (!rail || !scrollParent) return;
-
-    const firstItem = itemRefs.current[0];
-    const secondCycleFirstItem = itemRefs.current[validCount];
-    if (!firstItem || !secondCycleFirstItem) return;
-
-    const cycleHeight = secondCycleFirstItem.offsetTop - firstItem.offsetTop;
-    if (cycleHeight <= 0) return;
-
-    scrollParentRef.current = scrollParent;
-    cycleHeightRef.current = cycleHeight;
-
-    if (!hasInitializedLoopRef.current) {
-      scrollParent.scrollTop += cycleHeight;
-      hasInitializedLoopRef.current = true;
-    }
+    let cancelled = false;
+    let attachedScrollParent: HTMLElement | null = null;
 
     const onScroll = () => {
       if (isAdjustingScrollRef.current) return;
@@ -140,18 +137,60 @@ export function ProjectImageRail({ gallery }: Props) {
       }
     };
 
-    scrollParent.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      scrollParent.removeEventListener("scroll", onScroll);
+    const setup = () => {
+      if (cancelled) return;
+
+      const rail = railRef.current;
+      const scrollParent = findScrollParent(rail);
+      if (!rail || !scrollParent) {
+        requestAnimationFrame(setup);
+        return;
+      }
+
+      const firstItem = itemRefs.current[0];
+      const secondCycleFirstItem = itemRefs.current[validCount];
+      if (!firstItem || !secondCycleFirstItem) {
+        requestAnimationFrame(setup);
+        return;
+      }
+
+      const cycleHeight = secondCycleFirstItem.offsetTop - firstItem.offsetTop;
+      if (cycleHeight <= 0) {
+        requestAnimationFrame(setup);
+        return;
+      }
+
+      scrollParentRef.current = scrollParent;
+      cycleHeightRef.current = cycleHeight;
+
+      if (!hasInitializedLoopRef.current) {
+        scrollParent.scrollTop += cycleHeight;
+        hasInitializedLoopRef.current = true;
+      }
+
+      attachedScrollParent?.removeEventListener("scroll", onScroll);
+      attachedScrollParent = scrollParent;
+      attachedScrollParent.addEventListener("scroll", onScroll, { passive: true });
     };
-  }, [infiniteScroll, repeatedGallery, validCount]);
+
+    setup();
+
+    return () => {
+      cancelled = true;
+      attachedScrollParent?.removeEventListener("scroll", onScroll);
+    };
+  }, [isDesktop, displayGallery, validCount]);
 
   const scrollToImage = (index: number) => {
-    const targetIndex = infiniteScroll ? validCount + index : index;
+    const targetIndex = isDesktop ? validCount + index : index;
     itemRefs.current[targetIndex]?.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -184,24 +223,40 @@ export function ProjectImageRail({ gallery }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          {displayGallery.map(({ photo, realIndex, renderIndex }) => (
-            <div
-              key={`${photo?.id ?? "placeholder"}-${renderIndex}`}
-              ref={(el) => {
-                itemRefs.current[renderIndex] = el;
-              }}
-              data-real-index={realIndex}
+        <div className="flex flex-col">
+          <div className="grid grid-cols-1 gap-4">
+            {displayGallery.map(({ photo, realIndex, renderIndex }) => (
+              <div
+                key={`${photo?.id ?? "placeholder"}-${renderIndex}`}
+                ref={(el) => {
+                  itemRefs.current[renderIndex] = el;
+                }}
+                data-real-index={realIndex}
+              >
+                <InteriorImage
+                  photo={photo}
+                  aspectClass="aspect-square md:aspect-[4/3]"
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  className="rounded-sm"
+                  priority={
+                    isDesktop
+                      ? renderIndex >= validCount && renderIndex < validCount + 2
+                      : renderIndex < 2
+                  }
+                />
+              </div>
+            ))}
+          </div>
+
+          {!isDesktop ? (
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="mt-6 w-full text-left text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink md:hidden"
             >
-              <InteriorImage
-                photo={photo}
-                aspectClass="aspect-square md:aspect-[4/3]"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="rounded-sm"
-                priority={renderIndex < 2}
-              />
-            </div>
-          ))}
+              &uarr; {t("backToTop")}
+            </button>
+          ) : null}
         </div>
       </div>
     </section>
