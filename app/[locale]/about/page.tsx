@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
+import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 
 export async function generateMetadata({
   params,
@@ -12,6 +13,9 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: meta("description"),
+    other: {
+      "theme-color": "#0a0a0a",
+    },
   };
 }
 
@@ -24,15 +28,16 @@ export default async function AboutPage({
   const t = await getTranslations("about");
 
   return (
-    <section className="relative -mt-[var(--header-height)] h-dvh min-h-dvh w-full overflow-hidden">
-      <img
-        src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-ink/55" aria-hidden />
-
-      <div className="relative z-10 mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] -translate-y-4 items-center px-5 md:-translate-y-6 md:px-8">
+    <EdgeToEdgeHero
+      media={
+        <img
+          src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          alt=""
+          className="hero-fixed-backdrop__media"
+        />
+      }
+    >
+      <div className="mt-[var(--header-height)] flex min-h-[calc(100svh-var(--header-height))] min-h-[calc(100dvh-var(--header-height))] -translate-y-4 items-center px-5 md:-translate-y-6 md:px-8">
         <div className="mx-auto w-full max-w-[1200px]">
           <div className="ml-auto w-full max-w-xl space-y-5 text-left md:w-1/2">
             <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
@@ -45,7 +50,7 @@ export default async function AboutPage({
         </div>
       </div>
 
-      <div className="absolute right-5 bottom-5 z-20 flex items-center gap-4 md:right-8 md:bottom-8">
+      <div className="absolute right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-20 flex items-center gap-4 md:right-8 md:bottom-8">
         <a
           href="https://www.instagram.com/innaya_d_studio/"
           target="_blank"
@@ -65,6 +70,6 @@ export default async function AboutPage({
           <FaTiktok className="h-6 w-6" />
         </a>
       </div>
-    </section>
+    </EdgeToEdgeHero>
   );
 }

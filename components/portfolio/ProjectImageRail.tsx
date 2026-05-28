@@ -8,6 +8,12 @@ type Props = {
   gallery: Array<PexelsPhoto | null>;
 };
 
+type GalleryItem = {
+  photo: PexelsPhoto | null;
+  realIndex: number;
+  renderIndex: number;
+};
+
 function findScrollParent(node: HTMLElement | null): HTMLElement | null {
   let current = node?.parentElement ?? null;
   while (current) {
@@ -20,6 +26,7 @@ function findScrollParent(node: HTMLElement | null): HTMLElement | null {
 
 export function ProjectImageRail({ gallery }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [infiniteScroll, setInfiniteScroll] = useState(false);
   const railRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const scrollParentRef = useRef<HTMLElement | null>(null);
@@ -29,6 +36,7 @@ export function ProjectImageRail({ gallery }: Props) {
 
   const baseGallery = useMemo(() => (gallery.length > 0 ? gallery : [null]), [gallery]);
   const validCount = baseGallery.length;
+
   const repeatedGallery = useMemo(
     () =>
       Array.from({ length: 3 }, (_, cycle) =>
@@ -40,6 +48,28 @@ export function ProjectImageRail({ gallery }: Props) {
       ).flat(),
     [baseGallery, validCount],
   );
+
+  const displayGallery: GalleryItem[] = useMemo(() => {
+    if (infiniteScroll) return repeatedGallery;
+    return baseGallery.map((photo, realIndex) => ({
+      photo,
+      realIndex,
+      renderIndex: realIndex,
+    }));
+  }, [infiniteScroll, repeatedGallery, baseGallery]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setInfiniteScroll(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    hasInitializedLoopRef.current = false;
+    itemRefs.current = [];
+  }, [infiniteScroll, validCount]);
 
   useEffect(() => {
     const items = itemRefs.current.filter((node): node is HTMLDivElement => !!node);
@@ -67,9 +97,11 @@ export function ProjectImageRail({ gallery }: Props) {
 
     items.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
-  }, [repeatedGallery]);
+  }, [displayGallery]);
 
   useEffect(() => {
+    if (!infiniteScroll) return;
+
     const rail = railRef.current;
     const scrollParent = findScrollParent(rail);
     if (!rail || !scrollParent) return;
@@ -112,7 +144,15 @@ export function ProjectImageRail({ gallery }: Props) {
     return () => {
       scrollParent.removeEventListener("scroll", onScroll);
     };
-  }, [repeatedGallery, validCount]);
+  }, [infiniteScroll, repeatedGallery, validCount]);
+
+  const scrollToImage = (index: number) => {
+    const targetIndex = infiniteScroll ? validCount + index : index;
+    itemRefs.current[targetIndex]?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
 
   return (
     <section ref={railRef} className="pr-1">
@@ -127,12 +167,7 @@ export function ProjectImageRail({ gallery }: Props) {
                     key={`dot-${index}`}
                     type="button"
                     aria-label={`Go to image ${index + 1}`}
-                    onClick={() =>
-                      itemRefs.current[validCount + index]?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      })
-                    }
+                    onClick={() => scrollToImage(index)}
                     className="grid h-6 w-6 place-items-center rounded-full transition-colors hover:bg-ink/5"
                   >
                     <span
@@ -150,7 +185,7 @@ export function ProjectImageRail({ gallery }: Props) {
         </div>
 
         <div className="grid grid-cols-1 gap-4">
-          {repeatedGallery.map(({ photo, realIndex, renderIndex }) => (
+          {displayGallery.map(({ photo, realIndex, renderIndex }) => (
             <div
               key={`${photo?.id ?? "placeholder"}-${renderIndex}`}
               ref={(el) => {
@@ -163,7 +198,7 @@ export function ProjectImageRail({ gallery }: Props) {
                 aspectClass="aspect-square md:aspect-[4/3]"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="rounded-sm"
-                priority={renderIndex >= validCount && renderIndex < validCount + 2}
+                priority={renderIndex < 2}
               />
             </div>
           ))}

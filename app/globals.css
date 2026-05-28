@@ -50,6 +50,29 @@ body {
   display: none;
 }
 
+/* Home / about: media behind iOS Safari chrome (status bar + URL bar) */
+.hero-edge-section {
+  isolation: isolate;
+}
+
+.hero-fixed-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-fixed-backdrop__media {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * env(safe-area-inset-top, 0px));
+  height: calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  object-fit: cover;
+}
+
 .font-serif {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
 }

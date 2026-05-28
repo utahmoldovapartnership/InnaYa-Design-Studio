@@ -1,5 +1,6 @@
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
 import { getTranslations } from "next-intl/server";
+import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 
 export async function generateMetadata({
   params,
@@ -14,6 +15,9 @@ export async function generateMetadata({
       template: `%s · ${t("siteName")}`,
     },
     description: t("description"),
+    other: {
+      "theme-color": "#0a0a0a",
+    },
   };
 }
 
@@ -26,24 +30,26 @@ export default async function HomePage({
   const t = await getTranslations("nav");
 
   return (
-    <section className="relative -mt-[var(--header-height)] h-dvh min-h-dvh w-full overflow-hidden pt-[var(--header-height)]">
-      <video
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-label="Interior video background"
-      >
-        <source
-          src="https://www.pexels.com/download/video/5384977/"
-          type="video/mp4"
-        />
-      </video>
-      <div className="absolute inset-0 bg-ink/55" aria-hidden />
-
-      <div className="absolute right-5 bottom-5 z-20 flex items-center gap-4 md:right-8 md:bottom-8">
+    <EdgeToEdgeHero
+      className="pt-[var(--header-height)]"
+      media={
+        <video
+          className="hero-fixed-backdrop__media"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden
+        >
+          <source
+            src="https://www.pexels.com/download/video/5384977/"
+            type="video/mp4"
+          />
+        </video>
+      }
+    >
+      <div className="absolute right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-20 flex items-center gap-4 md:right-8 md:bottom-8">
         <a
           href="https://www.instagram.com/innaya_d_studio/"
           target="_blank"
@@ -63,6 +69,6 @@ export default async function HomePage({
           <FaTiktok className="h-6 w-6" />
         </a>
       </div>
-    </section>
+    </EdgeToEdgeHero>
   );
 }
