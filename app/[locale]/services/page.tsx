@@ -62,13 +62,15 @@ export default async function ServicesPage({
             </div>
 
             <div className="w-full md:flex md:justify-end">
-              <Image
-                src="/images/measurement-tool.jpg"
-                alt={t("measurementImageAlt")}
-                width={800}
-                height={533}
-                className="h-auto w-full rounded-sm object-cover md:max-w-[540px]"
-              />
+              <div className="group relative w-full overflow-hidden rounded-sm md:max-w-[540px]">
+                <Image
+                  src="/images/measurement-tool.jpg"
+                  alt={t("measurementImageAlt")}
+                  width={800}
+                  height={533}
+                  className="h-auto w-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.02]"
+                />
+              </div>
             </div>
           </div>
         </div>
