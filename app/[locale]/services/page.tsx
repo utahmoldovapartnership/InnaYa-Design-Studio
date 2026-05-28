@@ -25,31 +25,51 @@ export default async function ServicesPage({
   const t = await getTranslations("services");
 
   return (
-    <article className="bg-white">
-      <MeasurementVideoHero
-        videoId="CpSLmy0iI_g"
-        title={t("measurementVideoTitle")}
-        muteLabel={t("muteVideo")}
-        unmuteLabel={t("unmuteVideo")}
-        volumeLabel={t("volumeControl")}
-      />
+    <article>
+      <section className="bg-white px-5 pt-10 pb-10 md:px-8 md:pt-14 md:pb-12">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:items-center md:gap-x-10">
+            <div className="min-w-0">
+              <MeasurementVideoHero
+                embedded
+                videoId="CpSLmy0iI_g"
+                title={t("measurementVideoTitle")}
+                muteLabel={t("muteVideo")}
+                unmuteLabel={t("unmuteVideo")}
+                volumeLabel={t("volumeControl")}
+                fullscreenLabel={t("fullscreenVideo")}
+                exitFullscreenLabel={t("exitFullscreenVideo")}
+              />
+            </div>
 
-      <section className="bg-[#b69274]/22 px-5 pt-10 pb-12 md:px-8 md:pt-14 md:pb-16">
-        <div className="mx-auto grid w-full max-w-[1200px] items-center gap-8 md:grid-cols-[1fr_420px] md:gap-10">
-          <div>
             <p className="text-base leading-relaxed text-muted md:text-lg">
-              {t("measurementBody")}
+              {t("technologiesLead")}
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="w-full justify-self-start md:w-auto md:justify-self-end">
-            <Image
-              src="/images/measurement-tool.png"
-              alt={t("measurementImageAlt")}
-              width={320}
-              height={320}
-              className="h-auto w-full max-w-none rounded-sm object-cover md:max-w-[340px]"
-            />
+      <section className="bg-[#b69274]/22 px-5 py-14 md:px-8 md:py-20">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:items-center md:gap-x-10">
+            <div className="space-y-5">
+              <h2 className="font-serif text-xl text-ink md:text-2xl">
+                {t("measurementTitle")}
+              </h2>
+              <p className="text-base leading-relaxed text-muted md:text-lg">
+                {t("measurementBody")}
+              </p>
+            </div>
+
+            <div className="w-full md:flex md:justify-end">
+              <Image
+                src="/images/measurement-tool.jpg"
+                alt={t("measurementImageAlt")}
+                width={800}
+                height={533}
+                className="h-auto w-full rounded-sm object-cover md:max-w-[540px]"
+              />
+            </div>
           </div>
         </div>
       </section>

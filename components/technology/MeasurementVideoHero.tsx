@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
+import { FaCompress, FaExpand, FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 
 type Props = {
   videoId: string;
@@ -9,6 +9,10 @@ type Props = {
   muteLabel: string;
   unmuteLabel: string;
   volumeLabel: string;
+  fullscreenLabel: string;
+  exitFullscreenLabel: string;
+  sectionClassName?: string;
+  embedded?: boolean;
 };
 
 export function MeasurementVideoHero({
@@ -17,7 +21,12 @@ export function MeasurementVideoHero({
   muteLabel,
   unmuteLabel,
   volumeLabel,
+  fullscreenLabel,
+  exitFullscreenLabel,
+  sectionClassName = "px-5 pb-10 md:px-8 md:pb-12",
+  embedded = false,
 }: Props) {
+  const playerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const muteButtonRef = useRef<HTMLButtonElement>(null);
   const hideControlTimeoutRef = useRef<number | null>(null);
@@ -26,6 +35,7 @@ export function MeasurementVideoHero({
   const [volumeLevel, setVolumeLevel] = useState(70);
   const [isVideoRevealed, setIsVideoRevealed] = useState(false);
   const [isControlDismissed, setIsControlDismissed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const src = useMemo(
     () =>
@@ -104,6 +114,23 @@ export function MeasurementVideoHero({
     setMuted(false);
   };
 
+  const toggleFullscreen = async () => {
+    const player = playerRef.current;
+    if (!player) return;
+
+    try {
+      if (document.fullscreenElement === player) {
+        await document.exitFullscreen();
+      } else {
+        await player.requestFullscreen();
+      }
+    } catch {
+      // Fullscreen may be blocked or unsupported.
+    }
+
+    scheduleControlDismiss();
+  };
+
   const handleIframeLoad = () => {
     if (revealVideoTimeoutRef.current !== null) {
       window.clearTimeout(revealVideoTimeoutRef.current);
@@ -117,7 +144,14 @@ export function MeasurementVideoHero({
   };
 
   useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement === playerRef.current);
+    };
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+
     return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
       if (hideControlTimeoutRef.current !== null) {
         window.clearTimeout(hideControlTimeoutRef.current);
       }
@@ -127,14 +161,17 @@ export function MeasurementVideoHero({
     };
   }, []);
 
-  return (
-    <section className="w-full bg-white px-5 pt-10 pb-8 md:px-8 md:pt-14 md:pb-10">
-      <div className="mx-auto w-full max-w-[1200px]">
-        <div
-          className="group relative aspect-video w-full overflow-hidden rounded-lg"
-          onMouseLeave={resetControlDismiss}
-          onClick={revealControlOnVideoClick}
-        >
+  const controlVisibilityClass = isControlDismissed
+    ? ""
+    : "group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100";
+
+  const player = (
+    <div
+      ref={playerRef}
+      className="group relative aspect-video w-full overflow-hidden rounded-sm bg-ink/5 fullscreen:aspect-auto fullscreen:h-full fullscreen:w-full fullscreen:rounded-none"
+      onMouseLeave={resetControlDismiss}
+      onClick={revealControlOnVideoClick}
+    >
           <iframe
             ref={iframeRef}
             className="pointer-events-none absolute inset-0 h-full w-full"
@@ -174,15 +211,24 @@ export function MeasurementVideoHero({
                 </div>
               </div>
               <button
+                type="button"
+                onClick={toggleFullscreen}
+                onFocus={() => setIsControlDismissed(false)}
+                className={`pointer-events-none grid h-12 w-12 place-items-center rounded-full border border-white/30 bg-black/25 text-white/80 opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-black/35 hover:text-white focus-visible:pointer-events-auto focus-visible:opacity-100 md:h-14 md:w-14 ${controlVisibilityClass}`}
+                aria-label={isFullscreen ? exitFullscreenLabel : fullscreenLabel}
+              >
+                {isFullscreen ? (
+                  <FaCompress className="h-5 w-5 md:h-6 md:w-6" aria-hidden />
+                ) : (
+                  <FaExpand className="h-5 w-5 md:h-6 md:w-6" aria-hidden />
+                )}
+              </button>
+              <button
                 ref={muteButtonRef}
                 type="button"
                 onClick={toggleMute}
                 onFocus={() => setIsControlDismissed(false)}
-                className={`pointer-events-none grid h-12 w-12 place-items-center rounded-full border border-white/30 bg-black/25 text-white/80 opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-black/35 hover:text-white focus-visible:pointer-events-auto focus-visible:opacity-100 md:h-14 md:w-14 ${
-                  isControlDismissed
-                    ? ""
-                    : "group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
-                }`}
+                className={`pointer-events-none grid h-12 w-12 place-items-center rounded-full border border-white/30 bg-black/25 text-white/80 opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-black/35 hover:text-white focus-visible:pointer-events-auto focus-visible:opacity-100 md:h-14 md:w-14 ${controlVisibilityClass}`}
                 aria-label={muted ? unmuteLabel : muteLabel}
               >
                 {muted ? (
@@ -193,8 +239,16 @@ export function MeasurementVideoHero({
               </button>
             </div>
           </div>
-        </div>
-      </div>
+    </div>
+  );
+
+  if (embedded) {
+    return player;
+  }
+
+  return (
+    <section className={sectionClassName}>
+      <div className="mx-auto w-full max-w-[1200px]">{player}</div>
     </section>
   );
 }
