@@ -83,7 +83,7 @@ export function Header() {
               alt={t("brand")}
               width={1024}
               height={512}
-              className={`h-16 w-auto md:h-32 ${isDarkNavPage ? "" : "invert"}`}
+              className={`h-20 w-auto md:h-32 ${isDarkNavPage ? "" : "invert"}`}
               priority
             />
           </Link>
@@ -148,7 +148,7 @@ export function Header() {
                   alt={t("brand")}
                   width={1024}
                   height={512}
-                  className="h-16 w-auto"
+                  className="h-20 w-auto"
                   priority
                 />
               </Link>
