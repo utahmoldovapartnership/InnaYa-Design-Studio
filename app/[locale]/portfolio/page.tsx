@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import { projectList } from "@/content/projects";
 import { getCachedInteriorPhotos } from "@/lib/pexels";
@@ -38,8 +39,9 @@ export default async function PortfolioIndexPage({
   };
 
   return (
-    <div className="px-5 pt-10 pb-16 md:px-8 md:pt-14 md:pb-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <>
+    <div className="px-5 pt-10">
+      <div className="-translate-y-[calc(var(--header-height)/4)] transform">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {Array.from({ length: totalTiles }, (_, index) => {
             const project = projectList[index];
@@ -68,6 +70,7 @@ export default async function PortfolioIndexPage({
                   aspectClass="aspect-[4/3]"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="relative rounded-sm"
+                  colorOnHover
                 />
                 <div
                   className="pointer-events-none absolute inset-0 rounded-sm bg-black/25"
@@ -88,5 +91,8 @@ export default async function PortfolioIndexPage({
         </div>
       </div>
     </div>
+
+    <PinnedSocialLinks />
+    </>
   );
 }

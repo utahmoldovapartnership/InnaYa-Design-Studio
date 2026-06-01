@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { FaInstagram, FaTiktok } from "react-icons/fa6";
+import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 
 export async function generateMetadata({
@@ -28,6 +28,7 @@ export default async function AboutPage({
   const t = await getTranslations("about");
 
   return (
+    <>
     <EdgeToEdgeHero
       media={
         <img
@@ -37,39 +38,22 @@ export default async function AboutPage({
         />
       }
     >
-      <div className="flex h-full min-h-0 flex-col overflow-hidden pt-[var(--header-height)]">
-        <div className="flex min-h-0 flex-1 items-center justify-center px-5 md:px-8">
-          <div className="w-full max-w-xl space-y-5 text-center">
-            <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
-              {t("lead")}
-            </p>
-            <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
-              {t("experience")}
-            </p>
+      <div className="relative h-full min-h-0 overflow-hidden">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-5 md:px-8">
+          <div className="mx-auto flex w-full max-w-[1200px] justify-end">
+            <div className="w-full max-w-xl space-y-5 text-left">
+              <p className="text-lg leading-[1.55] text-white/90 md:text-xl">
+                {t("lead")}
+              </p>
+              <p className="text-lg leading-[1.55] text-white/85 md:text-xl">
+                {t("experience")}
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="flex shrink-0 items-center justify-end gap-4 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8">
-          <a
-            href="https://www.instagram.com/innaya_d_studio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white transition-opacity hover:opacity-75"
-            aria-label={`${t("title")} Instagram`}
-          >
-            <FaInstagram className="h-6 w-6" />
-          </a>
-          <a
-            href="https://www.tiktok.com/@innaya.design"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white transition-opacity hover:opacity-75"
-            aria-label={`${t("title")} TikTok`}
-          >
-            <FaTiktok className="h-6 w-6" />
-          </a>
         </div>
       </div>
     </EdgeToEdgeHero>
+    <PinnedSocialLinks />
+    </>
   );
 }

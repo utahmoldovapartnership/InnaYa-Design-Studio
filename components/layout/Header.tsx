@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -22,7 +22,6 @@ export function Header() {
     if (href === "/") return pathname === "/" || pathname === "";
     return pathname === href || pathname.endsWith(href);
   };
-  const activeHref = links.find(({ href }) => isActiveLink(href))?.href ?? "/";
   const isPortfolioDetailPage = /^\/portfolio\/[^/]+$/.test(pathname);
   const isDarkNavPage =
     pathname === "/services" ||
@@ -32,14 +31,7 @@ export function Header() {
     pathname === "/contact" ||
     pathname.endsWith("/contact");
   const [open, setOpen] = useState(false);
-  const [underlineStyle, setUnderlineStyle] = useState<{
-    left: number;
-    width: number;
-    opacity: number;
-  }>({ left: 0, width: 0, opacity: 0 });
   const headerRef = useRef<HTMLElement>(null);
-  const desktopNavRef = useRef<HTMLElement>(null);
-  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
   useEffect(() => {
     if (isPortfolioDetailPage) {
@@ -63,22 +55,6 @@ export function Header() {
     return () => observer.disconnect();
   }, [isPortfolioDetailPage, open]);
 
-  useLayoutEffect(() => {
-    const activeLink = linkRefs.current[activeHref];
-    const nav = desktopNavRef.current;
-
-    if (!activeLink || !nav) {
-      setUnderlineStyle((prev) => ({ ...prev, opacity: 0 }));
-      return;
-    }
-
-    setUnderlineStyle({
-      left: activeLink.offsetLeft,
-      width: activeLink.offsetWidth,
-      opacity: 1,
-    });
-  }, [activeHref]);
-
   useEffect(() => {
     if (!open) {
       document.body.style.overflow = "";
@@ -89,22 +65,6 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [open]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const activeLink = linkRefs.current[activeHref];
-      if (!activeLink) return;
-
-      setUnderlineStyle((prev) => ({
-        ...prev,
-        left: activeLink.offsetLeft,
-        width: activeLink.offsetWidth,
-      }));
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [activeHref]);
 
   if (isPortfolioDetailPage) {
     return null;
@@ -133,43 +93,26 @@ export function Header() {
           </Link>
 
           <nav
-            ref={desktopNavRef}
-            className="relative hidden items-center gap-6 md:flex"
+            className="hidden items-center gap-6 md:flex"
             aria-label="Main"
           >
             {links.map(({ key, href }) => (
               <Link
                 key={key}
                 href={href}
-                ref={(el) => {
-                  linkRefs.current[href] = el;
-                }}
-                className={`relative py-1 text-sm font-bold tracking-wide transition-colors ${
-                  isDarkNavPage
-                    ? "text-ink/75 hover:text-ink"
-                    : "text-white/75 hover:text-white"
-                } ${
+                className={`py-1 text-sm font-bold uppercase tracking-wide underline underline-offset-4 transition-colors ${
                   isActiveLink(href)
                     ? isDarkNavPage
-                      ? "text-ink/90"
-                      : "text-white/90"
-                    : ""
+                      ? "text-ink"
+                      : "text-white"
+                    : isDarkNavPage
+                      ? "text-ink/60 hover:text-ink/85"
+                      : "text-white/60 hover:text-white/85"
                 }`}
               >
                 {t(key)}
               </Link>
             ))}
-            <span
-              aria-hidden
-              className={`pointer-events-none absolute bottom-0 h-px transition-all duration-350 ease-out ${
-                isDarkNavPage ? "bg-ink" : "bg-white"
-              }`}
-              style={{
-                left: `${underlineStyle.left}px`,
-                width: `${underlineStyle.width}px`,
-                opacity: underlineStyle.opacity,
-              }}
-            />
             <LocaleSwitcher tone={isDarkNavPage ? "dark" : "light"} />
           </nav>
 
@@ -245,10 +188,10 @@ export function Header() {
                 >
                   <Link
                     href={href}
-                    className={`block py-1 text-2xl font-bold tracking-wide transition-colors ${
+                    className={`block py-1 text-2xl font-bold uppercase tracking-wide underline underline-offset-8 transition-colors ${
                       isActiveLink(href)
-                        ? "text-ink underline underline-offset-8"
-                        : "text-ink/70 hover:text-ink"
+                        ? "text-ink"
+                        : "text-ink/60 hover:text-ink/85"
                     }`}
                     onClick={() => setOpen(false)}
                   >
