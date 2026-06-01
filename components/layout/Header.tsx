@@ -123,11 +123,11 @@ export function Header() {
             onClick={() => setOpen(false)}
           >
             <Image
-              src="/images/innaya-logo-v2.png"
+              src="/images/innaya-logo.png"
               alt={t("brand")}
               width={1024}
               height={512}
-              className={`h-12 w-auto md:h-20 ${isDarkNavPage ? "" : "invert"}`}
+              className={`h-16 w-auto md:h-32 ${isDarkNavPage ? "" : "invert"}`}
               priority
             />
           </Link>
@@ -198,12 +198,10 @@ export function Header() {
       {open ? (
         <div
           id="mobile-nav"
-          className={`fixed inset-0 z-[60] backdrop-blur-xl md:hidden ${
-            isDarkNavPage ? "bg-white/20" : "bg-black/35"
-          }`}
+          className="animate-mobile-nav-overlay fixed inset-0 z-[60] flex flex-col bg-white md:hidden"
           aria-label="Mobile"
         >
-          <div className="px-5 py-4 md:px-8">
+          <div className="shrink-0 px-5 py-4">
             <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6">
               <Link
                 href="/"
@@ -211,22 +209,20 @@ export function Header() {
                 onClick={() => setOpen(false)}
               >
                 <Image
-                  src="/images/innaya-logo-v2.png"
+                  src="/images/innaya-logo.png"
                   alt={t("brand")}
                   width={1024}
                   height={512}
-                  className={`h-12 w-auto ${isDarkNavPage ? "" : "invert"}`}
+                  className="h-16 w-auto"
                   priority
                 />
               </Link>
 
               <div className="flex items-center gap-2">
-                <LocaleSwitcher tone={isDarkNavPage ? "dark" : "light"} />
+                <LocaleSwitcher tone="dark" />
                 <button
                   type="button"
-                  className={`p-2 transition-opacity hover:opacity-80 ${
-                    isDarkNavPage ? "text-ink" : "text-white"
-                  }`}
+                  className="p-2 text-ink transition-opacity hover:opacity-80"
                   aria-label={t("closeMenu")}
                   onClick={() => setOpen(false)}
                 >
@@ -236,21 +232,24 @@ export function Header() {
             </div>
           </div>
 
-          <nav className="px-5 pt-6 pb-8" aria-label="Mobile links">
-            <ul className="mx-auto flex w-full max-w-[1200px] flex-col gap-3">
-              {links.map(({ key, href }) => (
-                <li key={key}>
+          <nav
+            className="flex flex-1 flex-col items-center justify-center px-5 pb-20"
+            aria-label="Mobile links"
+          >
+            <ul className="flex flex-col items-center gap-7 text-center">
+              {links.map(({ key, href }, index) => (
+                <li
+                  key={key}
+                  className="animate-mobile-nav-item"
+                  style={{ animationDelay: `${140 + index * 75}ms` }}
+                >
                   <Link
                     href={href}
-                  className={`block py-1 text-2xl font-bold ${
-                    isActiveLink(href)
-                      ? isDarkNavPage
-                        ? "text-ink opacity-90 underline underline-offset-4"
-                        : "text-white opacity-90 underline underline-offset-4"
-                      : isDarkNavPage
-                        ? "text-ink opacity-90"
-                        : "text-white opacity-90"
-                  }`}
+                    className={`block py-1 text-2xl font-bold tracking-wide transition-colors ${
+                      isActiveLink(href)
+                        ? "text-ink underline underline-offset-8"
+                        : "text-ink/70 hover:text-ink"
+                    }`}
                     onClick={() => setOpen(false)}
                   >
                     {t(key)}
