@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -16,6 +16,7 @@ type Props = {
 };
 
 export function LocaleSwitcher({ tone = "light" }: Props) {
+  const t = useTranslations("nav");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -50,7 +51,7 @@ export function LocaleSwitcher({ tone = "light" }: Props) {
     <div ref={rootRef} className="relative flex items-center">
       <button
         type="button"
-        aria-label="Language"
+        aria-label={t("language")}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
@@ -82,7 +83,7 @@ export function LocaleSwitcher({ tone = "light" }: Props) {
         <ul
           id={listId}
           role="listbox"
-          aria-label="Language"
+          aria-label={t("language")}
           className="absolute top-full right-0 z-50 mt-3 flex items-center gap-2"
         >
           {routing.locales.map((loc, index) => (

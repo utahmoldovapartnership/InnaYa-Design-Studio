@@ -72,7 +72,8 @@ export function ContactForm() {
         <input
           name="name"
           required
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none ring-0 focus:border-ink"
+          placeholder={t("namePlaceholder")}
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none ring-0 placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -82,7 +83,8 @@ export function ContactForm() {
           name="email"
           type="email"
           required
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          placeholder={t("emailPlaceholder")}
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -92,7 +94,8 @@ export function ContactForm() {
           name="phone"
           type="tel"
           required
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          placeholder={t("phonePlaceholder")}
+          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -114,7 +117,8 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={4}
-          className="resize-y rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          placeholder={t("messagePlaceholder")}
+          className="resize-y rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 

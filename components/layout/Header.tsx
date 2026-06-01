@@ -18,10 +18,6 @@ const links = [
 export function Header() {
   const t = useTranslations("nav");
   const pathname = usePathname();
-  const isActiveLink = (href: string) => {
-    if (href === "/") return pathname === "/" || pathname === "";
-    return pathname === href || pathname.endsWith(href);
-  };
   const isPortfolioDetailPage = /^\/portfolio\/[^/]+$/.test(pathname);
   const isDarkNavPage =
     pathname === "/services" ||
@@ -100,14 +96,10 @@ export function Header() {
               <Link
                 key={key}
                 href={href}
-                className={`py-1 text-sm font-bold uppercase tracking-wide underline underline-offset-4 transition-colors ${
-                  isActiveLink(href)
-                    ? isDarkNavPage
-                      ? "text-ink"
-                      : "text-white"
-                    : isDarkNavPage
-                      ? "text-ink/60 hover:text-ink/85"
-                      : "text-white/60 hover:text-white/85"
+                className={`py-1 text-sm font-bold uppercase tracking-wide underline underline-offset-4 transition-colors duration-200 ${
+                  isDarkNavPage
+                    ? "text-ink hover:text-ink/60"
+                    : "text-white hover:text-white/60"
                 }`}
               >
                 {t(key)}
@@ -188,11 +180,7 @@ export function Header() {
                 >
                   <Link
                     href={href}
-                    className={`block py-1 text-2xl font-bold uppercase tracking-wide underline underline-offset-8 transition-colors ${
-                      isActiveLink(href)
-                        ? "text-ink"
-                        : "text-ink/60 hover:text-ink/85"
-                    }`}
+                    className="block py-1 text-2xl font-bold uppercase tracking-wide text-ink underline underline-offset-8 transition-colors duration-200 hover:text-ink/60"
                     onClick={() => setOpen(false)}
                   >
                     {t(key)}

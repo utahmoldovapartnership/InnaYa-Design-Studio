@@ -11,7 +11,8 @@
     "portfolio": "Portfolio",
     "contact": "Contact",
     "menu": "Menu",
-    "closeMenu": "Close"
+    "closeMenu": "Close",
+    "language": "Language"
   },
   "footer": {
     "brand": "InnaYa Design Studio",
@@ -80,7 +81,7 @@
     "storyBody": "A fuller personal story from the principal designer will appear here — for now, know that our process is built on listening first, documenting carefully, and delivering predictable, delightful outcomes."
   },
   "services": {
-    "title": "Services",
+    "title": "Technologies",
     "intro": "Comprehensive design for homes, apartments, and commercial spaces — from first survey to VR presentation and optional turnkey delivery.",
     "technologiesLead": "We use professional measurement and visualization tools, including laser surveying on site, precise digital plans, and VR walkthroughs, so every design choice rests on accurate dimensions and spaces you can judge before anything is built.",
     "measurementTitle": "Precision measurement on site",
@@ -249,13 +250,17 @@
     "tiktokValue": "@innaya.design",
     "form": {
       "name": "Name",
+      "namePlaceholder": "Your name",
       "email": "Email",
+      "emailPlaceholder": "you@example.com",
       "phone": "Phone",
+      "phonePlaceholder": "+380 00 000 0000",
       "projectType": "Project type",
       "projectResidential": "Residential",
       "projectCommercial": "Commercial",
       "projectOther": "Other / not sure",
       "message": "Message",
+      "messagePlaceholder": "Tell us about your project, timeline, and location",
       "submit": "Send inquiry",
       "sending": "Sending…",
       "success": "Thank you — we received your message and will reply shortly.",
