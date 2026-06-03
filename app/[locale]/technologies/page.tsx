@@ -22,7 +22,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ServicesPage({
+export default async function TechnologiesPage({
   params,
 }: {
   params: Promise<{ locale: string }>;

@@ -10,7 +10,7 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 const links = [
   { key: "home" as const, href: "/" },
   { key: "about" as const, href: "/about" },
-  { key: "services" as const, href: "/services" },
+  { key: "services" as const, href: "/technologies" },
   { key: "portfolio" as const, href: "/portfolio" },
   { key: "contact" as const, href: "/contact" },
 ];
@@ -20,8 +20,8 @@ export function Header() {
   const pathname = usePathname();
   const isPortfolioDetailPage = /^\/portfolio\/[^/]+$/.test(pathname);
   const isDarkNavPage =
-    pathname === "/services" ||
-    pathname.endsWith("/services") ||
+    pathname === "/technologies" ||
+    pathname.endsWith("/technologies") ||
     pathname === "/portfolio" ||
     pathname.endsWith("/portfolio") ||
     pathname === "/contact" ||
