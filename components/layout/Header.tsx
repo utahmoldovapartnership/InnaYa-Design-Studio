@@ -79,10 +79,11 @@ export function Header() {
             onClick={() => setOpen(false)}
           >
             <Image
-              src="/images/innaya-logo.png"
+              src="/images/innaya-logo.png?v=4"
               alt={t("brand")}
               width={1024}
               height={512}
+              unoptimized
               className={`h-20 w-auto md:h-32 ${isDarkNavPage ? "" : "invert"}`}
               priority
             />
@@ -144,10 +145,11 @@ export function Header() {
                 onClick={() => setOpen(false)}
               >
                 <Image
-                  src="/images/innaya-logo.png"
+                  src="/images/innaya-logo.png?v=4"
                   alt={t("brand")}
                   width={1024}
                   height={512}
+                  unoptimized
                   className="h-20 w-auto"
                   priority
                 />
