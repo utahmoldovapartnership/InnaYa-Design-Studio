@@ -1,6 +1,12 @@
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
+import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { MeasurementVideoHero } from "@/components/technology/MeasurementVideoHero";
+import {
+  TechFeatureBlock,
+  TechFeatureImage,
+  type TechBenefit,
+} from "@/components/technology/TechChapter";
+import { revitFeatureImage, vrFeatureImage } from "@/content/tech-photos";
 
 export async function generateMetadata({
   params,
@@ -24,57 +30,83 @@ export default async function ServicesPage({
   await params;
   const t = await getTranslations("services");
 
+  const revitIntro = t.raw("revitIntro") as string[];
+  const revitBenefits = t.raw("revitBenefits") as TechBenefit[];
+  const vrIntro = t.raw("vrIntro") as string[];
+  const vrBenefits = t.raw("vrBenefits") as TechBenefit[];
+  const vrClosing = t.raw("vrClosing") as string[];
+  const leicaIntro = t.raw("leicaIntro") as string[];
+  const leicaBenefits = t.raw("leicaBenefits") as TechBenefit[];
+  const leicaClosing = t.raw("leicaClosing") as string[];
+
   return (
-    <article className="-mt-[var(--header-height)]">
-      <section className="bg-[#b69274]/22 px-5 pb-14 pt-[calc(var(--header-height)+1.25rem)] md:px-8 md:pb-20 md:pt-[calc(var(--header-height)+1.75rem)]">
-        <div className="mx-auto w-full max-w-[1200px]">
-          <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:items-center md:gap-x-10">
-            <div className="space-y-5">
-              <h2 className="font-serif text-xl text-ink md:text-2xl">
-                {t("measurementTitle")}
-              </h2>
-              <p className="text-base leading-relaxed text-muted md:text-lg">
-                {t("measurementBody")}
-              </p>
-            </div>
+    <>
+    <article className="bg-white pb-24 md:pb-32">
+      <div className="px-5 pt-10">
+        <div className="-translate-y-[calc(var(--header-height)/4)] transform">
+          <div className="mx-auto w-full max-w-[1200px]">
+            <h1 className="sr-only">{t("title")}</h1>
+            <div className="[&>section:first-child]:border-t-0">
+              <TechFeatureBlock
+                compactTop
+                eyebrow={t("revitEyebrow")}
+                title={t("revitTitle")}
+                intro={revitIntro}
+                imageSide="right"
+                benefits={revitBenefits}
+                benefitsTitle={t("revitBenefitsTitle")}
+                media={
+                  <TechFeatureImage
+                    src={revitFeatureImage.src}
+                    alt={t("revitImageAlt")}
+                    priority
+                  />
+                }
+              />
 
-            <div className="w-full md:flex md:justify-end">
-              <div className="group relative w-full overflow-hidden rounded-sm md:max-w-[540px]">
-                <Image
-                  src="/images/measurement-tool.jpg"
-                  alt={t("measurementImageAlt")}
-                  width={800}
-                  height={533}
-                  className="h-auto w-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.02]"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+              <TechFeatureBlock
+                eyebrow={t("vrEyebrow")}
+                title={t("vrTitle")}
+                intro={vrIntro}
+                imageSide="left"
+                benefits={vrBenefits}
+                closing={vrClosing}
+                media={
+                  <TechFeatureImage
+                    src={vrFeatureImage.src}
+                    alt={t("vrImageAlt")}
+                  />
+                }
+              />
 
-      <section className="bg-white px-5 py-14 pb-10 md:px-8 md:py-20 md:pb-12">
-        <div className="mx-auto w-full max-w-[1200px]">
-          <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:items-center md:gap-x-10">
-            <div className="min-w-0">
-              <MeasurementVideoHero
-                embedded
-                videoId="CpSLmy0iI_g"
-                title={t("measurementVideoTitle")}
-                muteLabel={t("muteVideo")}
-                unmuteLabel={t("unmuteVideo")}
-                volumeLabel={t("volumeControl")}
-                fullscreenLabel={t("fullscreenVideo")}
-                exitFullscreenLabel={t("exitFullscreenVideo")}
+              <TechFeatureBlock
+                eyebrow={t("leicaEyebrow")}
+                title={t("leicaTitle")}
+                intro={leicaIntro}
+                imageSide="right"
+                benefits={leicaBenefits}
+                closing={leicaClosing}
+                media={
+                  <div className="mx-auto w-full max-w-md overflow-hidden rounded-sm md:max-w-none">
+                    <MeasurementVideoHero
+                      embedded
+                      videoId="CpSLmy0iI_g"
+                      title={t("measurementVideoTitle")}
+                      muteLabel={t("muteVideo")}
+                      unmuteLabel={t("unmuteVideo")}
+                      volumeLabel={t("volumeControl")}
+                      fullscreenLabel={t("fullscreenVideo")}
+                      exitFullscreenLabel={t("exitFullscreenVideo")}
+                    />
+                  </div>
+                }
               />
             </div>
-
-            <p className="text-base leading-relaxed text-muted md:text-lg">
-              {t("technologiesLead")}
-            </p>
           </div>
         </div>
-      </section>
+      </div>
     </article>
+    <PinnedSocialLinks />
+    </>
   );
 }

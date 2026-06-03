@@ -71,21 +71,105 @@
   },
   "about": {
     "title": "About the studio",
-    "lead": "InnaYa Design Studio is an independent practice for interior and exterior design, space planning, and bespoke furniture. We create calm, functional spaces through a clear process from first idea to final delivery.",
-    "experience": "With over seventeen years of experience, we pair creative direction with clear, buildable documentation.",
-    "education": "Higher professional education (specialist degree with distinction), plus advanced training in Revit, Enscape, and Rhinoceros.",
-    "regionsTitle": "Where we work",
-    "regionsBody": "We work in Ukraine, Moldova, across Europe, and internationally by arrangement. We collaborate primarily with Ukrainian- and Russian-speaking clients outside excluded jurisdictions.",
-    "regionsNote": "We do not take on new projects for clients based in the Russian Federation or Belarus.",
-    "storyTitle": "Studio note",
-    "storyBody": "A fuller personal story from the principal designer will appear here — for now, know that our process is built on listening first, documenting carefully, and delivering predictable, delightful outcomes."
+    "photoAlt": "Portrait of Inna Efimenko",
+    "paragraphs": [
+      "My name is Inna Efimenko, and I am the founder of InnaYa Design Studio.",
+      "For more than 17 years, I have been creating interiors for apartments, private homes, and commercial spaces for clients from Ukraine, Moldova, European countries, and other regions around the world.",
+      "For me, interior design is not only about aesthetics. It is precision, logic, and attention to detail at every stage of the work. That is why thorough site surveys, thoughtful space planning, and deep project development before implementation form the foundation of my practice.",
+      "One of the studio's strengths is the ability to handle comprehensive project procurement. Through collaboration with representatives of leading European furniture manufacturers, I help clients select furniture, finishes, lighting, and interior objects while preserving the integrity of the concept and saving their time.",
+      "My approach is based on the belief that a good interior reflects the owner's way of life, remains relevant for many years, and makes everyday life more comfortable.",
+      "InnaYa Design Studio combines experience, modern technology, and attentive care for every detail that shapes a space for living."
+    ]
   },
   "services": {
     "title": "Technologies",
-    "intro": "Comprehensive design for homes, apartments, and commercial spaces — from first survey to VR presentation and optional turnkey delivery.",
-    "technologiesLead": "We use professional measurement and visualization tools, including laser surveying on site, precise digital plans, and VR walkthroughs, so every design choice rests on accurate dimensions and spaces you can judge before anything is built.",
-    "measurementTitle": "Precision measurement on site",
-    "measurementBody": "We use a Leica distance meter to quickly capture accurate dimensions, wall geometry, and key site conditions before design begins. It helps us reduce guesswork, build reliable plans faster, and make early design decisions with more confidence.",
+    "revitEyebrow": "BIM / Revit",
+    "vrEyebrow": "Virtual reality",
+    "leicaEyebrow": "Site survey",
+    "revitTitle": "Our secret to flawless precision: why we design in Revit",
+    "revitImageAlt": "Revit 3D architectural rendering of a modern residential house",
+    "vrImageAlt": "Client using VR to preview a furnished interior in an empty space",
+    "revitIntro": [
+      "When you entrust us with creating your interior, you receive not just beautiful images, but a maximally accurate digital model of your future space. We have moved away from outdated flat drafting in favor of advanced BIM technology (Building Information Modeling) using Autodesk Revit.",
+      "For you as a client, this means a guarantee of staying within budget, fewer builder errors, and saved time."
+    ],
+    "revitBenefitsTitle": "Top 4 advantages of BIM design for your interior",
+    "revitBenefits": [
+      {
+        "title": "100% protection from drawing errors",
+        "body": "In traditional programs, drawings are created separately from one another. If a designer moves a socket or wall on one plan, they may forget to update the wall elevation. In Revit, that is impossible. We work with a single 3D model: any change in one place automatically updates all plans, sections, and schemes. Builders receive perfectly coordinated documentation."
+      },
+      {
+        "title": "Ideally accurate estimates without overpaying",
+        "body": "Forget buying tile or parquet \"by eye.\" Revit instantly and accurately reads areas, volumes, and item counts directly from the project. You receive an honest and transparent bill of materials and furniture, where every square centimetre is accounted for. No sudden extra costs for additional materials during renovation."
+      },
+      {
+        "title": "Volumetric planning instead of flat schemes",
+        "body": "You no longer need to imagine from a flat drawing whether a cabinet will fit or whether a wardrobe door will open comfortably. Designing in Revit, we see the interior in volume from the start. This allows us to perfect ergonomics, lighting scenarios, and spatial details before construction begins."
+      },
+      {
+        "title": "Full control of engineering communications",
+        "body": "An interior is not only décor, but also ventilation, air conditioning, pipes, and hidden access panels. Revit allows design solutions and engineering networks to be combined in one model. We immediately see if a pipe \"crosses\" a built-in cabinet and fix it on screen, not on the construction site."
+      }
+    ],
+    "vrTitle": "Why we use VR headsets",
+    "vrIntro": [
+      "With VR technology, you can literally step inside your future home or apartment before renovation work begins. By putting on a virtual reality headset, you can freely explore every room, assess the layout, ceiling height, furniture placement, lighting, and decorative elements."
+    ],
+    "vrBenefits": [
+      {
+        "title": "A real sense of space",
+        "body": "On ordinary images, it can be difficult to understand the true size of rooms and the proportions of objects. In virtual reality, the interior is perceived at natural scale, which helps you make more considered decisions and avoid unpleasant surprises after the project is built."
+      },
+      {
+        "title": "The ability to make changes in advance",
+        "body": "During a virtual walkthrough, many details become more noticeable: furniture placement, ease of circulation, combinations of materials and colours. This allows the project to be adjusted in time and an ideal result to be achieved before renovation begins, saving time and budget."
+      },
+      {
+        "title": "Confidence in every decision",
+        "body": "A VR presentation helps you better understand the future interior and feel its atmosphere. You make decisions not from drawings and separate images, but based on a full experience of being in the space."
+      },
+      {
+        "title": "A modern approach to design",
+        "body": "Using virtual reality is a new standard of professional design that makes the process of creating an interior clearer, more comfortable, and more engaging for the client."
+      }
+    ],
+    "vrClosing": [
+      "We create not just beautiful visualisations — we give you the opportunity to see and feel your future interior before its implementation begins."
+    ],
+    "leicaTitle": "Precise surveys with the Leica DISTO X6 P2P Package",
+    "leicaIntro": [
+      "A quality design project begins with accurate measurements. Any error at the survey stage can lead to inaccuracies in drawings, additional costs, and complications during renovation. That is why we use the professional Leica DISTO X6 P2P Package measurement system — one of the most advanced solutions for high-precision surveys of apartments, homes, and commercial spaces."
+    ],
+    "leicaBenefits": [
+      {
+        "title": "Maximum measurement accuracy",
+        "body": "The Leica system allows measurements to be taken with high precision even in complex rooms with many corners, niches, projections, and non-standard structures. This ensures a correct digital model of the property and eliminates errors when developing the design project."
+      },
+      {
+        "title": "Fast completion of a full room plan",
+        "body": "Point-to-Point (P2P) technology measures distances between any points in space without physically reaching each one. Surveys are completed significantly faster than with traditional methods, and the client receives a finished project in shorter timeframes."
+      },
+      {
+        "title": "An ideal foundation for design",
+        "body": "All dimensions are recorded in digital format and used to create accurate room plans. This is especially important when designing built-in furniture, kitchens, wardrobe systems, engineering communications, and other elements where every centimetre matters."
+      },
+      {
+        "title": "Work with complex architecture",
+        "body": "High ceilings, panoramic windows, staircases, attic spaces, columns, and other architectural features are easily captured with professional Leica equipment. We obtain complete and reliable information about the geometry of the property, which allows us to create projects of any complexity."
+      },
+      {
+        "title": "Fewer errors — lower costs",
+        "body": "Accurate surveys help avoid rework, mismatches during furniture and equipment installation, and additional expenses during renovation. The more accurate the initial data, the more predictable the result of project implementation becomes."
+      },
+      {
+        "title": "A modern approach to interior design",
+        "body": "Using the Leica DISTO X6 P2P Package is part of our professional approach to work. We invest in modern technology to guarantee clients maximum accuracy, quality of design, and confidence in the final result."
+      }
+    ],
+    "leicaClosing": [
+      "Precise design begins with precise measurements. That is why every one of our projects is based on professional surveys carried out with advanced Leica measurement equipment."
+    ],
     "measurementImageAlt": "Leica distance meter used for room and surface dimensions",
     "measurementVideoTitle": "Room measurement tool demo background",
     "muteVideo": "Mute video",

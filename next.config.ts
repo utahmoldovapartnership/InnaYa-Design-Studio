@@ -11,6 +11,21 @@ const nextConfig: NextConfig = {
         hostname: "images.pexels.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "drawings.archicgi.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.kanikadesign.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "scontent-otp1-1.cdninstagram.com",
+        pathname: "/**",
+      },
     ],
   },
 };
