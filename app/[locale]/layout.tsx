@@ -1,6 +1,6 @@
 import { Cormorant_Garamond } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -8,6 +8,9 @@ import { Header } from "@/components/layout/Header";
 import { routing } from "@/i18n/routing";
 import { brandFont } from "@/lib/fonts/brand";
 import "../globals.css";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://innayastudio.vercel.app";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin", "cyrillic"],
@@ -21,13 +24,51 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export const metadata: Metadata = {
-  icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  const openGraphLocale =
+    locale === "ru" ? "ru_RU" : locale === "uk" ? "uk_UA" : "en_US";
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: t("siteName"),
+      template: `%s · ${t("siteName")}`,
+    },
+    description: t("description"),
+    icons: {
+      icon: "/icon.png",
+      shortcut: "/icon.png",
+      apple: "/icon.png",
+    },
+    openGraph: {
+      type: "website",
+      locale: openGraphLocale,
+      siteName: t("siteName"),
+      title: t("siteName"),
+      description: t("description"),
+      images: [
+        {
+          url: "/images/innaya-logo.png",
+          width: 1024,
+          height: 512,
+          alt: t("siteName"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("siteName"),
+      description: t("description"),
+      images: ["/images/innaya-logo.png"],
+    },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
