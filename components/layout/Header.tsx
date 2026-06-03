@@ -72,10 +72,10 @@ export function Header() {
       className="relative z-50"
     >
       <div className="px-5 py-4 md:px-8">
-        <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6">
+        <div className="mx-auto flex w-full min-w-0 max-w-[1200px] items-center justify-between gap-4 lg:gap-6">
           <Link
             href="/"
-            className="inline-flex items-center self-center"
+            className="inline-flex shrink-0 items-center self-center"
             onClick={() => setOpen(false)}
           >
             <Image
@@ -84,20 +84,20 @@ export function Header() {
               width={1024}
               height={512}
               unoptimized
-              className={`h-20 w-auto md:h-32 ${isDarkNavPage ? "" : "invert"}`}
+              className={`h-20 w-auto max-w-none shrink-0 object-contain md:h-32 ${isDarkNavPage ? "" : "invert"}`}
               priority
             />
           </Link>
 
           <nav
-            className="hidden items-center gap-6 md:flex"
+            className="hidden min-w-0 shrink items-center gap-3 md:flex lg:gap-6"
             aria-label="Main"
           >
             {links.map(({ key, href }) => (
               <Link
                 key={key}
                 href={href}
-                className={`py-1 text-sm font-bold uppercase tracking-wide underline underline-offset-4 transition-colors duration-200 ${
+                className={`shrink-0 py-1 text-xs font-bold uppercase tracking-wide underline underline-offset-4 transition-colors duration-200 lg:text-sm ${
                   isDarkNavPage
                     ? "text-ink hover:text-ink/60"
                     : "text-white hover:text-white/60"
@@ -141,7 +141,7 @@ export function Header() {
             <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6">
               <Link
                 href="/"
-                className="inline-flex items-center self-center"
+                className="inline-flex shrink-0 items-center self-center"
                 onClick={() => setOpen(false)}
               >
                 <Image
@@ -150,7 +150,7 @@ export function Header() {
                   width={1024}
                   height={512}
                   unoptimized
-                  className="h-20 w-auto"
+                  className="h-20 w-auto max-w-none shrink-0 object-contain"
                   priority
                 />
               </Link>

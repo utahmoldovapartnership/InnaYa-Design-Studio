@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { AboutPortraitPlaceholder } from "@/components/about/AboutPortraitPlaceholder";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
+import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 
 export async function generateMetadata({
   params,
@@ -13,6 +13,9 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: meta("description"),
+    other: {
+      "theme-color": "#0a0a0a",
+    },
   };
 }
 
@@ -27,33 +30,37 @@ export default async function AboutPage({
 
   return (
     <>
-      <article>
-        <section className="relative -mt-[var(--header-height)] min-h-[42vh] overflow-hidden md:min-h-[48vh]">
+      <EdgeToEdgeHero
+        media={
           <img
             src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
             alt=""
-            className="absolute inset-0 h-full w-full object-cover"
+            className="hero-fixed-backdrop__media"
           />
-          <div className="absolute inset-0 bg-ink/55" />
-        </section>
-
-        <section className="px-5 py-14 md:px-8 md:py-20">
-          <div className="mx-auto grid w-full max-w-[1200px] items-center gap-12 md:grid-cols-[auto_1fr] md:gap-16 lg:gap-20">
-            <h1 className="sr-only">{t("title")}</h1>
-            <AboutPortraitPlaceholder alt={t("photoAlt")} />
-            <div className="space-y-6">
-              {paragraphs.map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 48)}
-                  className="text-base leading-relaxed text-muted md:text-lg"
-                >
-                  {paragraph}
-                </p>
-              ))}
+        }
+      >
+        <div className="relative flex h-full min-h-0 items-start overflow-hidden px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[calc(var(--header-height)*0.75+2.5rem)] md:px-8">
+          <div className="mx-auto w-full min-w-0 max-w-[1200px] lg:flex">
+            <div
+              className="hidden shrink-0 lg:block lg:w-[36%]"
+              aria-hidden
+            />
+            <div className="min-w-0 w-full max-h-[calc(100dvh-var(--header-height)-2rem)] overflow-y-auto overscroll-contain [-ms-overflow-style:none] [scrollbar-width:none] lg:flex-1 [&::-webkit-scrollbar]:hidden">
+              <h1 className="sr-only">{t("title")}</h1>
+              <div className="space-y-4 text-left md:space-y-5">
+                {paragraphs.map((paragraph) => (
+                  <p
+                    key={paragraph.slice(0, 48)}
+                    className="text-base leading-[1.55] text-white/90 md:text-lg"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
-      </article>
+        </div>
+      </EdgeToEdgeHero>
       <PinnedSocialLinks />
     </>
   );
