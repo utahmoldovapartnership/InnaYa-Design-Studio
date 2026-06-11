@@ -70,6 +70,22 @@ export function ProjectGalleryMedia({
     );
   }
 
+  if (item.fit === "contain" && item.width && item.height) {
+    return (
+      <figure className={`w-full bg-white ${className}`}>
+        <Image
+          src={item.src}
+          alt={label}
+          width={item.width}
+          height={item.height}
+          className="h-auto w-full"
+          sizes={sizes}
+          priority={priority}
+        />
+      </figure>
+    );
+  }
+
   return (
     <figure
       className={`relative overflow-hidden ${aspectClass} ${className}`}

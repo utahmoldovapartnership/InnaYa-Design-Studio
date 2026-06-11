@@ -248,7 +248,12 @@
       "statusValue": "Concept / visualization",
       "back": "All projects",
       "backShort": "Back",
-      "backToTop": "Back to top"
+      "backToTop": "Back to top",
+      "viewImage": "View image",
+      "closeLightbox": "Close image viewer",
+      "lightboxLabel": "Image viewer",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
     }
   },
   "portfolioItems": {
@@ -257,7 +262,7 @@
       "location": "Odessa region — Velykyi Dalnyk",
       "excerpt": "Architectural design of a private two-storey residence with exterior visualisations and floor plans.",
       "typology": "Architecture",
-      "year": "—",
+      "year": "2026",
       "body": [
         "A private residential house in Velykyi Dalnyk village, Odessa region. The project covers architectural concept development, floor plans for both levels, and exterior 3D visualisations.",
         "Deliverables include planning layouts and rendered exterior views showing materials, landscaping, and the overall building form."
@@ -268,7 +273,7 @@
       "location": "Odessa region — Sukhoy Liman",
       "excerpt": "Interior design for a 190 m² private house, from planning layouts to room-by-room 3D visualisations.",
       "typology": "Interior design",
-      "year": "—",
+      "year": "2026",
       "body": [
         "A 190 m² private house in Sukhoy Liman, Odessa region. The interior concept spans two floors with detailed planning layouts and photorealistic visualisations for each key space.",
         "The project package includes floor plans and interior renders covering living areas, bedrooms, bathrooms, and storage zones."
@@ -279,7 +284,7 @@
       "location": "Kyiv — ZhK Belyy Shokolad",
       "excerpt": "Planning layout for private apartments in the Belyy Shokolad residential complex, Kyiv.",
       "typology": "Space planning",
-      "year": "—",
+      "year": "2026",
       "body": [
         "A planning solution for private apartments in the Belyy Shokolad residential complex in Kyiv.",
         "The deliverable focuses on spatial organisation and functional zoning of the apartment layout."
@@ -290,7 +295,7 @@
       "location": "Moscow region — Istra district",
       "excerpt": "Design and documentation for a 171 m² private timber house, from foundation to construction progress.",
       "typology": "Residential",
-      "year": "—",
+      "year": "2026",
       "body": [
         "A 171 m² private house in Istra district, Moscow region. The project documents the full journey from planning layout through foundation, framing, and finishing stages.",
         "Deliverables include the floor plan, construction progress photography, and exterior views of the completed timber structure."

@@ -7,6 +7,10 @@ export type ProjectImage = {
   /** Still used as the portfolio grid thumbnail when kind is video. */
   poster?: string;
   orientation?: ProjectImageOrientation;
+  /** Show the full image at gallery width without cropping. */
+  fit?: "cover" | "contain";
+  width?: number;
+  height?: number;
 };
 
 export function isPortraitMedia(item: ProjectImage) {
@@ -25,8 +29,20 @@ export type Project = {
 };
 
 const velikiyDalnikGallery: ProjectImage[] = [
-  { src: "/images/portfolio/velikiy-dalnik-house/floor-1.jpg", alt: "First floor plan" },
-  { src: "/images/portfolio/velikiy-dalnik-house/floor-2.jpg", alt: "Second floor plan" },
+  {
+    src: "/images/portfolio/velikiy-dalnik-house/floor-1.jpg",
+    alt: "First floor plan",
+    fit: "contain",
+    width: 4963,
+    height: 3509,
+  },
+  {
+    src: "/images/portfolio/velikiy-dalnik-house/floor-2.jpg",
+    alt: "Second floor plan",
+    fit: "contain",
+    width: 4963,
+    height: 3509,
+  },
   { src: "/images/portfolio/velikiy-dalnik-house/render-1.jpg", alt: "Exterior view" },
   { src: "/images/portfolio/velikiy-dalnik-house/render-2.jpg", alt: "Exterior view" },
   { src: "/images/portfolio/velikiy-dalnik-house/render-3.jpg", alt: "Exterior view" },
@@ -37,8 +53,20 @@ const velikiyDalnikGallery: ProjectImage[] = [
 ];
 
 const sukhoyLimanGallery: ProjectImage[] = [
-  { src: "/images/portfolio/sukhoy-liman-house/floor-1.jpg", alt: "First floor plan" },
-  { src: "/images/portfolio/sukhoy-liman-house/floor-2.jpg", alt: "Second floor plan" },
+  {
+    src: "/images/portfolio/sukhoy-liman-house/floor-1.jpg",
+    alt: "First floor plan",
+    fit: "contain",
+    width: 3509,
+    height: 4961,
+  },
+  {
+    src: "/images/portfolio/sukhoy-liman-house/floor-2.jpg",
+    alt: "Second floor plan",
+    fit: "contain",
+    width: 3509,
+    height: 4961,
+  },
   { src: "/images/portfolio/sukhoy-liman-house/render-1.jpg", alt: "Interior view" },
   { src: "/images/portfolio/sukhoy-liman-house/render-2.jpg", alt: "Interior view" },
   { src: "/images/portfolio/sukhoy-liman-house/render-3.jpg", alt: "Interior view" },
@@ -60,7 +88,13 @@ const belyyShokoladGallery: ProjectImage[] = [
 ];
 
 const istraGallery: ProjectImage[] = [
-  { src: "/images/portfolio/istra-house/floor-plan.jpg", alt: "Floor plan" },
+  {
+    src: "/images/portfolio/istra-house/floor-plan.jpg",
+    alt: "Floor plan",
+    fit: "contain",
+    width: 9934,
+    height: 7017,
+  },
   { src: "/images/portfolio/istra-house/photo-1.jpg", alt: "Construction progress" },
   { src: "/images/portfolio/istra-house/photo-2.jpg", alt: "Construction progress" },
   { src: "/images/portfolio/istra-house/photo-3.jpg", alt: "Construction progress" },

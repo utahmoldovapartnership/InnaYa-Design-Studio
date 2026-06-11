@@ -2,7 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ProjectGalleryLightbox } from "@/components/portfolio/ProjectGalleryLightbox";
 import { ProjectGalleryMedia } from "@/components/portfolio/ProjectGalleryMedia";
+import { ProjectGalleryTile } from "@/components/portfolio/ProjectGalleryTile";
 import { isPortraitMedia, type ProjectImage } from "@/content/projects";
 
 type Props = {
@@ -56,6 +58,7 @@ export function ProjectImageRail({ gallery }: Props) {
   const t = useTranslations("portfolio.detail");
   const isDesktop = useDesktopGallery();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const railRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const scrollParentRef = useRef<HTMLElement | null>(null);
@@ -274,21 +277,39 @@ export function ProjectImageRail({ gallery }: Props) {
     ? "aspect-[9/16]"
     : "aspect-square md:aspect-[4/3]";
 
+  const lightbox = (
+    <ProjectGalleryLightbox
+      gallery={baseGallery}
+      index={focusedIndex}
+      onClose={() => setFocusedIndex(null)}
+      onChangeIndex={setFocusedIndex}
+    />
+  );
+
   if (singlePortraitFullscreen) {
     return (
-      <section className="flex min-h-0 w-full items-stretch justify-center pr-1 md:h-full">
-        <ProjectGalleryMedia
-          item={singleItem}
-          fillViewportHeight
-          sizes="(max-width: 767px) 100vw, 50vw"
-          className="h-[min(70dvh,720px)] w-full rounded-sm md:h-full md:max-h-none"
-          priority
-        />
-      </section>
+      <>
+        <section className="flex min-h-0 w-full items-stretch justify-center pr-1 md:h-full">
+          <ProjectGalleryTile
+            label={singleItem.alt}
+            onOpen={() => setFocusedIndex(0)}
+          >
+            <ProjectGalleryMedia
+              item={singleItem}
+              fillViewportHeight
+              sizes="(max-width: 767px) 100vw, 50vw"
+              className="h-[min(70dvh,720px)] w-full rounded-sm md:h-full md:max-h-none"
+              priority
+            />
+          </ProjectGalleryTile>
+        </section>
+        {lightbox}
+      </>
     );
   }
 
   return (
+    <>
     <section ref={railRef} className="pr-1">
       <div
         className={
@@ -336,24 +357,29 @@ export function ProjectImageRail({ gallery }: Props) {
                 }}
                 data-real-index={realIndex}
               >
-                <ProjectGalleryMedia
-                  item={photo}
-                  aspectClass={
-                    isLoopingGallery
-                      ? "aspect-square md:aspect-[4/3]"
-                      : singleItemAspect
-                  }
-                  sizes="(max-width: 767px) 100vw, 50vw"
-                  className="rounded-sm"
-                  priority={
-                    isLoopingGallery
-                      ? isDesktop
-                        ? renderIndex >= validCount &&
-                          renderIndex < validCount + 2
-                        : renderIndex < 2
-                      : true
-                  }
-                />
+                <ProjectGalleryTile
+                  label={photo.alt}
+                  onOpen={() => setFocusedIndex(realIndex)}
+                >
+                  <ProjectGalleryMedia
+                    item={photo}
+                    aspectClass={
+                      isLoopingGallery
+                        ? "aspect-square md:aspect-[4/3]"
+                        : singleItemAspect
+                    }
+                    sizes="(max-width: 767px) 100vw, 50vw"
+                    className="rounded-sm transition-opacity group-hover/tile:opacity-95"
+                    priority={
+                      isLoopingGallery
+                        ? isDesktop
+                          ? renderIndex >= validCount &&
+                            renderIndex < validCount + 2
+                          : renderIndex < 2
+                        : true
+                    }
+                  />
+                </ProjectGalleryTile>
               </div>
             ))}
           </div>
@@ -370,5 +396,7 @@ export function ProjectImageRail({ gallery }: Props) {
         </div>
       </div>
     </section>
+    {lightbox}
+    </>
   );
 }
