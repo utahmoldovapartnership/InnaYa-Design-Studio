@@ -1,8 +1,8 @@
 import Image from "next/image";
-import type { PexelsPhoto } from "@/lib/pexels";
+import { isPortraitMedia, type ProjectImage } from "@/content/projects";
 
 type Props = {
-  photo?: PexelsPhoto | null;
+  photo?: ProjectImage | null;
   alt?: string;
   className?: string;
   sizes: string;
@@ -12,6 +12,10 @@ type Props = {
   /** Grayscale until parent `.group` is hovered (portfolio grid). */
   colorOnHover?: boolean;
 };
+
+function isVideo(photo: ProjectImage) {
+  return photo.kind === "video" || /\.(mp4|webm)(\?|$)/i.test(photo.src);
+}
 
 export function InteriorImage({
   photo,
@@ -36,32 +40,56 @@ export function InteriorImage({
     ? "transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.02] motion-reduce:group-hover:scale-100"
     : "transition-transform duration-500 ease-out motion-safe:hover:scale-[1.02]";
 
+  const mediaFilterClass = colorOnHover
+    ? "grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+    : "";
+
+  const label = alt ?? photo.alt;
+  const portrait = isPortraitMedia(photo);
+  const videoFitClass = portrait ? "object-contain" : "object-cover";
+
+  if (isVideo(photo)) {
+    return (
+      <figure
+        className={`relative overflow-hidden bg-white ${aspectClass} ${className}`}
+      >
+        <div className={`absolute inset-0 ${zoomWrapperClass}`}>
+          <video
+            src={photo.src}
+            poster={photo.poster}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-label={label}
+            className={`h-full w-full ${videoFitClass} ${mediaFilterClass}`}
+          />
+        </div>
+        {showCredit ? (
+          <figcaption className="absolute bottom-0 left-0 right-0 bg-background/70 px-2 py-1 text-[10px] text-muted-2 backdrop-blur-sm">
+            {label}
+          </figcaption>
+        ) : null}
+      </figure>
+    );
+  }
+
   return (
     <figure className={`relative overflow-hidden ${aspectClass} ${className}`}>
       <div className={`absolute inset-0 ${zoomWrapperClass}`}>
         <Image
           src={photo.src}
-          alt={alt ?? photo.alt}
+          alt={label}
           fill
-          className={`object-cover ${
-            colorOnHover
-              ? "grayscale transition-[filter] duration-500 group-hover:grayscale-0"
-              : ""
-          }`}
+          className={`object-cover ${mediaFilterClass}`}
           sizes={sizes}
           priority={priority}
         />
       </div>
       {showCredit ? (
         <figcaption className="absolute bottom-0 left-0 right-0 bg-background/70 px-2 py-1 text-[10px] text-muted-2 backdrop-blur-sm">
-          <a
-            href={photo.photographerUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-2 hover:underline"
-          >
-            {photo.photographer} / Pexels
-          </a>
+          {label}
         </figcaption>
       ) : null}
     </figure>

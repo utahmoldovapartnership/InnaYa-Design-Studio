@@ -2,15 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { InteriorImage } from "@/components/ui/InteriorImage";
-import type { PexelsPhoto } from "@/lib/pexels";
+import { ProjectGalleryMedia } from "@/components/portfolio/ProjectGalleryMedia";
+import { isPortraitMedia, type ProjectImage } from "@/content/projects";
 
 type Props = {
-  gallery: Array<PexelsPhoto | null>;
+  gallery: ProjectImage[];
 };
 
 type GalleryItem = {
-  photo: PexelsPhoto | null;
+  photo: ProjectImage;
   realIndex: number;
   renderIndex: number;
 };
@@ -66,8 +66,15 @@ export function ProjectImageRail({ gallery }: Props) {
   const isScrollingToDotRef = useRef(false);
   const hasInitializedLoopRef = useRef(false);
 
-  const baseGallery = useMemo(() => (gallery.length > 0 ? gallery : [null]), [gallery]);
+  const baseGallery = useMemo(
+    () =>
+      gallery.length > 0
+        ? gallery
+        : [{ src: "", alt: "" }],
+    [gallery],
+  );
   const validCount = baseGallery.length;
+  const isLoopingGallery = validCount > 1;
 
   const repeatedGallery = useMemo(
     () =>
@@ -82,15 +89,23 @@ export function ProjectImageRail({ gallery }: Props) {
   );
 
   const displayGallery: GalleryItem[] = useMemo(() => {
+    if (!isLoopingGallery) {
+      return baseGallery.map((photo, realIndex) => ({
+        photo,
+        realIndex,
+        renderIndex: realIndex,
+      }));
+    }
     if (isDesktop) return repeatedGallery;
     return baseGallery.map((photo, realIndex) => ({
       photo,
       realIndex,
       renderIndex: realIndex,
     }));
-  }, [isDesktop, repeatedGallery, baseGallery]);
+  }, [isLoopingGallery, isDesktop, repeatedGallery, baseGallery]);
 
   const updateActiveDot = useCallback(() => {
+    if (!isLoopingGallery) return;
     if (isAdjustingScrollRef.current || isScrollingToDotRef.current) return;
 
     const scrollParent = scrollParentRef.current;
@@ -112,10 +127,10 @@ export function ProjectImageRail({ gallery }: Props) {
     }
 
     setActiveIndex((prev) => (prev === nextIndex ? prev : nextIndex));
-  }, []);
+  }, [isLoopingGallery]);
 
   useLayoutEffect(() => {
-    if (!isDesktop) {
+    if (!isDesktop || !isLoopingGallery) {
       hasInitializedLoopRef.current = false;
       itemOffsetsRef.current = [];
       cycleHeightRef.current = 0;
@@ -226,7 +241,7 @@ export function ProjectImageRail({ gallery }: Props) {
       if (dotRaf) cancelAnimationFrame(dotRaf);
       attachedScrollParent?.removeEventListener("scroll", onScroll);
     };
-  }, [isDesktop, displayGallery, validCount, updateActiveDot]);
+  }, [isDesktop, isLoopingGallery, displayGallery, validCount, updateActiveDot]);
 
   const scrollToImage = (index: number) => {
     const scrollParent =
@@ -252,62 +267,98 @@ export function ProjectImageRail({ gallery }: Props) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const singleItem = baseGallery[0];
+  const singlePortraitFullscreen =
+    !isLoopingGallery && singleItem && isPortraitMedia(singleItem);
+  const singleItemAspect = singleItem && isPortraitMedia(singleItem)
+    ? "aspect-[9/16]"
+    : "aspect-square md:aspect-[4/3]";
+
+  if (singlePortraitFullscreen) {
+    return (
+      <section className="flex min-h-0 w-full items-stretch justify-center pr-1 md:h-full">
+        <ProjectGalleryMedia
+          item={singleItem}
+          fillViewportHeight
+          sizes="(max-width: 767px) 100vw, 50vw"
+          className="h-[min(70dvh,720px)] w-full rounded-sm md:h-full md:max-h-none"
+          priority
+        />
+      </section>
+    );
+  }
+
   return (
     <section ref={railRef} className="pr-1">
-      <div className="md:grid md:grid-cols-[24px_minmax(0,1fr)] md:gap-4">
-        <div className="relative hidden md:block">
-          <div className="sticky top-1/2 z-10 -translate-y-1/2">
-            <div className="flex flex-col items-center gap-1.5">
-              {Array.from({ length: validCount }, (_, index) => {
-                const isActive = index === activeIndex;
-                return (
-                  <button
-                    key={`dot-${index}`}
-                    type="button"
-                    aria-label={`Go to image ${index + 1}`}
-                    onClick={() => scrollToImage(index)}
-                    className="grid h-6 w-6 place-items-center rounded-full transition-colors hover:bg-ink/5"
-                  >
-                    <span
-                      className={`rounded-full transition-all duration-300 ease-out ${
-                        isActive
-                          ? "h-2.5 w-2.5 bg-ink/80 shadow-[0_0_0_3px_rgba(10,10,10,0.08)]"
-                          : "h-1.5 w-1.5 bg-ink/35 hover:bg-ink/55"
-                      }`}
-                    />
-                  </button>
-                );
-              })}
+      <div
+        className={
+          isLoopingGallery
+            ? "md:grid md:grid-cols-[24px_minmax(0,1fr)] md:gap-4"
+            : ""
+        }
+      >
+        {isLoopingGallery ? (
+          <div className="relative hidden md:block">
+            <div className="sticky top-1/2 z-10 -translate-y-1/2">
+              <div className="flex flex-col items-center gap-1.5">
+                {Array.from({ length: validCount }, (_, index) => {
+                  const isActive = index === activeIndex;
+                  return (
+                    <button
+                      key={`dot-${index}`}
+                      type="button"
+                      aria-label={`Go to image ${index + 1}`}
+                      onClick={() => scrollToImage(index)}
+                      className="grid h-6 w-6 place-items-center rounded-full transition-colors hover:bg-ink/5"
+                    >
+                      <span
+                        className={`rounded-full transition-all duration-300 ease-out ${
+                          isActive
+                            ? "h-2.5 w-2.5 bg-ink/80 shadow-[0_0_0_3px_rgba(10,10,10,0.08)]"
+                            : "h-1.5 w-1.5 bg-ink/35 hover:bg-ink/55"
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
 
         <div className="flex flex-col">
           <div className="grid grid-cols-1 gap-4">
             {displayGallery.map(({ photo, realIndex, renderIndex }) => (
               <div
-                key={`${photo?.id ?? "placeholder"}-${renderIndex}`}
+                key={`${photo.src}-${renderIndex}`}
                 ref={(el) => {
                   itemRefs.current[renderIndex] = el;
                 }}
                 data-real-index={realIndex}
               >
-                <InteriorImage
-                  photo={photo}
-                  aspectClass="aspect-square md:aspect-[4/3]"
+                <ProjectGalleryMedia
+                  item={photo}
+                  aspectClass={
+                    isLoopingGallery
+                      ? "aspect-square md:aspect-[4/3]"
+                      : singleItemAspect
+                  }
                   sizes="(max-width: 767px) 100vw, 50vw"
                   className="rounded-sm"
                   priority={
-                    isDesktop
-                      ? renderIndex >= validCount && renderIndex < validCount + 2
-                      : renderIndex < 2
+                    isLoopingGallery
+                      ? isDesktop
+                        ? renderIndex >= validCount &&
+                          renderIndex < validCount + 2
+                        : renderIndex < 2
+                      : true
                   }
                 />
               </div>
             ))}
           </div>
 
-          {!isDesktop ? (
+          {!isDesktop && isLoopingGallery ? (
             <button
               type="button"
               onClick={scrollToTop}

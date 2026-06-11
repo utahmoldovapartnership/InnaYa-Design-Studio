@@ -237,10 +237,11 @@
   },
   "portfolio": {
     "title": "Portfolio",
-    "subtitle": "Placeholder case studies — replace imagery and narratives when project photography is ready.",
+    "subtitle": "Selected residential projects — architecture, interiors, and space planning.",
     "detail": {
       "firm": "Studio",
       "location": "Location",
+      "area": "Area",
       "year": "Year",
       "status": "Status",
       "typology": "Typology",
@@ -251,70 +252,48 @@
     }
   },
   "portfolioItems": {
-    "lakeside-retreat": {
-      "title": "Lakeside retreat",
-      "location": "Private residence — Europe",
-      "excerpt": "Warm minimal envelope with tactile plaster and oak joinery.",
+    "velikiy-dalnik-house": {
+      "title": "Private house, Velykyi Dalnyk",
+      "location": "Odessa region — Velykyi Dalnyk",
+      "excerpt": "Architectural design of a private two-storey residence with exterior visualisations and floor plans.",
+      "typology": "Architecture",
+      "year": "—",
+      "body": [
+        "A private residential house in Velykyi Dalnyk village, Odessa region. The project covers architectural concept development, floor plans for both levels, and exterior 3D visualisations.",
+        "Deliverables include planning layouts and rendered exterior views showing materials, landscaping, and the overall building form."
+      ]
+    },
+    "sukhoy-liman-house": {
+      "title": "Private house, Sukhoy Liman",
+      "location": "Odessa region — Sukhoy Liman",
+      "excerpt": "Interior design for a 190 m² private house, from planning layouts to room-by-room 3D visualisations.",
+      "typology": "Interior design",
+      "year": "—",
+      "body": [
+        "A 190 m² private house in Sukhoy Liman, Odessa region. The interior concept spans two floors with detailed planning layouts and photorealistic visualisations for each key space.",
+        "The project package includes floor plans and interior renders covering living areas, bedrooms, bathrooms, and storage zones."
+      ]
+    },
+    "belyy-shokolad-apartments": {
+      "title": "Belyy Shokolad apartments",
+      "location": "Kyiv — ZhK Belyy Shokolad",
+      "excerpt": "Planning layout for private apartments in the Belyy Shokolad residential complex, Kyiv.",
+      "typology": "Space planning",
+      "year": "—",
+      "body": [
+        "A planning solution for private apartments in the Belyy Shokolad residential complex in Kyiv.",
+        "The deliverable focuses on spatial organisation and functional zoning of the apartment layout."
+      ]
+    },
+    "istra-house": {
+      "title": "Private house, Istra",
+      "location": "Moscow region — Istra district",
+      "excerpt": "Design and documentation for a 171 m² private timber house, from foundation to construction progress.",
       "typology": "Residential",
-      "year": "2025",
+      "year": "—",
       "body": [
-        "A calm residential concept balancing daylight, neutral warmth, and precisely framed views. Built-in storage disappears into wall planes while freestanding pieces anchor each zone.",
-        "Deliverables included full spatial planning, millwork documentation, and rendered studies for key rooms — ready for your own photography to replace these temporary visuals."
-      ]
-    },
-    "urban-atelier": {
-      "title": "Urban atelier",
-      "location": "Boutique workspace — Moldova",
-      "excerpt": "Compact commercial interior with layered lighting and acoustic calm.",
-      "typology": "Commercial",
-      "year": "2025",
-      "body": [
-        "Designed for focused work and small client meetings, the atelier uses soft contrast, textile walls, and discreet services integration.",
-        "The palette stays quiet so art and product samples become the focal points — ideal for creative practices that host guests by appointment."
-      ]
-    },
-    "soft-hotel-suite": {
-      "title": "Soft hotel suite",
-      "location": "Hospitality concept",
-      "excerpt": "Guest room study with tactile upholstery and sculptural lighting.",
-      "typology": "Hospitality",
-      "year": "2024",
-      "body": [
-        "A hospitality study exploring how softness, sound, and scent can be choreographed without clutter. Lighting scenes shift from day to evening with minimal controls.",
-        "Furniture layouts prioritise circulation for housekeeping while keeping the guest experience residential in tone."
-      ]
-    },
-    "residential-loft": {
-      "title": "Residential loft",
-      "location": "City apartment",
-      "excerpt": "Open plan with defined micro-zones and custom kitchen architecture.",
-      "typology": "Residential",
-      "year": "2024",
-      "body": [
-        "The loft uses a single material spine — stained oak — to tie kitchen, library, and entry. Blackened steel moments add crispness without coldness.",
-        "Ceiling services were reorganised to allow cleaner volumes; lighting tracks are integrated into joinery reveals for a gallery-like ceiling plane."
-      ]
-    },
-    "sholomitska-residence": {
-      "title": "Sholomitska residence",
-      "location": "Private apartment — Kyiv",
-      "excerpt": "Warm contemporary apartment with calm textures and bespoke joinery.",
-      "typology": "Residential",
-      "year": "2025",
-      "body": [
-        "A high-comfort city residence designed around soft natural finishes, integrated storage, and flexible social zones for daily life.",
-        "The project package included full planning, finish schedules, and visualisations to guide implementation with confidence."
-      ]
-    },
-    "riverbank-flat": {
-      "title": "Riverbank flat",
-      "location": "City apartment — Odesa",
-      "excerpt": "Coastal urban interior with muted tones and crafted details.",
-      "typology": "Residential",
-      "year": "2025",
-      "body": [
-        "This concept balances light, privacy, and spatial flow in a compact footprint, using layered lighting and built-in elements.",
-        "Documentation covered planning, custom furniture, and room-by-room visual studies for streamlined execution."
+        "A 171 m² private house in Istra district, Moscow region. The project documents the full journey from planning layout through foundation, framing, and finishing stages.",
+        "Deliverables include the floor plan, construction progress photography, and exterior views of the completed timber structure."
       ]
     }
   },

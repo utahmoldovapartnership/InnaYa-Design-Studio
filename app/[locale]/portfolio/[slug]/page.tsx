@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { ProjectImageRail } from "@/components/portfolio/ProjectImageRail";
 import { getProjectBySlug, projectList } from "@/content/projects";
 import { routing } from "@/i18n/routing";
-import { getCachedInteriorPhotos } from "@/lib/pexels";
 import { Link } from "@/i18n/navigation";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -40,19 +39,24 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const t = await getTranslations("portfolio.detail");
   const tp = await getTranslations("portfolioItems");
   const tMeta = await getTranslations("meta");
-  const photos = await getCachedInteriorPhotos();
-  const index = projectList.findIndex((p) => p.slug === slug);
-  const gallery =
-    photos.length > 0
-      ? Array.from({ length: 10 }, (_, offset) => {
-          return photos[(index + 7 + offset) % photos.length] ?? null;
-        })
-      : Array.from({ length: 10 }, () => null);
+  const isSingleMedia = project.gallery.length === 1;
 
   return (
-    <article className="min-h-screen bg-white px-5 pb-0 md:h-screen md:overflow-hidden md:px-8 md:pb-0">
-      <div className="no-scrollbar mx-auto flex w-full max-w-[1400px] flex-col gap-8 md:grid md:h-full md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:overflow-y-auto md:pb-0">
-        <aside className="shrink-0 pt-4 md:sticky md:top-0 md:self-start md:pt-6 md:pr-8">
+    <article className="min-h-screen bg-white px-5 pb-0 md:h-dvh md:overflow-hidden md:px-8 md:pb-0">
+      <div
+        className={`mx-auto flex w-full max-w-[1400px] flex-col gap-8 md:grid md:h-full md:min-h-0 md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:pb-0 ${
+          isSingleMedia
+            ? "py-4 md:py-6"
+            : "no-scrollbar md:overflow-y-auto"
+        }`}
+      >
+        <aside
+          className={`shrink-0 pt-4 md:pr-8 ${
+            isSingleMedia
+              ? "md:self-start md:overflow-y-auto md:pt-0"
+              : "md:sticky md:top-0 md:self-start md:pt-6"
+          }`}
+        >
           <Link
             href="/portfolio"
             className="text-xs uppercase tracking-[0.2em] text-muted hover:text-ink"
@@ -75,6 +79,14 @@ export default async function PortfolioDetailPage({ params }: Props) {
               </dt>
               <dd className="mt-1 text-ink">{tp(`${slug}.location`)}</dd>
             </div>
+            {project.area ? (
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-2">
+                  {t("area")}
+                </dt>
+                <dd className="mt-1 text-ink">{project.area} m²</dd>
+              </div>
+            ) : null}
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-2">
                 {t("year")}
@@ -96,7 +108,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
           </dl>
         </aside>
 
-        <ProjectImageRail gallery={gallery} />
+        <ProjectImageRail gallery={project.gallery} />
       </div>
     </article>
   );

@@ -1,15 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import { SlideUnderline } from "@/components/ui/SlideUnderline";
-import type { PexelsPhoto } from "@/lib/pexels";
 import { projectList } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
 
-type Props = {
-  photos: PexelsPhoto[];
-};
-
-export async function SelectedWork({ photos }: Props) {
+export async function SelectedWork() {
   const t = await getTranslations("home.selected");
   const tp = await getTranslations("portfolioItems");
 
@@ -23,8 +18,7 @@ export async function SelectedWork({ photos }: Props) {
           {t("title")}
         </h2>
         <div className="mt-12 grid gap-10 sm:grid-cols-2">
-          {projectList.map((project, index) => {
-            const photo = photos[index] ?? null;
+          {projectList.map((project) => {
             return (
               <Link
                 key={project.slug}
@@ -32,7 +26,7 @@ export async function SelectedWork({ photos }: Props) {
                 className="group block"
               >
                 <InteriorImage
-                  photo={photo}
+                  photo={project.cover}
                   aspectClass="aspect-[4/5]"
                   sizes="(max-width: 640px) 100vw, 50vw"
                   className="rounded-sm"
