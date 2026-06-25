@@ -3,8 +3,6 @@ import { FaEnvelope, FaInstagram, FaPhone, FaTiktok } from "react-icons/fa6";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { getContactInfo } from "@/lib/site-content";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({
   params,
 }: {

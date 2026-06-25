@@ -5,8 +5,6 @@ import { coverAspectClass } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
 import { getAllProjects } from "@/lib/projects";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({
   params,
 }: {

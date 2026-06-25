@@ -5,8 +5,6 @@ import { routing } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects";
 
-export const dynamic = "force-dynamic";
-
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateStaticParams() {

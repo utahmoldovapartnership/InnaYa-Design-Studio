@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["chokidar", "fsevents"],
   outputFileTracingIncludes: {
     "/*": ["./content/**/*"],
+    "/[locale]": ["./content/**/*"],
+    "/[locale]/about": ["./content/**/*"],
+    "/[locale]/contact": ["./content/**/*"],
+    "/[locale]/portfolio": ["./content/**/*"],
+    "/[locale]/portfolio/[slug]": ["./content/**/*"],
   },
   async redirects() {
     return [

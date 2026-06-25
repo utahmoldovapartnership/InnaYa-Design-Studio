@@ -3,8 +3,6 @@ import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 import { getAboutParagraphs } from "@/lib/site-content";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({
   params,
 }: {
