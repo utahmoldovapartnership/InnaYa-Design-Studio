@@ -1,4 +1,7 @@
 import { reader } from "@/lib/projects";
+import en from "@/messages/en.json";
+import ru from "@/messages/ru.json";
+import uk from "@/messages/uk.json";
 
 type Locale = "en" | "uk" | "ru";
 
@@ -28,6 +31,12 @@ const DEFAULT_ABOUT: AboutEntry = {
   en: "",
   uk: "",
   ru: "",
+};
+
+const FALLBACK_ABOUT_PARAGRAPHS: Record<Locale, string[]> = {
+  en: en.about.paragraphs,
+  uk: uk.about.paragraphs,
+  ru: ru.about.paragraphs,
 };
 
 const DEFAULT_CONTACT: ContactEntry = {
@@ -84,7 +93,12 @@ export async function getAboutBody(locale: string): Promise<string> {
 
 export async function getAboutParagraphs(locale: string): Promise<string[]> {
   const body = await getAboutBody(locale);
-  return splitBodyParagraphs(body);
+  const paragraphs = splitBodyParagraphs(body);
+  if (paragraphs.length > 0) {
+    return paragraphs;
+  }
+
+  return FALLBACK_ABOUT_PARAGRAPHS[toLocale(locale)];
 }
 
 export async function getContactInfo(): Promise<ContactInfo> {

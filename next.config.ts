@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["chokidar", "fsevents"],
+  outputFileTracingIncludes: {
+    "/*": ["./content/**/*"],
+  },
   async redirects() {
     return [
       {
