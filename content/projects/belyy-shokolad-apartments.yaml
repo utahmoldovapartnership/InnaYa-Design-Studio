@@ -1,5 +1,5 @@
 slug: belyy-shokolad-apartments
-year: '2025'
+year: '2026'
 en:
   title: Belyy Shokolad apartments
   location: Kyiv — ZhK Belyy Shokolad
@@ -22,7 +22,6 @@ ru:
     шоколад, Киев.
   typology: Планировка
 cover:
-  image: belyy-shokolad-apartments/plan-cover.jpg
   alt: Floor plan, Belyy Shokolad apartments
   orientation: landscape
 gallery:
@@ -30,6 +29,4 @@ gallery:
     media:
       discriminant: video
       value:
-        file: belyy-shokolad-apartments/plan.mp4
-        poster: belyy-shokolad-apartments/plan-cover.jpg
         orientation: portrait
