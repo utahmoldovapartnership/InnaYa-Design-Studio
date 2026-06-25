@@ -57,11 +57,12 @@ Published changes appear on the live site after Vercel finishes redeploying (usu
    | `KEYSTATIC_GITHUB_CLIENT_ID` | OAuth App client ID |
    | `KEYSTATIC_GITHUB_CLIENT_SECRET` | OAuth App client secret |
    | `KEYSTATIC_SECRET` | Random string (e.g. `openssl rand -hex 32`) |
+   | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | GitHub App slug from Keystatic setup |
 
 3. Add Inna's GitHub account as a **collaborator** on the repository (write access).
 4. Redeploy. Inna signs in at `/edit` with GitHub to edit projects.
 
-Without GitHub env vars, Keystatic runs in **local mode** — edits save directly to files when running `npm run dev` on your machine.
+Without these variables on Vercel, **`/edit` is hidden** (404). Local `npm run dev` still works without GitHub for developers.
 
 ### Adding a new project
 
