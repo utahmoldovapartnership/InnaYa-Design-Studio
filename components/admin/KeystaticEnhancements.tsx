@@ -34,16 +34,21 @@ const EMPTY_PROJECT_MEDIA: ProjectMediaPreview = {
   gallery: [],
 };
 
+/** GitHub mode inserts `/branch/{name}` after `/edit`. */
+function getEditRoutePath(pathname = window.location.pathname): string {
+  return pathname.replace(/\/edit\/branch\/[^/]+/, "/edit");
+}
+
 function isLocaleTabForm(): boolean {
+  const path = getEditRoutePath();
   return (
-    /\/edit\/collection\/projects\/(item|create)/.test(
-      window.location.pathname,
-    ) || /\/edit\/singleton\/about/.test(window.location.pathname)
+    /\/edit\/collection\/projects\/(item|create)/.test(path) ||
+    /\/edit\/singleton\/about/.test(path)
   );
 }
 
 function getProjectSlugFromPath(): string | null {
-  const match = window.location.pathname.match(
+  const match = getEditRoutePath().match(
     /\/edit\/collection\/projects\/item\/([^/]+)/,
   );
   return match?.[1] ?? null;
@@ -51,14 +56,12 @@ function getProjectSlugFromPath(): string | null {
 
 function isProjectEditForm(): boolean {
   return /\/edit\/collection\/projects\/(item|create)/.test(
-    window.location.pathname,
+    getEditRoutePath(),
   );
 }
 
 function isProjectsList(): boolean {
-  return /\/edit\/collection\/projects\/?$/.test(
-    window.location.pathname,
-  );
+  return /\/edit\/collection\/projects\/?$/.test(getEditRoutePath());
 }
 
 function nodeMatchesLabel(node: Element, label: string): boolean {
@@ -789,7 +792,7 @@ function injectGalleryThumbnails(gallery: GalleryMediaPreview[]): void {
 function injectProjectListThumbnails(projects: ProjectMediaPreview[]): void {
   for (const project of projects) {
     const link = document.querySelector<HTMLAnchorElement>(
-      `a[href*="/edit/collection/projects/item/${project.slug}"]`,
+      `a[href*="/collection/projects/item/${project.slug}"]`,
     );
     if (!link) continue;
 
@@ -1388,7 +1391,7 @@ export function KeystaticEnhancements() {
     let cleanupTabs: (() => void) | null = null;
     let cleanupMedia: (() => void) | null = null;
     let mounted = false;
-    let lastPath = window.location.pathname;
+    let lastPath = getEditRoutePath();
     const cleanupDrop = setupFileDropZones();
     const cleanupGalleryTracking = setupGalleryRowTracking();
     const cleanupLabels = setupAdminLabels();
@@ -1416,8 +1419,9 @@ export function KeystaticEnhancements() {
     const timeout = window.setTimeout(() => clearInterval(interval), 15000);
 
     const onNavigate = () => {
-      if (window.location.pathname === lastPath) return;
-      lastPath = window.location.pathname;
+      const path = getEditRoutePath();
+      if (path === lastPath) return;
+      lastPath = path;
 
       mounted = false;
       cleanupTabs?.();
@@ -1441,7 +1445,7 @@ export function KeystaticEnhancements() {
     window.addEventListener("popstate", onNavigate);
     window.addEventListener("hashchange", onKeystaticNavigate);
     const navInterval = window.setInterval(() => {
-      if (window.location.pathname !== lastPath) {
+      if (getEditRoutePath() !== lastPath) {
         onNavigate();
       }
     }, 500);
