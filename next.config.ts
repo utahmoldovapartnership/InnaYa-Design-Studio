@@ -4,6 +4,12 @@ import type { NextConfig } from "next";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO:
+      process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO ??
+      process.env.KEYSTATIC_GITHUB_REPO ??
+      "",
+  },
   serverExternalPackages: ["chokidar", "fsevents"],
   outputFileTracingIncludes: {
     "/*": ["./content/**/*"],
