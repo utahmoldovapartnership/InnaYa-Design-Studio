@@ -1,12 +1,13 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import { SlideUnderline } from "@/components/ui/SlideUnderline";
-import { projectList } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
+import { getAllProjects } from "@/lib/projects";
 
 export async function SelectedWork() {
   const t = await getTranslations("home.selected");
-  const tp = await getTranslations("portfolioItems");
+  const locale = await getLocale();
+  const projects = await getAllProjects(locale);
 
   return (
     <section className="border-t border-accent/60 bg-background px-5 py-20 md:px-8">
@@ -18,7 +19,7 @@ export async function SelectedWork() {
           {t("title")}
         </h2>
         <div className="mt-12 grid gap-10 sm:grid-cols-2">
-          {projectList.map((project) => {
+          {projects.map((project) => {
             return (
               <Link
                 key={project.slug}
@@ -34,10 +35,10 @@ export async function SelectedWork() {
                 <div className="mt-4 flex items-baseline justify-between gap-4">
                   <div>
                     <h3 className="font-serif text-xl text-ink">
-                      <SlideUnderline>{tp(`${project.slug}.title`)}</SlideUnderline>
+                      <SlideUnderline>{project.title}</SlideUnderline>
                     </h3>
                     <p className="mt-1 text-sm text-muted">
-                      {tp(`${project.slug}.location`)}
+                      {project.location}
                     </p>
                   </div>
                   <span className="shrink-0 text-xs uppercase tracking-wider text-muted-2">

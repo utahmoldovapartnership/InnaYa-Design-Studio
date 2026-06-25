@@ -1,0 +1,473 @@
+/* InnYa portfolio admin — Keystatic UI enhancements */
+
+.portfolio-admin {
+  --admin-bg: #f7f5f2;
+  --admin-surface: #ffffff;
+  --admin-border: #e5e2dc;
+  --admin-border-strong: #d4cfc6;
+  --admin-ink: #1f1c18;
+  --admin-muted: #6b655c;
+  --admin-accent: #e4d8cf;
+  --admin-radius: 12px;
+  --admin-shadow: 0 1px 2px rgba(31, 28, 24, 0.05),
+    0 8px 24px rgba(31, 28, 24, 0.04);
+}
+
+/* Locale tabs */
+
+.portfolio-locale-tabs {
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.portfolio-locale-tabs__list {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--admin-border);
+  background: #f3f1ec;
+}
+
+.portfolio-locale-tabs__tab {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-right: 1px solid var(--admin-border);
+  background: transparent;
+  color: var(--admin-muted);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.portfolio-locale-tabs__tab:last-child {
+  border-right: 0;
+}
+
+.portfolio-locale-tabs__tab:hover {
+  background: #ebe8e1;
+  color: var(--admin-ink);
+}
+
+.portfolio-locale-tabs__tab[aria-selected="true"] {
+  background: var(--admin-surface);
+  color: var(--admin-ink);
+  box-shadow: inset 0 -2px 0 var(--admin-ink);
+}
+
+.portfolio-locale-tabs--bar {
+  margin: 1.5rem 0 1rem;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.portfolio-locale-tabs__panels {
+  padding: 1.25rem 1.5rem 1.5rem;
+  background: var(--admin-surface);
+}
+
+body.portfolio-admin[data-portfolio-locale="en"]
+  .portfolio-locale-panel:not([data-locale-panel="en"]),
+body.portfolio-admin[data-portfolio-locale="uk"]
+  .portfolio-locale-panel:not([data-locale-panel="uk"]),
+body.portfolio-admin[data-portfolio-locale="ru"]
+  .portfolio-locale-panel:not([data-locale-panel="ru"]) {
+  display: none !important;
+}
+
+/* Section cards */
+
+.portfolio-admin .portfolio-section {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.35rem 1.5rem;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.portfolio-admin .portfolio-section--gallery {
+  padding-bottom: 1rem;
+}
+
+/* Gallery list */
+
+.portfolio-admin [aria-label="Gallery"] {
+  min-height: 12rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: #faf9f7;
+  padding: 0.35rem;
+}
+
+.portfolio-admin .portfolio-gallery-row [role="gridcell"] {
+  min-width: 0;
+}
+
+.portfolio-gallery-row__content {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  width: 100%;
+  padding: 0.15rem 0;
+}
+
+.portfolio-gallery-row__content > span:not(.portfolio-media-thumb):not(
+    .portfolio-gallery-row__type
+  ) {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portfolio-gallery-row__type {
+  flex: 0 0 auto;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: #f0ede8;
+  color: var(--admin-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.portfolio-admin .portfolio-section--gallery [role="row"] {
+  border-radius: 8px;
+  transition: background-color 0.12s ease;
+}
+
+.portfolio-admin .portfolio-section--gallery [role="row"]:hover {
+  background: #fff;
+}
+
+/* Projects list rows */
+
+.portfolio-project-row [role="gridcell"] {
+  min-width: 0;
+}
+
+.portfolio-project-row__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.portfolio-project-row__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--admin-ink);
+}
+
+/* Thumbnails */
+
+.portfolio-media-thumb {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #eceae4;
+  border: 1px solid var(--admin-border-strong);
+}
+
+.portfolio-media-thumb--small {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.portfolio-media-thumb--large {
+  width: 100%;
+  min-height: 10rem;
+  max-height: 20rem;
+  border-radius: 10px;
+}
+
+.portfolio-media-thumb--large img {
+  width: 100%;
+  height: 100%;
+  max-height: 20rem;
+  object-fit: contain;
+  background: #f3f1ec;
+}
+
+.portfolio-media-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portfolio-media-thumb--placeholder {
+  color: #7a746b;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.portfolio-media-thumb--video::after {
+  content: "▶";
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.2rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+
+/* Single-image upload slot */
+
+.portfolio-media-slot {
+  position: relative;
+  display: block;
+  width: min(100%, 24rem);
+  margin: 0.35rem 0 0.75rem;
+}
+
+.portfolio-upload-preview-host .portfolio-media-slot {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.portfolio-media-slot__preview {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+  vertical-align: top;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.portfolio-media-slot__preview .portfolio-media-thumb--large {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  min-height: 0;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.portfolio-media-slot__preview .portfolio-media-thumb--large:has(img) {
+  background: transparent;
+  border: 0;
+}
+
+.portfolio-media-slot__preview .portfolio-media-thumb--large img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid var(--admin-border-strong);
+}
+
+.portfolio-media-slot__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: rgba(31, 28, 24, 0);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.portfolio-media-slot__preview:hover .portfolio-media-slot__overlay,
+.portfolio-media-slot__overlay:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  background: rgba(31, 28, 24, 0.52);
+}
+
+.portfolio-media-slot__remove-icon {
+  color: #fff;
+  font-size: 2.25rem;
+  font-weight: 300;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Upload field states — scoped to file fields only */
+
+.portfolio-upload-field--filled .portfolio-dropzone__surface,
+.portfolio-upload-field--filled .portfolio-ks-preview,
+.portfolio-upload-field--filled .portfolio-ks-actions,
+.portfolio-upload-field--filled .portfolio-upload-description,
+.portfolio-upload-field--filled .portfolio-upload-field-label,
+.portfolio-upload-preview-host--filled .portfolio-upload-description {
+  display: none !important;
+}
+
+.portfolio-upload-preview-host--filled [role="group"]:has(.portfolio-upload-field--filled) {
+  min-height: 0;
+}
+
+.portfolio-upload-field--empty .portfolio-media-slot,
+.portfolio-upload-preview-host:not(.portfolio-upload-preview-host--filled)
+  .portfolio-media-slot {
+  display: none !important;
+}
+
+.portfolio-upload-field--empty .portfolio-ks-preview {
+  display: none !important;
+}
+
+.portfolio-upload-field--empty .portfolio-ks-actions {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.portfolio-upload-field--in-dialog.portfolio-upload-field--filled {
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-upload-field--in-dialog .portfolio-media-slot {
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Upload dropzones (empty state) */
+
+.portfolio-dropzone {
+  position: relative;
+}
+
+.portfolio-dropzone__surface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.85rem;
+  padding: 1.35rem 1rem;
+  border: 1.5px dashed var(--admin-border-strong);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #faf9f7 0%, #f3f1ec 100%);
+  color: var(--admin-muted);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.portfolio-dropzone__surface:hover {
+  border-color: #b8b0a4;
+  background: #f8f6f2;
+}
+
+.portfolio-dropzone--active .portfolio-dropzone__surface {
+  border-color: var(--admin-ink);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(31, 28, 24, 0.08);
+}
+
+.portfolio-dropzone__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: var(--admin-accent);
+  color: var(--admin-ink);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.portfolio-dropzone__title {
+  color: var(--admin-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.portfolio-dropzone__hint {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+/* Form fields — full width, usable selects */
+
+.portfolio-admin form {
+  max-width: 56rem;
+}
+
+/* Keystatic slug fields render name + slug; hide the internal name field only */
+.portfolio-admin div:has(> button[aria-label="regenerate"]) > :first-child {
+  display: none !important;
+}
+
+.portfolio-admin [role="group"] {
+  min-width: 0;
+}
+
+.portfolio-admin input[type="text"],
+.portfolio-admin input[type="number"],
+.portfolio-admin textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+.portfolio-admin [role="group"] button[aria-haspopup="listbox"],
+.portfolio-admin [role="group"] [role="combobox"],
+.portfolio-admin [role="group"] select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 12rem;
+}
+
+.portfolio-admin [role="dialog"] [role="group"] {
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-admin .portfolio-section h2,
+.portfolio-admin .portfolio-section h3,
+.portfolio-admin .portfolio-section h4,
+.portfolio-admin .portfolio-section > button {
+  color: var(--admin-ink);
+  font-weight: 600;
+}
+
+/* Hide empty Keystatic brand row when logo/name are cleared */
+body.portfolio-admin svg[viewBox="0 0 32 32"] {
+  display: none !important;
+}

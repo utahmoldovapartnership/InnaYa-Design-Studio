@@ -1,0 +1,95 @@
+slug: velikiy-dalnik-house
+year: '2026'
+en:
+  title: Private house, Velykyi Dalnyk
+  location: Odessa region — Velykyi Dalnyk
+  excerpt: >-
+    Architectural design of a private two-storey residence with exterior
+    visualisations and floor plans.
+  typology: Architecture
+uk:
+  title: Приватний будинок, Великий Дальник
+  location: Одеська обл. — с. Великий Дальник
+  excerpt: >-
+    Архітектурний проєкт приватного двоповерхового будинку з візуалізаціями
+    екстер'єру та плануваннями.
+  typology: Архітектура
+ru:
+  title: Частный дом, Великий Дальник
+  location: Одесская обл. — с. Великий Дальник
+  excerpt: >-
+    Архитектурный проект частного двухэтажного дома с визуализациями экстерьера
+    и планировками.
+  typology: Архитектура
+cover:
+  image: velikiy-dalnik-house/cover.jpg
+  alt: Private house exterior, Velykyi Dalnyk
+  orientation: landscape
+gallery:
+  - alt: First floor plan
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/floor-1.jpg
+        fit: contain
+        orientation: landscape
+        width: 4963
+        height: 3509
+  - alt: Second floor plan
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/floor-2.jpg
+        fit: contain
+        orientation: landscape
+        width: 4963
+        height: 3509
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-1.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-2.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-3.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-4.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-5.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-6.jpg
+        fit: cover
+        orientation: landscape
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: velikiy-dalnik-house/render-7.jpg
+        fit: cover
+        orientation: landscape

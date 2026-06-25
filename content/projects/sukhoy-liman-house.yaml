@@ -1,0 +1,113 @@
+slug: sukhoy-liman-house
+year: '2026'
+area: '190'
+en:
+  title: Private house, Sukhoy Liman
+  location: Odessa region — Sukhoy Liman
+  excerpt: Interior design for a 190 m² private house, from planning layouts to room-by-room 3D visualisations.
+  typology: Interior design
+uk:
+  title: Приватний будинок, Сухий лиман
+  location: Одеська обл. — Сухий лиман
+  excerpt: Дизайн інтер'єру приватного будинку 190 м² — від планувань до поетажних 3D-візуалізацій.
+  typology: Інтер'єр
+ru:
+  title: Частный дом, Сухой лиман
+  location: Одесская обл. — Сухой лиман
+  excerpt: Дизайн интерьера частного дома 190 м² — от планировок до поэтажных 3D-визуализаций.
+  typology: Интерьер
+cover:
+  image: sukhoy-liman-house/cover.jpg
+  alt: Interior bathroom, Sukhoy Liman
+  orientation: landscape
+gallery:
+  - alt: First floor plan
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/floor-1.jpg
+        fit: contain
+        orientation: landscape
+        width: 3509
+        height: 4961
+  - alt: Second floor plan
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/floor-2.jpg
+        fit: contain
+        orientation: landscape
+        width: 3509
+        height: 4961
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-1.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-2.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-3.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-4.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-5.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-6.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-7.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: sukhoy-liman-house/render-8.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null

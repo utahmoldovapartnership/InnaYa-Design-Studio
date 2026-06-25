@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/keystatic",
+        destination: "/edit",
+        permanent: true,
+      },
+      {
+        source: "/keystatic/:path*",
+        destination: "/edit/:path*",
+        permanent: true,
+      },
+      {
         source: "/services",
         destination: "/technologies",
         permanent: true,

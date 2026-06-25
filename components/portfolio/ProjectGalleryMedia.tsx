@@ -28,6 +28,26 @@ export function ProjectGalleryMedia({
   const label = alt ?? item.alt;
   const portrait = isPortraitMedia(item);
 
+  if (!item.src) {
+    return (
+      <figure
+        className={`flex items-center justify-center bg-accent/30 ${aspectClass} ${className}`}
+        aria-hidden
+      />
+    );
+  }
+
+  const videoProps = {
+    src: item.src,
+    autoPlay: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+    preload: "metadata" as const,
+    "aria-label": label,
+    ...(item.poster ? { poster: item.poster } : {}),
+  };
+
   if (isVideo(item)) {
     if (portrait && fillViewportHeight) {
       return (
@@ -35,14 +55,7 @@ export function ProjectGalleryMedia({
           className={`flex h-full min-h-0 items-center justify-center bg-white ${className}`}
         >
           <video
-            src={item.src}
-            poster={item.poster}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-label={label}
+            {...videoProps}
             className="h-full w-auto max-w-full object-contain"
           />
         </figure>
@@ -56,14 +69,7 @@ export function ProjectGalleryMedia({
         }`}
       >
         <video
-          src={item.src}
-          poster={item.poster}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-label={label}
+          {...videoProps}
           className="h-full w-full object-contain"
         />
       </figure>

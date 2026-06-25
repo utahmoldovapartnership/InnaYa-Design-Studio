@@ -1,0 +1,149 @@
+slug: istra-house
+year: '2026'
+area: '171'
+en:
+  title: Private house, Istra
+  location: Moscow region — Istra district
+  excerpt: Design and documentation for a 171 m² private timber house, from foundation to construction progress.
+  typology: Residential
+uk:
+  title: Приватний будинок, Істринський р-н
+  location: Московська обл. — Істринський р-н
+  excerpt: Проєкт і документація приватного дерев'яного будинку 171 м² — від планування до етапів будівництва.
+  typology: Житло
+ru:
+  title: Частный дом, Истринский р-н
+  location: Московская обл. — Истринский р-н
+  excerpt: Проект и документация частного деревянного дома 171 м² — от планировки до этапов строительства.
+  typology: Жильё
+cover:
+  image: istra-house/cover.jpg
+  alt: Private house exterior, Istra district
+  orientation: landscape
+gallery:
+  - alt: Floor plan
+    media:
+      discriminant: image
+      value:
+        image: istra-house/floor-plan.jpg
+        fit: contain
+        orientation: landscape
+        width: 9934
+        height: 7017
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-1.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-2.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-3.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-4.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-5.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-6.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-7.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-8.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-9.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-10.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Construction progress
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-11.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Exterior view
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-12.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null
+  - alt: Interior view
+    media:
+      discriminant: image
+      value:
+        image: istra-house/photo-interior.jpg
+        fit: cover
+        orientation: landscape
+        width: null
+        height: null

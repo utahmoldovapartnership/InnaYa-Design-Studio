@@ -2,10 +2,11 @@ import { getTranslations } from "next-intl/server";
 import { FaEnvelope, FaInstagram, FaPhone, FaTiktok } from "react-icons/fa6";
 import { Link } from "@/i18n/navigation";
 import { brandFont } from "@/lib/fonts/brand";
+import { getContactInfo } from "@/lib/site-content";
 
 export async function Footer() {
   const t = await getTranslations("footer");
-  const tc = await getTranslations("contact");
+  const contact = await getContactInfo();
 
   return (
     <footer className="border-t border-accent/80 bg-accent/15">
@@ -18,25 +19,25 @@ export async function Footer() {
 
           <div className="mt-6 space-y-3 text-sm text-muted">
             <a
-              href={`mailto:${tc("emailValue")}`}
+              href={contact.emailHref}
               className="flex items-center gap-3 hover:text-ink"
             >
               <FaEnvelope className="h-4 w-4 shrink-0 text-ink" aria-hidden />
-              <span>{tc("emailValue")}</span>
+              <span>{contact.email}</span>
             </a>
             <a
-              href="tel:+37360285316"
+              href={contact.moldovaPhoneHref}
               className="flex items-center gap-3 hover:text-ink"
             >
               <FaPhone className="h-4 w-4 shrink-0 text-ink" aria-hidden />
-              <span>{tc("phoneMd")}</span>
+              <span>{contact.moldovaPhone}</span>
             </a>
             <a
-              href="tel:+380661855688"
+              href={contact.ukrainePhoneHref}
               className="flex items-center gap-3 hover:text-ink"
             >
               <FaPhone className="h-4 w-4 shrink-0 text-ink" aria-hidden />
-              <span>{tc("phoneUa")}</span>
+              <span>{contact.ukrainePhone}</span>
             </a>
           </div>
         </div>
@@ -47,7 +48,7 @@ export async function Footer() {
           </Link>
           <div className="flex gap-4">
             <a
-              href="https://www.instagram.com/innaya_d_studio/"
+              href={contact.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-ink transition-opacity hover:opacity-70"
@@ -56,7 +57,7 @@ export async function Footer() {
               <FaInstagram className="h-5 w-5" />
             </a>
             <a
-              href="https://www.tiktok.com/@innaya.design"
+              href={contact.tiktokUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-ink transition-opacity hover:opacity-70"

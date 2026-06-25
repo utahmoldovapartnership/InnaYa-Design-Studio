@@ -22,17 +22,21 @@ function isVideo(item: ProjectImage) {
 function LightboxMedia({ item }: { item: ProjectImage }) {
   const label = item.alt;
 
+  if (!item.src) {
+    return null;
+  }
+
   if (isVideo(item)) {
     return (
       <video
         src={item.src}
-        poster={item.poster}
         autoPlay
         loop
         muted
         playsInline
         preload="metadata"
         aria-label={label}
+        {...(item.poster ? { poster: item.poster } : {})}
         className={MEDIA_CLASS}
       />
     );

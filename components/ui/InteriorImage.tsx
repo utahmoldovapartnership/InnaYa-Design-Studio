@@ -56,13 +56,13 @@ export function InteriorImage({
         <div className={`absolute inset-0 ${zoomWrapperClass}`}>
           <video
             src={photo.src}
-            poster={photo.poster}
             autoPlay
             loop
             muted
             playsInline
             preload="metadata"
             aria-label={label}
+            {...(photo.poster ? { poster: photo.poster } : {})}
             className={`h-full w-full ${videoFitClass} ${mediaFilterClass}`}
           />
         </div>

@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import * as z from "zod";
+import { getContactInfo } from "@/lib/site-content";
 
 const bodySchema = z.object({
   name: z.string().trim().min(1),
@@ -28,7 +29,8 @@ export async function POST(req: Request) {
   const { name, email, phone, projectType, message } = parsed.data;
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM;
-  const to = process.env.CONTACT_TO ?? "innaya.d.studio@gmail.com";
+  const contact = await getContactInfo();
+  const to = process.env.CONTACT_TO ?? contact.email;
 
   if (!apiKey || !from) {
     return Response.json(

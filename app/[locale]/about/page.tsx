@@ -1,6 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
+import { getAboutParagraphs } from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,9 +27,9 @@ export default async function AboutPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  await params;
+  const { locale } = await params;
   const t = await getTranslations("about");
-  const paragraphs = t.raw("paragraphs") as string[];
+  const paragraphs = await getAboutParagraphs(locale);
 
   return (
     <>

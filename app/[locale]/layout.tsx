@@ -1,23 +1,16 @@
-import { Cormorant_Garamond } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import { ReaderRefresh } from "@keystatic/next/reader-refresh";
 import { Header } from "@/components/layout/Header";
+import { HtmlLang } from "@/components/layout/HtmlLang";
 import { routing } from "@/i18n/routing";
-import { brandFont } from "@/lib/fonts/brand";
-import "../globals.css";
+import { reader } from "@/lib/projects";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://innayastudio.vercel.app";
-
-const serif = Cormorant_Garamond({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 type Props = {
   children: ReactNode;
@@ -90,21 +83,15 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html
-      lang={locale}
-      className={`${serif.variable} ${brandFont.variable} h-full scroll-smooth antialiased`}
-    >
-      <body
-        className="font-sans min-h-full bg-background text-ink"
-        suppressHydrationWarning
-      >
-        <NextIntlClientProvider messages={messages}>
-          <div className="flex min-h-full flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-          </div>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <>
+      <ReaderRefresh reader={reader} />
+      <HtmlLang locale={locale} />
+      <NextIntlClientProvider messages={messages}>
+        <div className="flex min-h-full flex-col">
+          <Header />
+          <main className="flex-1">{children}</main>
+        </div>
+      </NextIntlClientProvider>
+    </>
   );
 }

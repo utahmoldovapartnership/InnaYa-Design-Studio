@@ -26,8 +26,53 @@ Never commit `.env.local`. Rotate any API key that was shared in chat or logs.
 ## Content & i18n
 
 - Copy lives in `messages/en.json`, `messages/uk.json`, and `messages/ru.json`.
-- Portfolio slugs are listed in [`content/projects.ts`](content/projects.ts); per-project titles and bodies are under `portfolioItems` in each locale file.
+- Portfolio projects are managed in [`content/projects/*.yaml`](content/projects/) via the portfolio admin at `/edit`.
 - Add `public/logo.png` when the client asset is ready (header currently uses the translated brand name).
+
+## Portfolio admin (Keystatic)
+
+Inna can add and edit portfolio projects in the browser at **`/edit`** (e.g. `https://your-site.vercel.app/edit`).
+
+### What you can edit
+
+Each project includes:
+
+- **Slug** (URL), year, optional area (m²)
+- **Language tabs** (English / Ukrainian / Russian) for title, location, excerpt, typology, and optional status
+- **Cover image** with alt text and orientation
+- **Gallery** — choose Image or Video per item; video items show a cover-thumbnail field only when Video is selected. Drag items to reorder, or drag files onto upload areas.
+
+Published changes appear on the live site after Vercel finishes redeploying (usually 1–2 minutes).
+
+### First-time setup (developer)
+
+1. Create a [GitHub OAuth App](https://github.com/settings/developers) with callback URL  
+   `https://your-site.vercel.app/api/keystatic/github/oauth/callback`  
+   (use `http://localhost:3000/api/keystatic/github/oauth/callback` for local testing).
+2. Add these environment variables in Vercel (and `.env.local` for local GitHub mode):
+
+   | Variable | Purpose |
+   |----------|---------|
+   | `KEYSTATIC_GITHUB_REPO` | `owner/repo-name` |
+   | `KEYSTATIC_GITHUB_CLIENT_ID` | OAuth App client ID |
+   | `KEYSTATIC_GITHUB_CLIENT_SECRET` | OAuth App client secret |
+   | `KEYSTATIC_SECRET` | Random string (e.g. `openssl rand -hex 32`) |
+
+3. Add Inna's GitHub account as a **collaborator** on the repository (write access).
+4. Redeploy. Inna signs in at `/edit` with GitHub to edit projects.
+
+Without GitHub env vars, Keystatic runs in **local mode** — edits save directly to files when running `npm run dev` on your machine.
+
+### Adding a new project
+
+1. Open `/edit` → **Projects** → **Create project**
+2. Set the slug (e.g. `my-new-house`) — this becomes `/portfolio/my-new-house`
+3. Fill in year, area, and text in all three language tabs
+4. Upload a cover image and gallery media (drag to reorder gallery items)
+5. For **videos**: set media type to Video, upload the MP4, then add a cover image thumbnail
+6. Click **Save** — Vercel rebuilds automatically when using GitHub mode
+
+For very large files or bulk asset prep, send files to the developer as before.
 
 ## Vercel
 

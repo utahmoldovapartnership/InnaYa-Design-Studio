@@ -1,6 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { FaEnvelope, FaInstagram, FaPhone, FaTiktok } from "react-icons/fa6";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { getContactInfo } from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -23,6 +26,7 @@ export default async function ContactPage({
 }) {
   await params;
   const t = await getTranslations("contact");
+  const contact = await getContactInfo();
 
   return (
     <section className="flex min-h-[calc(100dvh-var(--header-height))] items-center px-5 py-10 md:px-8 md:py-0">
@@ -31,7 +35,7 @@ export default async function ContactPage({
           <div className="order-2 md:order-1 md:self-center">
             <div className="mx-auto w-fit -translate-y-4 space-y-6 pl-4 text-left text-sm text-muted md:mx-0 md:w-auto md:-translate-y-10 md:pl-8">
               <a
-                href={`mailto:${t("emailValue")}`}
+                href={contact.emailHref}
                 className="flex items-start gap-3 transition-colors duration-200 hover:text-ink"
               >
                 <FaEnvelope className="mt-0.5 h-4 w-4 shrink-0 text-ink" />
@@ -39,7 +43,7 @@ export default async function ContactPage({
                   <span className="block text-xs uppercase tracking-wider text-muted-2">
                     {t("emailLabel")}
                   </span>
-                  {t("emailValue")}
+                  {contact.email}
                 </span>
               </a>
               <div className="flex items-start gap-3">
@@ -49,10 +53,10 @@ export default async function ContactPage({
                     {t("labelMd")}
                   </span>
                   <a
-                    href="tel:+37360285316"
+                    href={contact.moldovaPhoneHref}
                     className="transition-colors duration-200 hover:text-ink"
                   >
-                    {t("phoneMd")}
+                    {contact.moldovaPhone}
                   </a>
                 </div>
               </div>
@@ -63,16 +67,16 @@ export default async function ContactPage({
                     {t("labelUa")}
                   </span>
                   <a
-                    href="tel:+380661855688"
+                    href={contact.ukrainePhoneHref}
                     className="transition-colors duration-200 hover:text-ink"
                   >
-                    {t("phoneUa")}
+                    {contact.ukrainePhone}
                   </a>
                   <p className="mt-1 text-xs text-muted-2">{t("phoneNote")}</p>
                 </div>
               </div>
               <a
-                href="https://www.instagram.com/innaya_d_studio/"
+                href={contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 transition-colors duration-200 hover:text-ink"
@@ -82,11 +86,11 @@ export default async function ContactPage({
                   <span className="block text-xs uppercase tracking-wider text-muted-2">
                     {t("instagramLabel")}
                   </span>
-                  {t("instagramValue")}
+                  {contact.instagram}
                 </span>
               </a>
               <a
-                href="https://www.tiktok.com/@innaya.design"
+                href={contact.tiktokUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 transition-colors duration-200 hover:text-ink"
@@ -96,7 +100,7 @@ export default async function ContactPage({
                   <span className="block text-xs uppercase tracking-wider text-muted-2">
                     {t("tiktokLabel")}
                   </span>
-                  {t("tiktokValue")}
+                  {contact.tiktok}
                 </span>
               </a>
             </div>
