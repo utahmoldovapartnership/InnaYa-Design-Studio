@@ -1,4 +1,5 @@
 import { getAllowedDirectories } from "@keystatic/core/api/utils";
+import type { Config } from "@keystatic/core";
 import { createHash } from "crypto";
 import fs from "fs/promises";
 import path from "path";
@@ -45,7 +46,7 @@ async function getPathKeyComponents(
 }
 
 export function getContentPaths(): string[] {
-  const directories = getAllowedDirectories(keystaticConfig);
+  const directories = getAllowedDirectories(keystaticConfig as Config);
   const repoPath = path.resolve(process.cwd());
   return directories.map((entry) => path.join(repoPath, entry));
 }
