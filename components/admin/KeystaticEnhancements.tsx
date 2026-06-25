@@ -5,6 +5,7 @@ import type {
   GalleryMediaPreview,
   ProjectMediaPreview,
 } from "@/lib/admin-project-media";
+import { installGithubSavePreservation } from "@/components/admin/install-github-save-preservation";
 
 const LOCALE_TABS = [
   { id: "en", label: "English" },
@@ -1388,6 +1389,8 @@ export function KeystaticEnhancements() {
   useEffect(() => {
     document.body.classList.add("portfolio-admin");
 
+    const cleanupGithubSave = installGithubSavePreservation();
+
     let cleanupTabs: (() => void) | null = null;
     let cleanupMedia: (() => void) | null = null;
     let mounted = false;
@@ -1462,6 +1465,7 @@ export function KeystaticEnhancements() {
       cleanupDrop();
       cleanupGalleryTracking();
       cleanupLabels();
+      cleanupGithubSave();
     };
   }, []);
 

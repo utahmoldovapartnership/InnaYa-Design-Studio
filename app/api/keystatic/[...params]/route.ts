@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   if (url.pathname.endsWith("/update")) {
     const body = await request.json();
-    const patched = await preserveProjectMediaInUpdateRequest(body);
+    const patched = await preserveProjectMediaInUpdateRequest(body, request);
 
     request = new Request(request.url, {
       method: "POST",

@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["chokidar", "fsevents"],
   outputFileTracingIncludes: {
     "/*": ["./content/**/*"],
+    "/api/keystatic/[...params]": ["./content/**/*"],
+    "/api/admin/project-media": ["./content/**/*"],
+    "/api/admin/project-media/[slug]": ["./content/**/*"],
+    "/api/admin/project-yaml/[...path]": ["./content/**/*"],
     "/[locale]": ["./content/**/*"],
     "/[locale]/about": ["./content/**/*"],
     "/[locale]/contact": ["./content/**/*"],

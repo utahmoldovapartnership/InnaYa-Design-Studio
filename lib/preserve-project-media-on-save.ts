@@ -1,151 +1,88 @@
 import fs from "fs/promises";
 import yaml from "js-yaml";
 import path from "path";
-
-type GalleryImageValue = {
-  image?: string | null;
-  file?: string | null;
-  poster?: string | null;
-  fit?: string;
-  orientation?: string;
-  width?: number | null;
-  height?: number | null;
-};
-
-type GalleryItem = {
-  alt?: string;
-  media?: {
-    discriminant?: string;
-    value?: GalleryImageValue;
-  };
-};
-
-type ProjectYaml = {
-  cover?: {
-    image?: string | null;
-    alt?: string;
-    orientation?: string;
-  };
-  gallery?: GalleryItem[];
-};
+import { fetchProjectYamlFromGithub } from "@/lib/github-project-yaml";
+import {
+  decodeKeystaticFileContents,
+  encodeKeystaticFileContents,
+} from "@/lib/keystatic-file-encoding";
+import { isKeystaticGithubStorage } from "@/lib/keystatic-admin-access";
+import {
+  isProjectYamlPath,
+  mergeProjectMedia,
+  type ProjectYaml,
+} from "@/lib/merge-project-media";
 
 type KeystaticUpdateBody = {
   additions: Array<{ path: string; contents: string }>;
   deletions: Array<{ path: string }>;
 };
 
-function decodeContents(encoded: string): string {
-  return Buffer.from(encoded, "base64url").toString("utf8");
+function getBranchFromRequest(request: Request): string {
+  const referer = request.headers.get("referer");
+  const match = referer?.match(/\/edit\/branch\/([^/]+)/);
+  return match?.[1] ?? "main";
 }
 
-function encodeContents(text: string): string {
-  return Buffer.from(text, "utf8").toString("base64url");
-}
-
-function mergeGalleryItem(
-  incoming: GalleryItem,
-  existing: GalleryItem | undefined,
-): GalleryItem {
-  if (!existing?.media?.value || !incoming.media?.value) {
-    return incoming;
-  }
-
-  if (incoming.media.discriminant !== existing.media.discriminant) {
-    return incoming;
-  }
-
-  const inValue = incoming.media.value;
-  const exValue = existing.media.value;
-
-  if (incoming.media.discriminant === "image") {
-    if (!inValue.image && exValue.image) {
-      return {
-        ...incoming,
-        media: {
-          ...incoming.media,
-          value: { ...inValue, image: exValue.image },
-        },
-      };
-    }
-    return incoming;
-  }
-
-  if (incoming.media.discriminant === "video") {
-    const nextValue = { ...inValue };
-    if (!nextValue.file && exValue.file) {
-      nextValue.file = exValue.file;
-    }
-    if (!nextValue.poster && exValue.poster) {
-      nextValue.poster = exValue.poster;
-    }
-    return {
-      ...incoming,
-      media: {
-        ...incoming.media,
-        value: nextValue,
-      },
-    };
-  }
-
-  return incoming;
-}
-
-export function mergeProjectMedia(
-  incoming: ProjectYaml,
-  existing: ProjectYaml,
-): ProjectYaml {
-  const merged: ProjectYaml = { ...incoming };
-
-  if (incoming.cover || existing.cover) {
-    merged.cover = { ...existing.cover, ...incoming.cover };
-    if (!incoming.cover?.image && existing.cover?.image) {
-      merged.cover = { ...merged.cover, image: existing.cover.image };
-    }
-  }
-
-  if (Array.isArray(incoming.gallery) && Array.isArray(existing.gallery)) {
-    merged.gallery = incoming.gallery.map((item, index) =>
-      mergeGalleryItem(item, existing.gallery?.[index]),
+async function loadExistingProjectYaml(
+  relativePath: string,
+  request?: Request,
+): Promise<ProjectYaml | null> {
+  if (isKeystaticGithubStorage() && request) {
+    const branch = getBranchFromRequest(request);
+    const fromGithub = await fetchProjectYamlFromGithub(
+      relativePath,
+      branch,
+      request,
     );
+    if (fromGithub) {
+      return yaml.load(fromGithub) as ProjectYaml;
+    }
   }
-
-  return merged;
-}
-
-async function preserveProjectYamlAddition(addition: {
-  path: string;
-  contents: string;
-}): Promise<{ path: string; contents: string }> {
-  if (
-    !addition.path.startsWith("content/projects/") ||
-    !addition.path.endsWith(".yaml")
-  ) {
-    return addition;
-  }
-
-  const filePath = path.join(process.cwd(), addition.path);
-  let existing: ProjectYaml | null = null;
 
   try {
-    existing = yaml.load(await fs.readFile(filePath, "utf8")) as ProjectYaml;
+    const filePath = path.join(process.cwd(), relativePath);
+    const content = await fs.readFile(filePath, "utf8");
+    return yaml.load(content) as ProjectYaml;
   } catch {
+    return null;
+  }
+}
+
+async function preserveProjectYamlAddition(
+  addition: { path: string; contents: string },
+  request?: Request,
+): Promise<{ path: string; contents: string }> {
+  if (!isProjectYamlPath(addition.path)) {
     return addition;
   }
 
-  const incoming = yaml.load(decodeContents(addition.contents)) as ProjectYaml;
+  const existing = await loadExistingProjectYaml(addition.path, request);
+  if (!existing) {
+    return addition;
+  }
+
+  const incoming = yaml.load(
+    decodeKeystaticFileContents(addition.contents),
+  ) as ProjectYaml;
   const merged = mergeProjectMedia(incoming, existing);
 
   return {
     path: addition.path,
-    contents: encodeContents(yaml.dump(merged, { lineWidth: -1 })),
+    contents: encodeKeystaticFileContents(
+      yaml.dump(merged, { lineWidth: -1 }),
+    ),
   };
 }
 
 export async function preserveProjectMediaInUpdateRequest(
   body: KeystaticUpdateBody,
+  request?: Request,
 ): Promise<KeystaticUpdateBody> {
   const additions = await Promise.all(
-    body.additions.map((addition) => preserveProjectYamlAddition(addition)),
+    body.additions.map((addition) =>
+      preserveProjectYamlAddition(addition, request),
+    ),
   );
 
   return {
