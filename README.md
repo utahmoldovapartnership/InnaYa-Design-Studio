@@ -54,8 +54,9 @@ Published changes appear on the live site after Vercel finishes redeploying (usu
    | Variable | Purpose |
    |----------|---------|
    | `KEYSTATIC_GITHUB_REPO` | `owner/repo-name` |
-   | `KEYSTATIC_GITHUB_CLIENT_ID` | OAuth App client ID |
-   | `KEYSTATIC_GITHUB_CLIENT_SECRET` | OAuth App client secret |
+   | `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO` | Same value as `KEYSTATIC_GITHUB_REPO` |
+   | `KEYSTATIC_GITHUB_CLIENT_ID` | GitHub App client ID |
+   | `KEYSTATIC_GITHUB_CLIENT_SECRET` | GitHub App client secret |
    | `KEYSTATIC_SECRET` | Random string (e.g. `openssl rand -hex 32`) |
    | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | GitHub App slug from Keystatic setup |
 

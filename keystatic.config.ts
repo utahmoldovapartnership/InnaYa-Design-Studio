@@ -121,7 +121,11 @@ function aboutLocaleFields(label: string) {
 function getStorage():
   | { kind: "local" }
   | { kind: "github"; repo: `${string}/${string}` } {
-  const repo = process.env.KEYSTATIC_GITHUB_REPO;
+  // Server-only KEYSTATIC_GITHUB_REPO works for API routes; the admin UI
+  // bundle needs NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO at build time.
+  const repo =
+    process.env.KEYSTATIC_GITHUB_REPO ??
+    process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO;
   if (repo && repo.includes("/")) {
     return {
       kind: "github",
