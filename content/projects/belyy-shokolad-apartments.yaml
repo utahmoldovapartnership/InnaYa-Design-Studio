@@ -22,6 +22,7 @@ ru:
     шоколад, Киев.
   typology: Планировка
 cover:
+  image: belyy-shokolad-apartments/plan-cover.jpg
   alt: Floor plan, Belyy Shokolad apartments
   orientation: landscape
 gallery:
@@ -29,4 +30,6 @@ gallery:
     media:
       discriminant: video
       value:
+        file: belyy-shokolad-apartments/plan.mp4
+        poster: belyy-shokolad-apartments/plan-cover.jpg
         orientation: portrait
