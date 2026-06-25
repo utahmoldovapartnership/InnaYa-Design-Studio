@@ -51,6 +51,11 @@ const nextConfig: NextConfig = {
         destination: "/:locale/technologies",
         permanent: true,
       },
+      {
+        source: "/favicon.ico",
+        destination: "/icon.png",
+        permanent: true,
+      },
     ];
   },
   images: {

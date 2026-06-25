@@ -7,7 +7,6 @@ Photo-led interior design studio site: **Next.js 16 (App Router)**, **Tailwind C
 ```bash
 npm install
 cp .env.example .env.local
-# Add Resend keys to enable the contact form.
 npm run dev
 ```
 
@@ -15,13 +14,9 @@ Open `http://localhost:3000` — you will be redirected to a locale prefix (`/en
 
 ## Environment variables
 
-| Variable | Purpose |
-|----------|---------|
-| `RESEND_API_KEY` | Sends contact form inquiries via [Resend](https://resend.com). |
-| `RESEND_FROM` | Verified sender address in Resend (e.g. `InnaYa <onboarding@resend.dev>`). |
-| `CONTACT_TO` | Optional override for the recipient inbox (defaults to `innaya.d.studio@gmail.com` in code). |
+See `.env.example` for Keystatic admin keys (required on Vercel for `/edit`).
 
-Never commit `.env.local`. Rotate any API key that was shared in chat or logs.
+Never commit `.env.local`. Rotate any secret that was shared in chat or logs.
 
 ## Content & i18n
 

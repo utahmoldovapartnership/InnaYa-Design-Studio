@@ -4,17 +4,45 @@ import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-export function ContactForm() {
-  const t = useTranslations("contact.form");
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">(
-    "idle",
-  );
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+type ContactFormProps = {
+  studioEmail: string;
+};
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+function buildInquiryMailto(
+  studioEmail: string,
+  fields: {
+    name: string;
+    email: string;
+    phone: string;
+    projectTypeLabel: string;
+    message: string;
+  },
+) {
+  const subject = `InnaYa inquiry — ${fields.name}`;
+  const body = [
+    `Name: ${fields.name}`,
+    `Email: ${fields.email}`,
+    `Phone: ${fields.phone}`,
+    `Project type: ${fields.projectTypeLabel}`,
+    "",
+    fields.message || "—",
+  ].join("\n");
+
+  const params = new URLSearchParams({
+    subject,
+    body,
+  });
+
+  return `mailto:${studioEmail}?${params.toString()}`;
+}
+
+export function ContactForm({ studioEmail }: ContactFormProps) {
+  const t = useTranslations("contact.form");
+  const [status, setStatus] = useState<"idle" | "opening" | "ok">("idle");
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("sending");
-    setErrorMessage(null);
+    setStatus("opening");
     const form = e.currentTarget;
     const fd = new FormData(form);
     const website = fd.get("website");
@@ -23,34 +51,25 @@ export function ContactForm() {
       return;
     }
 
-    const payload = {
+    const projectType = String(fd.get("projectType") ?? "residential");
+    const projectTypeLabel =
+      projectType === "commercial"
+        ? t("projectCommercial")
+        : projectType === "other"
+          ? t("projectOther")
+          : t("projectResidential");
+
+    const mailto = buildInquiryMailto(studioEmail, {
       name: String(fd.get("name") ?? ""),
       email: String(fd.get("email") ?? ""),
       phone: String(fd.get("phone") ?? ""),
-      projectType: String(fd.get("projectType") ?? ""),
+      projectTypeLabel,
       message: String(fd.get("message") ?? ""),
-    };
+    });
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = (await res.json()) as { ok?: boolean; error?: string };
-      if (!res.ok || !data.ok) {
-        setStatus("err");
-        setErrorMessage(
-          res.status === 503 ? t("notConfigured") : data.error ?? t("error"),
-        );
-        return;
-      }
-      setStatus("ok");
-      form.reset();
-    } catch {
-      setStatus("err");
-      setErrorMessage(t("error"));
-    }
+    window.location.href = mailto;
+    setStatus("ok");
+    form.reset();
   }
 
   return (
@@ -125,16 +144,13 @@ export function ContactForm() {
       {status === "ok" ? (
         <p className="text-sm text-muted">{t("success")}</p>
       ) : null}
-      {status === "err" && errorMessage ? (
-        <p className="text-sm text-red-800">{errorMessage}</p>
-      ) : null}
 
       <Button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "opening"}
         className="mt-2 self-start"
       >
-        {status === "sending" ? t("sending") : t("submit")}
+        {status === "opening" ? t("opening") : t("submit")}
       </Button>
     </form>
   );

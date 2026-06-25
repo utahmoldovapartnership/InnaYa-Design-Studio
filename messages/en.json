@@ -284,10 +284,9 @@
       "message": "Message",
       "messagePlaceholder": "Tell us about your project, timeline, and location",
       "submit": "Send inquiry",
-      "sending": "Sending…",
-      "success": "Thank you — we received your message and will reply shortly.",
+      "opening": "Opening email…",
+      "success": "Your email app should open with the message ready — send it from there and we'll reply shortly.",
       "error": "Something went wrong. Please try again or email us directly.",
-      "notConfigured": "The inquiry form is not yet connected to email. Please write to us directly.",
       "validation": {
         "required": "This field is required.",
         "email": "Enter a valid email address."

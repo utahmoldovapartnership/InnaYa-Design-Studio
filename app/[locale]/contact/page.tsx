@@ -104,7 +104,7 @@ export default async function ContactPage({
             </div>
           </div>
           <div className="order-1 md:order-2">
-            <ContactForm />
+            <ContactForm studioEmail={contact.email} />
           </div>
         </div>
       </div>

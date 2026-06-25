@@ -206,7 +206,7 @@ index b4c82e2..332707e 100644
    return githubLogin(req, config);
  }
 diff --git a/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js b/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
-index fb21fd0..9dbccdf 100644
+index fb21fd0..57102df 100644
 --- a/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
 +++ b/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
 @@ -89,7 +89,7 @@ ${slugEnvVarName ? `${slugEnvVarName}=${ghAppDataResult.slug} # https://github.c
@@ -236,7 +236,31 @@ index fb21fd0..9dbccdf 100644
      }
      if (joined === 'github/created-app') {
        return {
-@@ -451,7 +451,7 @@ async function githubOauthCallback(req, config) {
+@@ -428,9 +428,10 @@ async function githubOauthCallback(req, config) {
+     }
+   });
+   if (!tokenRes.ok) {
++    const errBody = await tokenRes.text();
+     return {
+       status: 401,
+-      body: 'Authorization failed'
++      body: `Authorization failed (GitHub token exchange returned ${tokenRes.status}).\n\n${errBody}\n\nCheck KEYSTATIC_GITHUB_CLIENT_SECRET in Vercel matches the GitHub App client secret.`
+     };
+   }
+   const _tokenData = await tokenRes.json();
+@@ -438,9 +439,10 @@ async function githubOauthCallback(req, config) {
+   try {
+     tokenData = tokenDataResultType.create(_tokenData);
+   } catch {
++    const missing = ['access_token', 'expires_in', 'refresh_token', 'refresh_token_expires_in', 'scope', 'token_type'].filter(key => _tokenData[key] === undefined);
+     return {
+       status: 401,
+-      body: 'Authorization failed'
++      body: `Authorization failed (invalid token response from GitHub).\n\nMissing fields: ${missing.join(', ') || 'unknown'}\n\nIf refresh_token is missing, enable "Expire user authorization tokens" on your GitHub App settings, then sign in again.`
+     };
+   }
+   const headers = await getTokenCookies(tokenData, config);
+@@ -451,7 +453,7 @@ async function githubOauthCallback(req, config) {
        status: 200
      };
    }
@@ -245,7 +269,7 @@ index fb21fd0..9dbccdf 100644
  }
  async function getTokenCookies(tokenData, config) {
    const headers = [['Set-Cookie', cookie.serialize('keystatic-gh-access-token', tokenData.access_token, {
-@@ -527,7 +527,7 @@ async function refreshGitHubAuth(req, config) {
+@@ -527,7 +529,7 @@ async function refreshGitHubAuth(req, config) {
  async function githubRepoNotFound(req, config) {
    const headers = await refreshGitHubAuth(req, config);
    if (headers) {
