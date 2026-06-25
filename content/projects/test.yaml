@@ -1,0 +1,29 @@
+slug: test
+year: '2020'
+en:
+  title: test
+  location: Moldova
+  excerpt: it was very cool
+  typology: Architecture
+uk:
+  title: Назва
+  location: Локація
+  excerpt: Відображається в сітці портфоліо та в результатах пошуку.
+  typology: Типологія
+ru:
+  title: Название
+  location: Локация
+  excerpt: Краткое описание
+  typology: Архитектура
+cover:
+  image: /images/portfolio/test/cover/image.jpg
+  alt: moldova building
+  orientation: landscape
+gallery:
+  - alt: wide view
+    media:
+      discriminant: image
+      value:
+        image: /images/portfolio/test/gallery/0/media/value/image.jpg
+        fit: cover
+        orientation: landscape
