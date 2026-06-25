@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:locale(en|uk|ru)/edit",
+        destination: "/edit",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|uk|ru)/edit/:path*",
+        destination: "/edit/:path*",
+        permanent: true,
+      },
+      {
         source: "/keystatic",
         destination: "/edit",
         permanent: true,
