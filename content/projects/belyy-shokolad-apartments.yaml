@@ -1,25 +1,19 @@
 slug: belyy-shokolad-apartments
-year: '2026'
+year: '2025'
 en:
   title: Belyy Shokolad apartments
   location: Kyiv — ZhK Belyy Shokolad
-  excerpt: >-
-    Planning layout for private apartments in the Belyy Shokolad residential
-    complex, Kyiv.
+  excerpt: Planning layout for private apartments in the Belyy Shokolad residential complex, Kyiv.
   typology: Space planning
 uk:
   title: Апартаменти, ЖК Білий шоколад
   location: Київ — ЖК Білий шоколад
-  excerpt: >-
-    Планувальне рішення для приватних апартаментів у житловому комплексі Білий
-    шоколад, Київ.
+  excerpt: Планувальне рішення для приватних апартаментів у житловому комплексі Білий шоколад, Київ.
   typology: Планування
 ru:
   title: Апартаменты, ЖК Белый шоколад
   location: Киев — ЖК Белый шоколад
-  excerpt: >-
-    Планировочное решение для частных апартаментов в жилом комплексе Белый
-    шоколад, Киев.
+  excerpt: Планировочное решение для частных апартаментов в жилом комплексе Белый шоколад, Киев.
   typology: Планировка
 cover:
   image: belyy-shokolad-apartments/plan-cover.jpg
@@ -30,6 +24,6 @@ gallery:
     media:
       discriminant: video
       value:
+        orientation: portrait
         file: belyy-shokolad-apartments/plan.mp4
         poster: belyy-shokolad-apartments/plan-cover.jpg
-        orientation: portrait
