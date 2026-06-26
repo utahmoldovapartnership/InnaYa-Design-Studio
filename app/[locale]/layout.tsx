@@ -4,7 +4,6 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { ReaderRefresh } from "@keystatic/next/reader-refresh";
-import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { HtmlLang } from "@/components/layout/HtmlLang";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -99,7 +98,6 @@ export default async function LocaleLayout({ children, params }: Props) {
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <Footer />
         </div>
       </NextIntlClientProvider>
     </>

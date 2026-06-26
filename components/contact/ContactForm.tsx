@@ -75,7 +75,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-5 rounded-sm border border-accent/60 bg-accent/10 p-6 md:p-8"
+      className="flex flex-col gap-5 rounded-sm bg-neutral-50 p-6 md:px-8 md:py-10"
     >
       <input
         type="text"
@@ -92,7 +92,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
           name="name"
           required
           placeholder={t("namePlaceholder")}
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none ring-0 placeholder:text-muted-2 focus:border-ink"
+          className="rounded-sm border border-accent/40 bg-background px-3 py-2 text-ink outline-none ring-0 placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -103,7 +103,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
           type="email"
           required
           placeholder={t("emailPlaceholder")}
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
+          className="rounded-sm border border-accent/40 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -114,7 +114,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
           type="tel"
           required
           placeholder={t("phonePlaceholder")}
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
+          className="rounded-sm border border-accent/40 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 
@@ -122,7 +122,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
         <span className="text-muted">{t("projectType")}</span>
         <select
           name="projectType"
-          className="rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
+          className="rounded-sm border border-accent/40 bg-background px-3 py-2 text-ink outline-none focus:border-ink"
           defaultValue="residential"
         >
           <option value="residential">{t("projectResidential")}</option>
@@ -137,7 +137,7 @@ export function ContactForm({ studioEmail }: ContactFormProps) {
           name="message"
           rows={4}
           placeholder={t("messagePlaceholder")}
-          className="resize-y rounded-sm border border-accent/80 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
+          className="resize-y rounded-sm border border-accent/40 bg-background px-3 py-2 text-ink outline-none placeholder:text-muted-2 focus:border-ink"
         />
       </label>
 

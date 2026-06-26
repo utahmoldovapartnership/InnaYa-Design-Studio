@@ -352,8 +352,14 @@ function findInputByLabel(
   root: ParentNode,
   labelText: string,
 ): HTMLInputElement | null {
+  const labels = new Set([labelText]);
+  if (labelText === f.galleryDescription) {
+    labels.add("Description");
+  }
+
   for (const label of root.querySelectorAll("label, span")) {
-    if (label.textContent?.trim() !== labelText) continue;
+    const text = label.textContent?.trim();
+    if (!text || !labels.has(text)) continue;
     const group = label.closest('[role="group"]');
     if (!group || label.closest('[role="group"]') !== group) continue;
     const input = group.querySelector("input, textarea");
@@ -366,8 +372,13 @@ function findButtonByText(
   root: ParentNode,
   text: string,
 ): HTMLButtonElement | null {
+  const variants = new Set<string>([text]);
+  const translated = adminChromeReplacements[text];
+  if (translated) variants.add(translated);
+
   for (const button of root.querySelectorAll("button")) {
-    if (button.textContent?.trim() === text) {
+    const label = button.textContent?.trim();
+    if (label && variants.has(label)) {
       return button;
     }
   }
@@ -862,7 +873,7 @@ function findActiveGalleryItem(
   const modal = findGalleryItemModal();
   if (!modal) return null;
 
-  const descriptionInput = findInputByLabel(modal, "Description");
+  const descriptionInput = findInputByLabel(modal, f.galleryDescription);
   const alt = descriptionInput?.value?.trim();
   if (!alt) return null;
 
@@ -1007,7 +1018,7 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
 
   try {
     if (activeItem?.kind === "image") {
-      const settingsPanel = findLabeledPanel(modal, "Image settings");
+      const settingsPanel = findLabeledPanel(modal, f.imageSettings);
       const uploadGroup = findUploadGroupIn(modal, f.imageFile);
       if (settingsPanel && uploadGroup) {
         enhanceUploadField(
@@ -1019,13 +1030,13 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
           true,
           "below-heading",
         );
+        modal.dataset.portfolioEnhanceKey = enhanceKey;
+        return;
       }
-      modal.dataset.portfolioEnhanceKey = enhanceKey;
-      return;
     }
 
     if (activeItem?.kind === "video") {
-      const settingsPanel = findLabeledPanel(modal, "Video settings");
+      const settingsPanel = findLabeledPanel(modal, f.videoSettings);
       const posterGroup = findUploadGroupIn(modal, f.coverThumbnail);
       if (settingsPanel && posterGroup) {
         enhanceUploadField(

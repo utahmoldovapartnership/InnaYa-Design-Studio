@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ProjectImage } from "@/content/projects";
 
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const MEDIA_CLASS =
-  "max-h-[min(90dvh,920px)] max-w-[min(92vw,1200px)] h-auto w-auto";
+  "block max-h-[min(90dvh,920px)] max-w-[min(92vw,1200px)] object-contain";
 
 function isVideo(item: ProjectImage) {
   return item.kind === "video" || /\.(mp4|webm)(\?|$)/i.test(item.src);
@@ -29,6 +29,7 @@ function LightboxMedia({ item }: { item: ProjectImage }) {
   if (isVideo(item)) {
     return (
       <video
+        key={item.src}
         src={item.src}
         autoPlay
         loop
@@ -43,9 +44,18 @@ function LightboxMedia({ item }: { item: ProjectImage }) {
   }
 
   return (
-    // Native img scales to max viewport bounds while keeping each image's aspect ratio.
+    // Native img keeps each image's aspect ratio inside the lightbox viewport.
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={item.src} alt={label} className={MEDIA_CLASS} />
+    <img
+      key={item.src}
+      src={item.src}
+      alt={label}
+      decoding="async"
+      className={MEDIA_CLASS}
+      {...(item.width && item.height
+        ? { width: item.width, height: item.height }
+        : {})}
+    />
   );
 }
 
@@ -56,14 +66,14 @@ export function ProjectGalleryLightbox({
   onChangeIndex,
 }: Props) {
   const t = useTranslations("portfolio.detail");
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
+  const [mounted, setMounted] = useState(false);
   const isOpen = index !== null && gallery[index] != null;
   const item = index !== null ? gallery[index] : null;
   const hasMultiple = gallery.length > 1;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const goPrev = useCallback(() => {
     if (index === null || gallery.length === 0) return;
@@ -108,13 +118,13 @@ export function ProjectGalleryLightbox({
     >
       <button
         type="button"
-        className="absolute inset-0 bg-black/85 backdrop-blur-[2px]"
+        className="absolute inset-0 z-0 bg-black/85 backdrop-blur-[2px]"
         aria-label={t("closeLightbox")}
         onClick={onClose}
       />
 
-      <div className="pointer-events-none relative z-10 flex h-full w-full items-center justify-center p-4 md:p-8">
-        <div className="pointer-events-auto">
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-4 md:p-8">
+        <div className="pointer-events-auto max-h-full max-w-full">
           <LightboxMedia item={item} />
         </div>
       </div>
