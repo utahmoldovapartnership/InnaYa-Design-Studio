@@ -1,0 +1,102 @@
+/** Keystatic admin UI — Ukrainian labels for Inna. */
+export const ADMIN_LOCALE = "uk-UA" as const;
+
+export const localeTabLabels = {
+  en: "Англійська",
+  uk: "Українська",
+  ru: "Російська",
+} as const;
+
+export const adminNav = {
+  brand: "Керування",
+  pages: "Сторінки",
+  projects: "Портфоліо",
+  about: "Про студію",
+  contact: "Контакти",
+} as const;
+
+export const adminFields = {
+  name: "Назва",
+  projectSlug: "Посилання (slug)",
+  projectSlugHint:
+    "Адреса сторінки: /portfolio/[slug]. Лише малі латинські літери та дефіси.",
+  year: "Рік",
+  area: "Площа (м²)",
+  areaHint: "Необовʼязково. Залиште порожнім, якщо не потрібно.",
+  title: "Заголовок",
+  location: "Локація",
+  excerpt: "Короткий опис",
+  excerptHint: "Показується в сітці портфоліо та в пошуку.",
+  typology: "Типологія",
+  typologyHint: "напр. Архітектура, Інтерʼєр, Планування",
+  status: "Статус",
+  statusHint: "Необовʼязково. Залиште порожнім для стандартного підпису.",
+  mediaType: "Тип медіа",
+  image: "Зображення",
+  video: "Відео",
+  imageFile: "Файл зображення",
+  imageFileHint: "Перетягніть зображення сюди або натисніть для вибору.",
+  videoFile: "Відеофайл",
+  videoFileHint: "Перетягніть MP4 сюди або натисніть для вибору.",
+  displayFit: "Відображення",
+  displayFitHint: "Для планів поверхів оберіть «Вмістити».",
+  fitCover: "Заповнити (за замовч.)",
+  fitContain: "Вмістити (плани)",
+  orientation: "Орієнтація",
+  landscape: "Альбомна",
+  portrait: "Портретна",
+  widthPx: "Ширина (px)",
+  heightPx: "Висота (px)",
+  optionalHint: "Необовʼязково. Зазвичай не потрібно.",
+  imageSettings: "Налаштування зображення",
+  videoSettings: "Налаштування відео",
+  coverImage: "Обкладинка",
+  coverImageHint:
+    "Головне зображення в сітці портфоліо. Перетягніть або натисніть для завантаження.",
+  coverThumbnail: "Мініатюра відео",
+  coverThumbnailHint:
+    "Показується в сітці портфоліо. Завантажте кадр із відео.",
+  altText: "Опис для доступності (alt)",
+  gallery: "Галерея",
+  galleryHint:
+    "Перетягніть елементи для зміни порядку. Так вони зʼявляться на сторінці проєкту.",
+  galleryItem: "Елемент галереї",
+  galleryItemDefault: "Елемент галереї",
+  galleryDescription: "Підпис",
+  galleryDescriptionHint: "Короткий підпис для зображення або відео.",
+  aboutTextHint: "Розділяйте абзаци порожнім рядком.",
+  email: "Електронна пошта",
+  moldovaPhone: "Молдова",
+  moldovaPhoneHint: "Номер телефону для Молдови.",
+  ukrainePhone: "Україна",
+  ukrainePhoneHint: "Номер телефону для України.",
+  instagram: "Instagram",
+  instagramHint: "Нік, напр. @innaya_d_studio",
+  tiktok: "TikTok",
+  tiktokHint: "Нік, напр. @innaya.design",
+} as const;
+
+/** Keystatic chrome strings still hardcoded in English — map to Ukrainian. */
+export const adminChromeReplacements: Record<string, string> = {
+  Home: "Головна",
+  Dashboard: "Головна",
+  Дашборд: "Головна",
+  Collections: "Сторінки",
+  Collection: "Сторінка",
+  Колекції: "Сторінки",
+  Колекція: "Сторінка",
+  Singletons: "Сторінки",
+  Singleton: "Сторінка",
+  Одиночки: "Сторінки",
+  Одиночка: "Сторінка",
+  "Choose file": "Вибрати файл",
+  Remove: "Видалити",
+  "Add item": "Додати елемент",
+  "Edit item": "Редагувати",
+  Image: "Зображення",
+  Video: "Відео",
+  Gallery: "Галерея",
+  "Drag & drop a file here, or click to browse":
+    "Перетягніть файл сюди або натисніть для вибору",
+  "Remove image": "Видалити зображення",
+};

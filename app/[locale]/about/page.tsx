@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
+import { buildLocaleAlternates } from "@/lib/seo";
 import { getAboutParagraphs } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -10,10 +11,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
-  const meta = await getTranslations({ locale, namespace: "meta" });
   return {
     title: t("title"),
-    description: meta("description"),
+    description: t("metaDescription"),
+    alternates: buildLocaleAlternates(locale, "/about"),
     other: {
       "theme-color": "#0a0a0a",
     },
@@ -33,6 +34,7 @@ export default async function AboutPage({
     <>
       <EdgeToEdgeHero
         media={
+          // eslint-disable-next-line @next/next/no-img-element -- hero backdrop uses custom viewport CSS
           <img
             src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
             alt=""

@@ -1,5 +1,5 @@
 diff --git a/node_modules/@keystatic/core/dist/index-a8452c26.js b/node_modules/@keystatic/core/dist/index-a8452c26.js
-index 92ea45b..df327fd 100644
+index 92ea45b..825d4b7 100644
 --- a/node_modules/@keystatic/core/dist/index-a8452c26.js
 +++ b/node_modules/@keystatic/core/dist/index-a8452c26.js
 @@ -178,7 +178,7 @@ const strings = {
@@ -67,6 +67,33 @@ index 92ea45b..df327fd 100644
      "createPullRequest": `Vytvorte požiadavku na stiahnutie`,
      "deleteBranch": `Odstrániť vetvu`,
      "defaultBranch": `Predvolená vetva`,
+@@ -1014,12 +1014,12 @@ const strings = {
+     "basedOn": `На основі`,
+     "cancel": `Скасувати`,
+     "clear": `Очистити`,
+-    "collection": `Колекція`,
+-    "collections": `Колекції`,
++    "collection": `Сторінка`,
++    "collections": `Сторінки`,
+     "create": `Створити`,
+     "currentBranch": `Поточна гілка`,
+     "createPullRequest": `Створити запит на злиття змін`,
+-    "dashboard": `Дашборд`,
++    "dashboard": `Головна`,
+     "defaultBranch": `Типова гілка`,
+     "delete": `Видалити`,
+     "deleteBranch": `Видалити гілку`,
+@@ -1030,8 +1030,8 @@ const strings = {
+     "pullRequests": `Запити на злиття`,
+     "save": `Зберегти`,
+     "search": `Пошук`,
+-    "singletons": `Одиночки`,
+-    "singleton": `Одиночка`,
++    "singletons": `Сторінки`,
++    "singleton": `Сторінка`,
+     "theCurrentlyCheckedOutBranch": `Поточна обрана гілка. Виберіть це, якщо вам потрібно продовжити роботу на основі поточної гілки.`,
+     "theDefaultBranchInYourRepository": `Типова гілка у вашому репозиторії. Виберіть це, щоб почати щось нове, що не залежить від вашої поточної гілки.`,
+     "viewPullRequests": `Перегляд запитів на злиття`
 diff --git a/node_modules/@keystatic/core/dist/index-e205248e.js b/node_modules/@keystatic/core/dist/index-e205248e.js
 index ef3b5b9..e872aa8 100644
 --- a/node_modules/@keystatic/core/dist/index-e205248e.js
@@ -206,7 +233,7 @@ index b4c82e2..332707e 100644
    return githubLogin(req, config);
  }
 diff --git a/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js b/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
-index fb21fd0..9dbccdf 100644
+index fb21fd0..57102df 100644
 --- a/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
 +++ b/node_modules/@keystatic/core/dist/keystatic-core-api-generic.node.react-server.js
 @@ -89,7 +89,7 @@ ${slugEnvVarName ? `${slugEnvVarName}=${ghAppDataResult.slug} # https://github.c
@@ -236,7 +263,31 @@ index fb21fd0..9dbccdf 100644
      }
      if (joined === 'github/created-app') {
        return {
-@@ -451,7 +451,7 @@ async function githubOauthCallback(req, config) {
+@@ -428,9 +428,10 @@ async function githubOauthCallback(req, config) {
+     }
+   });
+   if (!tokenRes.ok) {
++    const errBody = await tokenRes.text();
+     return {
+       status: 401,
+-      body: 'Authorization failed'
++      body: `Authorization failed (GitHub token exchange returned ${tokenRes.status}).\n\n${errBody}\n\nCheck KEYSTATIC_GITHUB_CLIENT_SECRET in Vercel matches the GitHub App client secret.`
+     };
+   }
+   const _tokenData = await tokenRes.json();
+@@ -438,9 +439,10 @@ async function githubOauthCallback(req, config) {
+   try {
+     tokenData = tokenDataResultType.create(_tokenData);
+   } catch {
++    const missing = ['access_token', 'expires_in', 'refresh_token', 'refresh_token_expires_in', 'scope', 'token_type'].filter(key => _tokenData[key] === undefined);
+     return {
+       status: 401,
+-      body: 'Authorization failed'
++      body: `Authorization failed (invalid token response from GitHub).\n\nMissing fields: ${missing.join(', ') || 'unknown'}\n\nIf refresh_token is missing, enable "Expire user authorization tokens" on your GitHub App settings, then sign in again.`
+     };
+   }
+   const headers = await getTokenCookies(tokenData, config);
+@@ -451,7 +453,7 @@ async function githubOauthCallback(req, config) {
        status: 200
      };
    }
@@ -245,7 +296,7 @@ index fb21fd0..9dbccdf 100644
  }
  async function getTokenCookies(tokenData, config) {
    const headers = [['Set-Cookie', cookie.serialize('keystatic-gh-access-token', tokenData.access_token, {
-@@ -527,7 +527,7 @@ async function refreshGitHubAuth(req, config) {
+@@ -527,7 +529,7 @@ async function refreshGitHubAuth(req, config) {
  async function githubRepoNotFound(req, config) {
    const headers = await refreshGitHubAuth(req, config);
    if (headers) {
@@ -335,7 +386,7 @@ index 2246207..f266848 100644
    return githubLogin(req, config);
  }
 diff --git a/node_modules/@keystatic/core/dist/keystatic-core-ui.js b/node_modules/@keystatic/core/dist/keystatic-core-ui.js
-index 24d4713..fd540d8 100644
+index 24d4713..2a2e248 100644
 --- a/node_modules/@keystatic/core/dist/keystatic-core-ui.js
 +++ b/node_modules/@keystatic/core/dist/keystatic-core-ui.js
 @@ -935,7 +935,7 @@ function CollectionPageContent(props) {
@@ -343,7 +394,7 @@ index 24d4713..fd540d8 100644
          tone: "accent",
          href: props.basePath,
 -        children: "Dashboard"
-+        children: "Home"
++        children: "Головна"
        });
        $[0] = props.basePath;
        $[1] = t0;

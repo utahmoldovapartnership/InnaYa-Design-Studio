@@ -7,6 +7,7 @@ import {
   type TechBenefit,
 } from "@/components/technology/TechChapter";
 import { revitFeatureImage, vrFeatureImage } from "@/content/tech-photos";
+import { buildLocaleAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -14,11 +15,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "nav" });
-  const meta = await getTranslations({ locale, namespace: "meta" });
+  const t = await getTranslations({ locale, namespace: "services" });
   return {
-    title: t("services"),
-    description: meta("description"),
+    title: t("title"),
+    description: t("metaDescription"),
+    alternates: buildLocaleAlternates(locale, "/technologies"),
   };
 }
 

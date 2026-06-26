@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
+import { buildLocaleAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -9,12 +10,14 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
+  const home = await getTranslations({ locale, namespace: "home.hero" });
   return {
     title: {
       default: t("siteName"),
       template: `%s · ${t("siteName")}`,
     },
-    description: t("description"),
+    description: home("subtitle"),
+    alternates: buildLocaleAlternates(locale, ""),
     other: {
       "theme-color": "#0a0a0a",
     },
@@ -26,10 +29,12 @@ export default async function HomePage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  await params;
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home.hero" });
 
   return (
     <>
+      <h1 className="sr-only">{t("title")}</h1>
       <EdgeToEdgeHero
         media={
           <video

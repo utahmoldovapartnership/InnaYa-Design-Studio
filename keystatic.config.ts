@@ -1,5 +1,11 @@
 import { collection, config, fields, singleton } from "@keystatic/core";
 import { EmptyBrandMark } from "@/components/admin/EmptyBrandMark";
+import {
+  ADMIN_LOCALE,
+  adminFields as f,
+  adminNav,
+  localeTabLabels,
+} from "@/lib/admin-labels";
 
 const portfolioMedia = {
   directory: "public/images/portfolio",
@@ -10,27 +16,27 @@ function localeFields(label: string) {
   return fields.object(
     {
       title: fields.text({
-        label: "Title",
+        label: f.title,
         validation: { isRequired: true },
       }),
       location: fields.text({
-        label: "Location",
+        label: f.location,
         validation: { isRequired: true },
       }),
       excerpt: fields.text({
-        label: "Short description",
-        description: "Shown on the portfolio grid and in search results.",
+        label: f.excerpt,
+        description: f.excerptHint,
         multiline: true,
         validation: { isRequired: true },
       }),
       typology: fields.text({
-        label: "Typology",
-        description: "e.g. Architecture, Interior design, Space planning",
+        label: f.typology,
+        description: f.typologyHint,
         validation: { isRequired: true },
       }),
       status: fields.text({
-        label: "Status",
-        description: "Optional. Leave empty to use the default site label.",
+        label: f.status,
+        description: f.statusHint,
       }),
     },
     { label },
@@ -39,10 +45,10 @@ function localeFields(label: string) {
 
 const galleryMediaField = fields.conditional(
   fields.select({
-    label: "Media type",
+    label: f.mediaType,
     options: [
-      { label: "Image", value: "image" },
-      { label: "Video", value: "video" },
+      { label: f.image, value: "image" },
+      { label: f.video, value: "video" },
     ],
     defaultValue: "image",
   }),
@@ -50,61 +56,60 @@ const galleryMediaField = fields.conditional(
     image: fields.object(
       {
         image: fields.image({
-          label: "Image file",
-          description: "Drag an image here or click to upload.",
+          label: f.imageFile,
+          description: f.imageFileHint,
           ...portfolioMedia,
         }),
         fit: fields.select({
-          label: "Display fit",
-          description: "Use Contain for floor plans.",
+          label: f.displayFit,
+          description: f.displayFitHint,
           options: [
-            { label: "Cover (default)", value: "cover" },
-            { label: "Contain (floor plans)", value: "contain" },
+            { label: f.fitCover, value: "cover" },
+            { label: f.fitContain, value: "contain" },
           ],
           defaultValue: "cover",
         }),
         orientation: fields.select({
-          label: "Orientation",
+          label: f.orientation,
           options: [
-            { label: "Landscape", value: "landscape" },
-            { label: "Portrait", value: "portrait" },
+            { label: f.landscape, value: "landscape" },
+            { label: f.portrait, value: "portrait" },
           ],
           defaultValue: "landscape",
         }),
         width: fields.integer({
-          label: "Width (px)",
-          description: "Optional. Usually not needed.",
+          label: f.widthPx,
+          description: f.optionalHint,
         }),
         height: fields.integer({
-          label: "Height (px)",
-          description: "Optional. Usually not needed.",
+          label: f.heightPx,
+          description: f.optionalHint,
         }),
       },
-      { label: "Image settings", layout: [12, 6, 6, 6, 6] },
+      { label: f.imageSettings, layout: [12, 6, 6, 6, 6] },
     ),
     video: fields.object(
       {
         file: fields.file({
-          label: "Video file",
-          description: "Drag an MP4 here or click to upload.",
+          label: f.videoFile,
+          description: f.videoFileHint,
           ...portfolioMedia,
         }),
         poster: fields.image({
-          label: "Cover image (thumbnail)",
-          description:
-            "Shown in the portfolio grid. Upload a still frame from the video.",
+          label: f.coverThumbnail,
+          description: f.coverThumbnailHint,
           ...portfolioMedia,
         }),
         orientation: fields.select({
-          label: "Orientation",
+          label: f.orientation,
           options: [
-            { label: "Landscape", value: "landscape" },
-            { label: "Portrait", value: "portrait" },
+            { label: f.landscape, value: "landscape" },
+            { label: f.portrait, value: "portrait" },
           ],
           defaultValue: "landscape",
         }),
       },
-      { label: "Video settings", layout: [12, 12, 12] },
+      { label: f.videoSettings, layout: [12, 12, 12] },
     ),
   },
 );
@@ -112,7 +117,7 @@ const galleryMediaField = fields.conditional(
 function aboutLocaleFields(label: string) {
   return fields.text({
     label,
-    description: "Separate paragraphs with a blank line.",
+    description: f.aboutTextHint,
     multiline: true,
     validation: { isRequired: true },
   });
@@ -121,8 +126,6 @@ function aboutLocaleFields(label: string) {
 function getStorage():
   | { kind: "local" }
   | { kind: "github"; repo: `${string}/${string}` } {
-  // Server-only KEYSTATIC_GITHUB_REPO works for API routes; the admin UI
-  // bundle needs NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO at build time.
   const repo =
     process.env.KEYSTATIC_GITHUB_REPO ??
     process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO;
@@ -136,56 +139,57 @@ function getStorage():
 }
 
 export default config({
+  locale: ADMIN_LOCALE,
   storage: getStorage(),
   ui: {
     brand: {
       mark: EmptyBrandMark,
-      name: "Dashboard",
+      name: adminNav.brand,
     },
     navigation: {
-      Pages: ["projects", "about", "contact"],
+      [adminNav.pages]: ["projects", "about", "contact"],
     },
   },
   singletons: {
     about: singleton({
-      label: "About",
+      label: adminNav.about,
       path: "content/about/",
       format: { data: "yaml" },
       previewUrl: "/uk/about",
       schema: {
-        en: aboutLocaleFields("English"),
-        uk: aboutLocaleFields("Ukrainian"),
-        ru: aboutLocaleFields("Russian"),
+        en: aboutLocaleFields(localeTabLabels.en),
+        uk: aboutLocaleFields(localeTabLabels.uk),
+        ru: aboutLocaleFields(localeTabLabels.ru),
       },
     }),
     contact: singleton({
-      label: "Contact",
+      label: adminNav.contact,
       path: "content/contact/",
       format: { data: "yaml" },
       previewUrl: "/uk/contact",
       schema: {
         email: fields.text({
-          label: "Email",
+          label: f.email,
           validation: { isRequired: true },
         }),
         moldovaPhone: fields.text({
-          label: "Moldova",
-          description: "Phone number for Moldova.",
+          label: f.moldovaPhone,
+          description: f.moldovaPhoneHint,
           validation: { isRequired: true },
         }),
         ukrainePhone: fields.text({
-          label: "Ukraine",
-          description: "Phone number for Ukraine.",
+          label: f.ukrainePhone,
+          description: f.ukrainePhoneHint,
           validation: { isRequired: true },
         }),
         instagram: fields.text({
-          label: "Instagram",
-          description: "Handle, e.g. @innaya_d_studio",
+          label: f.instagram,
+          description: f.instagramHint,
           validation: { isRequired: true },
         }),
         tiktok: fields.text({
-          label: "TikTok",
-          description: "Handle, e.g. @innaya.design",
+          label: f.tiktok,
+          description: f.tiktokHint,
           validation: { isRequired: true },
         }),
       },
@@ -193,7 +197,7 @@ export default config({
   },
   collections: {
     projects: collection({
-      label: "Portfolio",
+      label: adminNav.projects,
       slugField: "slug",
       path: "content/projects/*",
       format: { data: "yaml" },
@@ -203,67 +207,64 @@ export default config({
       schema: {
         slug: fields.slug({
           name: {
-            label: "Name",
+            label: f.name,
             validation: { isRequired: false },
           },
           slug: {
-            label: "Project slug",
-            description:
-              "URL path: /portfolio/[slug]. Use lowercase letters and hyphens only.",
+            label: f.projectSlug,
+            description: f.projectSlugHint,
           },
         }),
         year: fields.text({
-          label: "Year",
+          label: f.year,
           validation: { isRequired: true },
         }),
         area: fields.text({
-          label: "Area (m²)",
-          description: "Optional. Leave empty if not applicable.",
+          label: f.area,
+          description: f.areaHint,
         }),
-        en: localeFields("English"),
-        uk: localeFields("Ukrainian"),
-        ru: localeFields("Russian"),
+        en: localeFields(localeTabLabels.en),
+        uk: localeFields(localeTabLabels.uk),
+        ru: localeFields(localeTabLabels.ru),
         cover: fields.object(
           {
             image: fields.image({
-              label: "Cover image",
-              description:
-                "Main image on the portfolio grid. Drag and drop or click to upload.",
+              label: f.coverImage,
+              description: f.coverImageHint,
               ...portfolioMedia,
             }),
             alt: fields.text({
-              label: "Alt text",
+              label: f.altText,
               validation: { isRequired: true },
             }),
             orientation: fields.select({
-              label: "Orientation",
+              label: f.orientation,
               options: [
-                { label: "Landscape", value: "landscape" },
-                { label: "Portrait", value: "portrait" },
+                { label: f.landscape, value: "landscape" },
+                { label: f.portrait, value: "portrait" },
               ],
               defaultValue: "landscape",
             }),
           },
-          { label: "Cover image", layout: [12, 8, 4] },
+          { label: f.coverImage, layout: [12, 8, 4] },
         ),
         gallery: fields.array(
           fields.object(
             {
               alt: fields.text({
-                label: "Description",
-                description: "Short label for this image or video.",
+                label: f.galleryDescription,
+                description: f.galleryDescriptionHint,
                 validation: { isRequired: true },
               }),
               media: galleryMediaField,
             },
-            { label: "Gallery item" },
+            { label: f.galleryItem },
           ),
           {
-            label: "Gallery",
-            description:
-              "Drag items to reorder. Images and videos appear in this order on the project page.",
+            label: f.gallery,
+            description: f.galleryHint,
             itemLabel: (props) =>
-              props.fields.alt.value ?? "Gallery item",
+              props.fields.alt.value ?? f.galleryItemDefault,
           },
         ),
       },

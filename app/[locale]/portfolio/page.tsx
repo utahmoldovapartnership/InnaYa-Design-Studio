@@ -3,6 +3,7 @@ import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { InteriorImage } from "@/components/ui/InteriorImage";
 import { coverAspectClass } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
+import { buildLocaleAlternates } from "@/lib/seo";
 import { getAllProjects } from "@/lib/projects";
 
 export async function generateMetadata({
@@ -12,10 +13,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "portfolio" });
-  const meta = await getTranslations({ locale, namespace: "meta" });
   return {
     title: t("title"),
-    description: meta("description"),
+    description: t("subtitle"),
+    alternates: buildLocaleAlternates(locale, "/portfolio"),
   };
 }
 
@@ -26,9 +27,11 @@ export default async function PortfolioIndexPage({
 }) {
   const { locale } = await params;
   const projects = await getAllProjects(locale);
+  const t = await getTranslations("portfolio");
 
   return (
     <>
+      <h1 className="sr-only">{t("title")}</h1>
       <div className="px-5 pt-10">
         <div className="-translate-y-[calc(var(--header-height)/4)] transform">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">

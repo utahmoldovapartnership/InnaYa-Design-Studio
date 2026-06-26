@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { FaEnvelope, FaInstagram, FaPhone, FaTiktok } from "react-icons/fa6";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { buildLocaleAlternates } from "@/lib/seo";
 import { getContactInfo } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -10,10 +11,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contact" });
-  const meta = await getTranslations({ locale, namespace: "meta" });
   return {
     title: t("title"),
-    description: meta("description"),
+    description: t("intro"),
+    alternates: buildLocaleAlternates(locale, "/contact"),
   };
 }
 
@@ -28,6 +29,7 @@ export default async function ContactPage({
 
   return (
     <section className="flex min-h-[calc(100dvh-var(--header-height))] items-center px-5 py-10 md:px-8 md:py-0">
+      <h1 className="sr-only">{t("title")}</h1>
       <div className="mx-auto w-full max-w-[1200px] -translate-y-[calc(var(--header-height)/4)] transform">
         <div className="grid w-full gap-14 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <div className="order-2 md:order-1 md:self-center">

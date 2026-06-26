@@ -1,8 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ProjectImageRail } from "@/components/portfolio/ProjectImageRail";
+import { ProjectJsonLd } from "@/components/seo/ProjectJsonLd";
 import { routing } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
+import { buildLocaleAlternates } from "@/lib/seo";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -18,16 +20,24 @@ export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
   const project = await getProjectBySlug(slug, locale);
   if (!project) return {};
+  const coverImage = project.cover.src
+    ? {
+        url: project.cover.src,
+        alt: project.cover.alt,
+      }
+    : undefined;
+
   return {
     title: project.title,
     description: project.excerpt,
-    alternates: {
-      languages: {
-        en: `/en/portfolio/${slug}`,
-        uk: `/uk/portfolio/${slug}`,
-        ru: `/ru/portfolio/${slug}`,
-      },
-    },
+    alternates: buildLocaleAlternates(locale, `/portfolio/${slug}`),
+    openGraph: coverImage
+      ? {
+          title: project.title,
+          description: project.excerpt,
+          images: [coverImage],
+        }
+      : undefined,
   };
 }
 
@@ -43,6 +53,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
   return (
     <article className="min-h-screen bg-white px-5 pb-0 md:h-dvh md:overflow-hidden md:px-8 md:pb-0">
+      <ProjectJsonLd locale={locale} project={project} />
       <div
         className={`mx-auto flex w-full max-w-[1400px] flex-col gap-8 md:grid md:h-full md:min-h-0 md:grid-cols-[360px_minmax(0,1fr)] md:gap-10 md:pb-0 ${
           isSingleMedia

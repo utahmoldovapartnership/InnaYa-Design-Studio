@@ -71,6 +71,7 @@
   },
   "about": {
     "title": "О студии",
+    "metaDescription": "Инна Ефименко — основательница InnaYa Design Studio. Более 17 лет дизайна интерьеров в Украине, Молдове и Европе.",
     "photoAlt": "Портрет Инны Ефименко",
     "paragraphs": [
       "Меня зовут Инна Ефименко, я основатель InnaYa Design Studio.",
@@ -83,6 +84,7 @@
   },
   "services": {
     "title": "Технологии",
+    "metaDescription": "Revit BIM, VR-прогулки и обмеры Leica — технологии, благодаря которым InnaYa Design Studio создаёт точные интерьерные проекты.",
     "revitEyebrow": "BIM / Revit",
     "vrEyebrow": "Виртуальная реальность",
     "leicaEyebrow": "Обмер на объекте",

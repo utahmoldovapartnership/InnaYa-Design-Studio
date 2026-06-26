@@ -14,7 +14,16 @@ Open `http://localhost:3000` — you will be redirected to a locale prefix (`/en
 
 ## Environment variables
 
-See `.env.example` for Keystatic admin keys (required on Vercel for `/edit`).
+See `.env.example` for all keys. On Vercel, set:
+
+| Variable | Purpose |
+|----------|---------|
+| `NEXT_PUBLIC_SITE_URL` | Production domain for SEO (sitemap, canonical URLs, Open Graph) |
+| `KEYSTATIC_GITHUB_REPO` | `owner/repo-name` |
+| `KEYSTATIC_GITHUB_CLIENT_ID` | GitHub App client ID |
+| `KEYSTATIC_GITHUB_CLIENT_SECRET` | GitHub App client secret |
+| `KEYSTATIC_SECRET` | Random string (e.g. `openssl rand -hex 32`) |
+| `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | GitHub App slug (e.g. `innayastudio`) |
 
 Never commit `.env.local`. Rotate any secret that was shared in chat or logs.
 
@@ -30,7 +39,13 @@ Inna can add and edit portfolio projects in the browser at **`/edit`** (e.g. `ht
 
 ### What you can edit
 
-Each project includes:
+In **`/edit` → Pages** you can manage:
+
+- **Portfolio** — projects (slug, year, area, EN/UK/RU text, cover, gallery)
+- **About** — studio bio in all three languages
+- **Contact** — email, phone numbers, Instagram, TikTok
+
+Each portfolio project includes:
 
 - **Slug** (URL), year, optional area (m²)
 - **Language tabs** (English / Ukrainian / Russian) for title, location, excerpt, typology, and optional status
@@ -41,22 +56,24 @@ Published changes appear on the live site after Vercel finishes redeploying (usu
 
 ### First-time setup (developer)
 
-1. Create a [GitHub OAuth App](https://github.com/settings/developers) with callback URL  
+1. Create a [GitHub App](https://github.com/settings/apps/new) (not an OAuth App) with callback URL  
    `https://your-site.vercel.app/api/keystatic/github/oauth/callback`  
    (use `http://localhost:3000/api/keystatic/github/oauth/callback` for local testing).
-2. Add these environment variables in Vercel (and `.env.local` for local GitHub mode):
+2. Under **Where can this GitHub App be installed?**, choose **Any account** (required for collaborators).
+3. Enable **Request user authorization (OAuth) during installation** and **Expire user authorization tokens** (Optional Features).
+4. Install the app on your repo and add environment variables in Vercel (and `.env.local` for local GitHub mode):
 
    | Variable | Purpose |
    |----------|---------|
+   | `NEXT_PUBLIC_SITE_URL` | Production domain |
    | `KEYSTATIC_GITHUB_REPO` | `owner/repo-name` |
-   | `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO` | Same value as `KEYSTATIC_GITHUB_REPO` |
    | `KEYSTATIC_GITHUB_CLIENT_ID` | GitHub App client ID |
    | `KEYSTATIC_GITHUB_CLIENT_SECRET` | GitHub App client secret |
    | `KEYSTATIC_SECRET` | Random string (e.g. `openssl rand -hex 32`) |
-   | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | GitHub App slug from Keystatic setup |
+   | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | GitHub App slug |
 
-3. Add Inna's GitHub account as a **collaborator** on the repository (write access).
-4. Redeploy. Inna signs in at `/edit` with GitHub to edit projects.
+5. Add Inna's GitHub account as a **collaborator** on the repository (write access).
+6. Redeploy. Inna signs in at `/edit` with GitHub to edit content.
 
 Without these variables on Vercel, **`/edit` is hidden** (404). Local `npm run dev` still works without GitHub for developers.
 

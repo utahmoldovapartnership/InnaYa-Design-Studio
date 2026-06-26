@@ -6,26 +6,30 @@ import type {
   ProjectMediaPreview,
 } from "@/lib/admin-project-media";
 import { installGithubSavePreservation } from "@/components/admin/install-github-save-preservation";
+import {
+  adminChromeReplacements,
+  adminFields as f,
+  localeTabLabels,
+} from "@/lib/admin-labels";
 
 const LOCALE_TABS = [
-  { id: "en", label: "English" },
-  { id: "uk", label: "Ukrainian" },
-  { id: "ru", label: "Russian" },
+  { id: "en", label: localeTabLabels.en },
+  { id: "uk", label: localeTabLabels.uk },
+  { id: "ru", label: localeTabLabels.ru },
 ] as const;
 
-const UPLOAD_FIELD_LABELS = new Set([
-  "Cover image",
-  "Image file",
-  "Video file",
-  "Cover image (thumbnail)",
+const UPLOAD_FIELD_LABELS = new Set<string>([
+  f.coverImage,
+  f.imageFile,
+  f.videoFile,
+  f.coverThumbnail,
 ]);
 
 const UPLOAD_DESCRIPTION_SNIPPETS = [
-  "Drag an image here or click to upload",
-  "Main image on the portfolio grid",
-  "Drag and drop or click to upload",
-  "Drag an MP4 here or click to upload",
-  "Shown in the portfolio grid",
+  f.imageFileHint,
+  f.coverImageHint,
+  f.videoFileHint,
+  f.coverThumbnailHint,
 ];
 
 const EMPTY_PROJECT_MEDIA: ProjectMediaPreview = {
@@ -151,7 +155,7 @@ function setupLocaleTabs(): (() => void) | null {
   const tabList = document.createElement("div");
   tabList.className = "portfolio-locale-tabs__list";
   tabList.setAttribute("role", "tablist");
-  tabList.setAttribute("aria-label", "Project languages");
+  tabList.setAttribute("aria-label", "Мови проєкту");
 
   const showPanel = (id: string) => {
     document.body.dataset.portfolioLocale = id;
@@ -178,7 +182,7 @@ function setupLocaleTabs(): (() => void) | null {
   }
 
   host.appendChild(tabList);
-  showPanel("en");
+  showPanel("uk");
 
   return () => {
     document.body.removeAttribute("data-portfolio-locale");
@@ -320,7 +324,7 @@ function setupFileDropZones(): () => void {
 }
 
 function findGalleryList(): HTMLElement | null {
-  const list = document.querySelector('[aria-label="Gallery"]');
+  const list = document.querySelector(`[aria-label="${f.gallery}"]`);
   return list instanceof HTMLElement ? list : null;
 }
 
@@ -329,7 +333,7 @@ let activeGalleryIndex: number | null = null;
 function setupGalleryRowTracking(): () => void {
   const onClick = (event: MouseEvent) => {
     const row = (event.target as HTMLElement | null)?.closest(
-      '[aria-label="Gallery"] [role="row"]',
+      `[aria-label="${f.gallery}"] [role="row"]`,
     );
     if (!row) return;
 
@@ -384,19 +388,19 @@ function getDirectUploadFieldLabel(group: Element): string | null {
 function isUploadFieldGroup(group: Element): boolean {
   const label = getDirectUploadFieldLabel(group);
   if (!label) return false;
-  if (!group.textContent?.includes("Choose file")) return false;
+  if (!group.textContent?.includes("Вибрати файл") && !group.textContent?.includes("Choose file")) return false;
 
   // Match the inner upload field only, not the parent object section.
-  if (label === "Cover image") {
-    return !group.textContent?.includes("Alt text");
+  if (label === f.coverImage) {
+    return !group.textContent?.includes(f.altText);
   }
 
-  if (label === "Image file") {
-    return !group.textContent?.includes("Display fit");
+  if (label === f.imageFile) {
+    return !group.textContent?.includes(f.displayFit);
   }
 
-  if (label === "Cover image (thumbnail)") {
-    return !group.textContent?.includes("Video file");
+  if (label === f.coverThumbnail) {
+    return !group.textContent?.includes(f.videoFile);
   }
 
   return true;
@@ -463,7 +467,8 @@ function triggerUploadRemove(uploadGroup: HTMLElement): void {
 }
 
 function markKeystaticFileUi(group: HTMLElement): void {
-  const buttons = findButtonByText(group, "Choose file")?.parentElement;
+  const buttons = findButtonByText(group, "Вибрати файл")?.parentElement ??
+    findButtonByText(group, "Choose file")?.parentElement;
   if (buttons) {
     buttons.classList.add("portfolio-ks-actions");
   }
@@ -609,7 +614,7 @@ function ensureMediaSlot(
     const overlay = document.createElement("button");
     overlay.type = "button";
     overlay.className = "portfolio-media-slot__overlay";
-    overlay.setAttribute("aria-label", "Remove image");
+    overlay.setAttribute("aria-label", "Видалити зображення");
     overlay.innerHTML =
       '<span class="portfolio-media-slot__remove-icon" aria-hidden="true">×</span>';
     preview.appendChild(overlay);
@@ -761,7 +766,7 @@ function decorateGalleryRow(row: Element, item: GalleryMediaPreview): void {
     badge.className = "portfolio-gallery-row__type";
     labelCell.appendChild(badge);
   }
-  badge.textContent = item.kind === "video" ? "Video" : "Image";
+  badge.textContent = item.kind === "video" ? f.video : f.image;
 
   row.classList.add("portfolio-gallery-row");
 }
@@ -839,7 +844,9 @@ function injectProjectListThumbnails(projects: ProjectMediaPreview[]): void {
 function findGalleryItemModal(): HTMLElement | null {
   const dialog = [...document.querySelectorAll('[role="dialog"]')].find(
     (node) =>
+      node.textContent?.includes("Редагувати") ||
       node.textContent?.includes("Edit item") ||
+      node.textContent?.includes("Додати") ||
       node.textContent?.includes("Add item"),
   );
   return dialog instanceof HTMLElement ? dialog : null;
@@ -871,19 +878,19 @@ function resolveUploadPreview(
   let kind: GalleryMediaPreview["kind"] = "image";
   let src: string | null = null;
 
-  if (label === "Cover image") {
+  if (label === f.coverImage) {
     src = project.cover;
-  } else if (label === "Image file") {
+  } else if (label === f.imageFile) {
     if (activeGalleryItem) {
       src = activeGalleryItem.preview;
       kind = activeGalleryItem.kind;
     }
-  } else if (label === "Video file") {
+  } else if (label === f.videoFile) {
     kind = "video";
     if (activeGalleryItem?.kind === "video") {
       src = activeGalleryItem.preview;
     }
-  } else if (label === "Cover image (thumbnail)") {
+  } else if (label === f.coverThumbnail) {
     kind = "video";
     if (activeGalleryItem?.kind === "video") {
       src = activeGalleryItem.preview;
@@ -1001,12 +1008,12 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
   try {
     if (activeItem?.kind === "image") {
       const settingsPanel = findLabeledPanel(modal, "Image settings");
-      const uploadGroup = findUploadGroupIn(modal, "Image file");
+      const uploadGroup = findUploadGroupIn(modal, f.imageFile);
       if (settingsPanel && uploadGroup) {
         enhanceUploadField(
           settingsPanel,
           uploadGroup,
-          "Image file",
+          f.imageFile,
           activeItem.preview,
           "image",
           true,
@@ -1019,12 +1026,12 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
 
     if (activeItem?.kind === "video") {
       const settingsPanel = findLabeledPanel(modal, "Video settings");
-      const posterGroup = findUploadGroupIn(modal, "Cover image (thumbnail)");
+      const posterGroup = findUploadGroupIn(modal, f.coverThumbnail);
       if (settingsPanel && posterGroup) {
         enhanceUploadField(
           settingsPanel,
           posterGroup,
-          "Cover image (thumbnail)",
+          f.coverThumbnail,
           activeItem.preview,
           "video",
           true,
@@ -1032,7 +1039,7 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
         );
       }
 
-      const videoGroup = findUploadGroupIn(modal, "Video file");
+      const videoGroup = findUploadGroupIn(modal, f.videoFile);
       if (videoGroup) {
         if (fieldHasNativeMedia(videoGroup)) {
           markKeystaticFileUi(videoGroup);
@@ -1049,7 +1056,7 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
           enhanceUploadField(
             videoGroup,
             videoGroup,
-            "Video file",
+            f.videoFile,
             null,
             "video",
             true,
@@ -1091,10 +1098,10 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
 function enhanceUploadFields(
   project: ProjectMediaPreview,
 ): void {
-  const coverGroup = findInnerUploadGroup(document, "Cover image");
+  const coverGroup = findInnerUploadGroup(document, f.coverImage);
   if (coverGroup) {
     const { src: previewSrc, kind } = resolveUploadPreview(
-      "Cover image",
+      f.coverImage,
       project,
       null,
       coverGroup,
@@ -1102,7 +1109,7 @@ function enhanceUploadFields(
     enhanceUploadField(
       coverGroup,
       coverGroup,
-      "Cover image",
+      f.coverImage,
       previewSrc,
       kind,
       false,
@@ -1115,7 +1122,7 @@ function enhanceUploadFields(
     if (!isUploadFieldGroup(group)) continue;
 
     const label = getDirectUploadFieldLabel(group);
-    if (!label || label === "Cover image") continue;
+    if (!label || label === f.coverImage) continue;
 
     const { src: previewSrc, kind } = resolveUploadPreview(
       label,
@@ -1143,7 +1150,7 @@ function ensureDropzoneSurface(group: HTMLElement, label: string): void {
   surface.innerHTML = `
     <span class="portfolio-dropzone__icon" aria-hidden="true">↑</span>
     <span class="portfolio-dropzone__title">${label}</span>
-    <span class="portfolio-dropzone__hint">Drag & drop a file here, or click to browse</span>
+    <span class="portfolio-dropzone__hint">${adminChromeReplacements["Drag & drop a file here, or click to browse"]}</span>
   `;
 
   const actions = group.querySelector(".portfolio-ks-actions");
@@ -1158,8 +1165,8 @@ function wrapFormSections(): void {
     ?.classList.add("portfolio-section", "portfolio-section--gallery");
 
   for (const group of document.querySelectorAll('[role="group"]')) {
-    if (getDirectUploadFieldLabel(group) !== "Cover image") continue;
-    const coverGroup = findInnerUploadGroup(document, "Cover image") ?? group;
+    if (getDirectUploadFieldLabel(group) !== f.coverImage) continue;
+    const coverGroup = findInnerUploadGroup(document, f.coverImage) ?? group;
     const section =
       coverGroup.parentElement?.closest<HTMLElement>('[role="group"]') ??
       coverGroup.closest("div");
@@ -1333,53 +1340,31 @@ function setupProjectListThumbnails(): (() => void) | null {
 }
 
 function setupAdminLabels(): () => void {
-  const replaceDashboardLabels = () => {
-    const title = document.querySelector<HTMLElement>(
-      "body.portfolio-admin h1#page-title",
-    );
-    if (title?.textContent?.trim() === "Dashboard") {
-      title.textContent = "Home";
-    }
-
-    for (const node of document.querySelectorAll(
-      "body.portfolio-admin nav a, body.portfolio-admin a[href*='/edit']",
-    )) {
-      if (node.textContent?.trim() !== "Dashboard") continue;
-      if (node.closest("header")) continue;
-      node.textContent = "Home";
-    }
-
-    for (const node of document.querySelectorAll(
-      "body.portfolio-admin button",
-    )) {
-      if (node.textContent?.trim() === "Dashboard") {
-        node.textContent = "Home";
-      }
-    }
-
+  const applyTranslations = () => {
     for (const node of document.querySelectorAll("body.portfolio-admin *")) {
+      if (node.children.length > 0) continue;
       const text = node.textContent?.trim();
       if (!text) continue;
-      if (node.children.length > 0) continue;
 
-      if (text === "Collections" || text === "Collection") {
-        node.textContent = text === "Collection" ? "Page" : "Pages";
+      const replacement = adminChromeReplacements[text];
+      if (replacement) {
+        node.textContent = replacement;
         continue;
       }
 
       if (/\d+ entries$/.test(text)) {
-        node.textContent = text.replace(/ entries$/, " projects");
+        node.textContent = text.replace(/ entries$/, " проєктів");
         continue;
       }
 
       if (/\d+ entry$/.test(text)) {
-        node.textContent = text.replace(/ entry$/, " project");
+        node.textContent = text.replace(/ entry$/, " проєкт");
       }
     }
   };
 
-  replaceDashboardLabels();
-  const observer = new MutationObserver(replaceDashboardLabels);
+  applyTranslations();
+  const observer = new MutationObserver(applyTranslations);
   observer.observe(document.body, { childList: true, subtree: true });
 
   return () => observer.disconnect();

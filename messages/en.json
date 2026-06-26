@@ -71,6 +71,7 @@
   },
   "about": {
     "title": "About the studio",
+    "metaDescription": "Meet Inna Yefimenko, founder of InnaYa Design Studio — 17+ years of interior design across Ukraine, Moldova, and Europe.",
     "photoAlt": "Portrait of Inna Yefimenko",
     "paragraphs": [
       "My name is Inna Yefimenko, and I am the founder of InnaYa Design Studio.",
@@ -83,6 +84,7 @@
   },
   "services": {
     "title": "Technologies",
+    "metaDescription": "Revit BIM, VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision interior projects.",
     "revitEyebrow": "BIM / Revit",
     "vrEyebrow": "Virtual reality",
     "leicaEyebrow": "Site survey",

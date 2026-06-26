@@ -23,6 +23,22 @@
 # misc
 .DS_Store
 *.pem
+Thumbs.db
+
+# Local source assets (migrated to public/images/portfolio — keep offline)
+ПОРТФОЛИО/
+ПОРТФОЛИО.rar
+*.rar
+*.zip
+
+# Design / working files
+*.ai
+*.psd
+*.sketch
+
+# IDE / tooling (local only)
+.cursor/
+assets/
 
 # debug
 npm-debug.log*
