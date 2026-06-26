@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "patch-package"
+    "postinstall": "node scripts/patch-keystatic.mjs"
   },
   "dependencies": {
     "@keystatic/core": "^0.5.50",
@@ -27,7 +27,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
-    "patch-package": "^8.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
