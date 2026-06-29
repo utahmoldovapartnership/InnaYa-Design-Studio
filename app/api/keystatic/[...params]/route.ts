@@ -1,23 +1,21 @@
-import { makeRouteHandler } from "@keystatic/next/route-handler";
 import { assertKeystaticAdminAccess } from "@/lib/keystatic-admin-access";
-import { normalizeKeystaticApiRequest } from "@/lib/keystatic-api-request";
+import { callKeystaticApi } from "@/lib/keystatic-api-request";
+import { createKeystaticRouteHandler } from "@/lib/keystatic-route-handler";
 import { preserveProjectMediaInUpdateRequest } from "@/lib/preserve-project-media-on-save";
-import config from "../../../../keystatic.config";
 
-const keystatic = makeRouteHandler({ config });
+const keystatic = createKeystaticRouteHandler();
 
 export async function GET(request: Request) {
   const denied = assertKeystaticAdminAccess();
   if (denied) return denied;
 
-  return keystatic.GET(normalizeKeystaticApiRequest(request));
+  return callKeystaticApi(keystatic.GET, request);
 }
 
 export async function POST(request: Request) {
   const denied = assertKeystaticAdminAccess();
   if (denied) return denied;
 
-  request = normalizeKeystaticApiRequest(request);
   const url = new URL(request.url);
 
   if (url.pathname.endsWith("/update")) {
@@ -31,5 +29,5 @@ export async function POST(request: Request) {
     });
   }
 
-  return keystatic.POST(request);
+  return callKeystaticApi(keystatic.POST, request);
 }

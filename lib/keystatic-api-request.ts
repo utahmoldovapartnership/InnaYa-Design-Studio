@@ -1,39 +1,38 @@
-import fs from "fs";
-import path from "path";
+const LEGACY_API_PREFIX = "/api/edit";
 
-const API_GENERIC_FILE = path.join(
-  process.cwd(),
-  "node_modules",
-  "@keystatic",
-  "core",
-  "dist",
-  "keystatic-core-api-generic.node.react-server.js",
-);
-
-function keystaticApiUsesLegacyEditParser(): boolean {
-  try {
-    const source = fs.readFileSync(API_GENERIC_FILE, "utf8");
-    return source.includes("pathname.replace(/^\\/api\\/edit");
-  } catch {
-    return false;
+function rewriteToLegacyEditPrefix(request: Request): Request {
+  const url = new URL(request.url);
+  if (!url.pathname.startsWith("/api/keystatic/")) {
+    return request;
   }
+
+  url.pathname = url.pathname.replace(/^\/api\/keystatic/, LEGACY_API_PREFIX);
+  return new Request(url.toString(), request);
 }
 
-const useLegacyEditApiPrefix = keystaticApiUsesLegacyEditParser();
+function isGithubAuthPath(pathname: string): boolean {
+  return pathname.startsWith("/api/keystatic/github/");
+}
 
-export function normalizeKeystaticApiRequest(request: Request): Request {
-  const url = new URL(request.url);
+export async function callKeystaticApi(
+  handler: (request: Request) => Promise<Response>,
+  request: Request,
+): Promise<Response> {
+  const response = await handler(request);
 
-  if (
-    useLegacyEditApiPrefix &&
-    url.pathname.startsWith("/api/keystatic/")
-  ) {
-    url.pathname = url.pathname.replace(
-      /^\/api\/keystatic/,
-      "/api/edit",
-    );
-    return new Request(url.toString(), request);
+  if (response.status !== 404) {
+    return response;
   }
 
-  return request;
+  const pathname = new URL(request.url).pathname;
+  if (!isGithubAuthPath(pathname)) {
+    return response;
+  }
+
+  const legacyRequest = rewriteToLegacyEditPrefix(request);
+  if (legacyRequest.url === request.url) {
+    return response;
+  }
+
+  return handler(legacyRequest);
 }
