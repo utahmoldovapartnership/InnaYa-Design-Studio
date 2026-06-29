@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
+import { getKeystaticGithubRepo } from "@/lib/keystatic-github-repo";
 
 export function isKeystaticGithubStorage(): boolean {
-  const repo = process.env.KEYSTATIC_GITHUB_REPO;
-  return Boolean(repo?.includes("/"));
+  return Boolean(getKeystaticGithubRepo());
 }
 
 export function hasKeystaticGithubSecrets(): boolean {

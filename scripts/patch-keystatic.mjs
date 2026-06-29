@@ -35,7 +35,28 @@ function walkJsFiles(dir, files = []) {
   return files;
 }
 
-function patchContent(source) {
+function isApiGenericFile(filePath) {
+  return path.basename(filePath).startsWith("keystatic-core-api-generic");
+}
+
+function patchApiGenericRedirects(source) {
+  if (!source.includes("/keystatic")) {
+    return source;
+  }
+
+  // Rewrite admin UI redirects only. Never touch /api/keystatic route parsing.
+  return source
+    .split("redirect('/keystatic/")
+    .join("redirect('/edit/")
+    .split('redirect("/keystatic/')
+    .join('redirect("/edit/')
+    .split("return redirect('/keystatic")
+    .join("return redirect('/edit")
+    .split("return redirect(`/keystatic")
+    .join("return redirect(`/edit");
+}
+
+function patchUiContent(source) {
   if (!source.includes("/keystatic") && !source.includes("\\/keystatic")) {
     return source;
   }
@@ -51,6 +72,14 @@ function patchContent(source) {
   next = next.split(API_PLACEHOLDER).join("/api/keystatic");
 
   return next;
+}
+
+function patchContent(source, filePath) {
+  if (isApiGenericFile(filePath)) {
+    return patchApiGenericRedirects(source);
+  }
+
+  return patchUiContent(source);
 }
 
 function patchUkStrings(source) {
@@ -141,7 +170,7 @@ let patchedFiles = 0;
 
 for (const filePath of walkJsFiles(distDir)) {
   const original = fs.readFileSync(filePath, "utf8");
-  let updated = patchContent(original);
+  let updated = patchContent(original, filePath);
   updated = patchUkStrings(updated);
   updated = patchUiBreadcrumb(updated, filePath);
 

@@ -6,6 +6,7 @@ import {
   adminNav,
   localeTabLabels,
 } from "@/lib/admin-labels";
+import { getKeystaticGithubRepo } from "@/lib/keystatic-github-repo";
 
 const portfolioMedia = {
   directory: "public/images/portfolio",
@@ -126,10 +127,8 @@ function aboutLocaleFields(label: string) {
 function getStorage():
   | { kind: "local" }
   | { kind: "github"; repo: `${string}/${string}` } {
-  const repo =
-    process.env.KEYSTATIC_GITHUB_REPO ??
-    process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO;
-  if (repo && repo.includes("/")) {
+  const repo = getKeystaticGithubRepo();
+  if (repo) {
     return {
       kind: "github",
       repo: repo as `${string}/${string}`,
