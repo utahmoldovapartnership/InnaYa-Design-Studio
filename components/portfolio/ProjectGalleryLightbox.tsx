@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import type { ProjectImage } from "@/content/projects";
 
@@ -66,14 +66,14 @@ export function ProjectGalleryLightbox({
   onChangeIndex,
 }: Props) {
   const t = useTranslations("portfolio.detail");
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const isOpen = index !== null && gallery[index] != null;
   const item = index !== null ? gallery[index] : null;
   const hasMultiple = gallery.length > 1;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const goPrev = useCallback(() => {
     if (index === null || gallery.length === 0) return;

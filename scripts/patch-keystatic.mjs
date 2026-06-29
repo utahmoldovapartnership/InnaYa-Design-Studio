@@ -40,12 +40,17 @@ function isApiGenericFile(filePath) {
 }
 
 function patchApiGenericRedirects(source) {
-  if (!source.includes("/keystatic")) {
-    return source;
+  // Repair route parser if a previous patch corrupted cached node_modules.
+  let next = source
+    .split("pathname.replace(/^\\/api\\/edit\\/?/")
+    .join("pathname.replace(/^\\/api\\/keystatic\\/?/");
+
+  if (!next.includes("/keystatic")) {
+    return next;
   }
 
   // Rewrite admin UI redirects only. Never touch /api/keystatic route parsing.
-  return source
+  return next
     .split("redirect('/keystatic/")
     .join("redirect('/edit/")
     .split('redirect("/keystatic/')
