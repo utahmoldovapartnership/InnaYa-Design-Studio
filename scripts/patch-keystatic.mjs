@@ -16,6 +16,7 @@ const distDir = path.join(
 );
 
 const API_PLACEHOLDER = "__KEYSTATIC_API_ROUTE__";
+const API_ESCAPED_PLACEHOLDER = "__KEYSTATIC_API_ROUTE_ESCAPED__";
 
 function walkJsFiles(dir, files = []) {
   if (!fs.existsSync(dir)) {
@@ -35,12 +36,18 @@ function walkJsFiles(dir, files = []) {
 }
 
 function patchContent(source) {
-  if (!source.includes("/keystatic")) {
+  if (!source.includes("/keystatic") && !source.includes("\\/keystatic")) {
     return source;
   }
 
+  // Protect API routes in both plain strings and escaped regex literals.
   let next = source.split("/api/keystatic").join(API_PLACEHOLDER);
+  next = next.split("\\/api\\/keystatic").join(API_ESCAPED_PLACEHOLDER);
+
   next = next.split("/keystatic").join("/edit");
+  next = next.split("\\/keystatic").join("\\/edit");
+
+  next = next.split(API_ESCAPED_PLACEHOLDER).join("\\/api\\/keystatic");
   next = next.split(API_PLACEHOLDER).join("/api/keystatic");
 
   return next;
