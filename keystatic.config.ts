@@ -129,6 +129,66 @@ function aboutLocaleFields(label: string) {
   });
 }
 
+function techBenefitField() {
+  return fields.object(
+    {
+      title: fields.text({ label: f.benefitTitle }),
+      body: fields.text({ label: f.benefitBody, multiline: true }),
+    },
+    { label: f.benefitItem },
+  );
+}
+
+function techParagraphField(label: string) {
+  return fields.text({
+    label,
+    description: f.techParagraphHint,
+    multiline: true,
+  });
+}
+
+function technologiesLocaleFields(label: string) {
+  return fields.object(
+    {
+      pageTitle: fields.text({ label: f.pageTitle }),
+      metaDescription: fields.text({
+        label: f.metaDescription,
+        multiline: true,
+      }),
+      revitEyebrow: fields.text({ label: f.revitEyebrow }),
+      revitTitle: fields.text({ label: f.revitTitle }),
+      revitIntro: techParagraphField(f.revitIntro),
+      revitBenefitsTitle: fields.text({ label: f.revitBenefitsTitle }),
+      revitBenefits: fields.array(techBenefitField(), {
+        label: f.revitBenefits,
+        itemLabel: (props) =>
+          props.fields.title.value?.trim() || f.benefitItem,
+      }),
+      revitImageAlt: fields.text({ label: f.revitImageAlt }),
+      vrEyebrow: fields.text({ label: f.vrEyebrow }),
+      vrTitle: fields.text({ label: f.vrTitle }),
+      vrIntro: techParagraphField(f.vrIntro),
+      vrBenefits: fields.array(techBenefitField(), {
+        label: f.vrBenefits,
+        itemLabel: (props) =>
+          props.fields.title.value?.trim() || f.benefitItem,
+      }),
+      vrClosing: techParagraphField(f.vrClosing),
+      vrImageAlt: fields.text({ label: f.vrImageAlt }),
+      leicaEyebrow: fields.text({ label: f.leicaEyebrow }),
+      leicaTitle: fields.text({ label: f.leicaTitle }),
+      leicaIntro: techParagraphField(f.leicaIntro),
+      leicaBenefits: fields.array(techBenefitField(), {
+        label: f.leicaBenefits,
+        itemLabel: (props) =>
+          props.fields.title.value?.trim() || f.benefitItem,
+      }),
+      leicaClosing: techParagraphField(f.leicaClosing),
+    },
+    { label },
+  );
+}
+
 function getStorage():
   | { kind: "local" }
   | { kind: "github"; repo: `${string}/${string}` } {
@@ -225,6 +285,9 @@ export default config({
           },
           { label: f.leicaSection },
         ),
+        en: technologiesLocaleFields(localeTabLabels.en),
+        uk: technologiesLocaleFields(localeTabLabels.uk),
+        ru: technologiesLocaleFields(localeTabLabels.ru),
       },
     }),
     contact: singleton({

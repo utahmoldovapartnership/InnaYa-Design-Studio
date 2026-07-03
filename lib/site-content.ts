@@ -1,7 +1,10 @@
 import { reader } from "@/lib/projects";
+import type { TechBenefit } from "@/components/technology/TechChapter";
 import en from "@/messages/en.json";
 import ru from "@/messages/ru.json";
 import uk from "@/messages/uk.json";
+
+export type { TechBenefit };
 
 type Locale = "en" | "uk" | "ru";
 
@@ -16,10 +19,57 @@ type HomeEntry = {
   heroVideo?: string | null;
 };
 
+type TechnologiesLocaleEntry = {
+  pageTitle?: string | null;
+  metaDescription?: string | null;
+  revitEyebrow?: string | null;
+  revitTitle?: string | null;
+  revitIntro?: string | null;
+  revitBenefitsTitle?: string | null;
+  revitBenefits?: readonly TechBenefit[] | null;
+  revitImageAlt?: string | null;
+  vrEyebrow?: string | null;
+  vrTitle?: string | null;
+  vrIntro?: string | null;
+  vrBenefits?: readonly TechBenefit[] | null;
+  vrClosing?: string | null;
+  vrImageAlt?: string | null;
+  leicaEyebrow?: string | null;
+  leicaTitle?: string | null;
+  leicaIntro?: string | null;
+  leicaBenefits?: readonly TechBenefit[] | null;
+  leicaClosing?: string | null;
+};
+
 type TechnologiesEntry = {
   revit?: { image?: string | null } | null;
   vr?: { image?: string | null } | null;
   leica?: { videoId?: string | null } | null;
+  en?: TechnologiesLocaleEntry | null;
+  uk?: TechnologiesLocaleEntry | null;
+  ru?: TechnologiesLocaleEntry | null;
+};
+
+export type TechnologiesContent = {
+  pageTitle: string;
+  metaDescription: string;
+  revitEyebrow: string;
+  revitTitle: string;
+  revitIntro: string[];
+  revitBenefitsTitle: string;
+  revitBenefits: TechBenefit[];
+  revitImageAlt: string;
+  vrEyebrow: string;
+  vrTitle: string;
+  vrIntro: string[];
+  vrBenefits: TechBenefit[];
+  vrClosing: string[];
+  vrImageAlt: string;
+  leicaEyebrow: string;
+  leicaTitle: string;
+  leicaIntro: string[];
+  leicaBenefits: TechBenefit[];
+  leicaClosing: string[];
 };
 
 const DEFAULT_HOME_HERO_VIDEO =
@@ -34,6 +84,67 @@ const DEFAULT_TECH_IMAGES = {
 } as const;
 
 const DEFAULT_LEICA_VIDEO_ID = "CpSLmy0iI_g";
+
+type ServicesMessages = (typeof en)["services"];
+
+const FALLBACK_TECH: Record<Locale, ServicesMessages> = {
+  en: en.services,
+  uk: uk.services,
+  ru: ru.services,
+};
+
+function pickText(value: string | null | undefined, fallback: string): string {
+  const trimmed = value?.trim();
+  return trimmed || fallback;
+}
+
+function pickParagraphs(
+  value: string | null | undefined,
+  fallback: string[],
+): string[] {
+  const paragraphs = splitBodyParagraphs(value?.trim() ?? "");
+  return paragraphs.length > 0 ? paragraphs : fallback;
+}
+
+function pickBenefits(
+  value: readonly TechBenefit[] | null | undefined,
+  fallback: TechBenefit[],
+): TechBenefit[] {
+  const items = (value ?? []).filter(
+    (item) => item.title?.trim() && item.body?.trim(),
+  );
+  return items.length > 0 ? [...items] : fallback;
+}
+
+function mapTechnologiesLocale(
+  entry: TechnologiesLocaleEntry | null | undefined,
+  fallback: ServicesMessages,
+): TechnologiesContent {
+  return {
+    pageTitle: pickText(entry?.pageTitle, fallback.title),
+    metaDescription: pickText(entry?.metaDescription, fallback.metaDescription),
+    revitEyebrow: pickText(entry?.revitEyebrow, fallback.revitEyebrow),
+    revitTitle: pickText(entry?.revitTitle, fallback.revitTitle),
+    revitIntro: pickParagraphs(entry?.revitIntro, fallback.revitIntro),
+    revitBenefitsTitle: pickText(
+      entry?.revitBenefitsTitle,
+      fallback.revitBenefitsTitle,
+    ),
+    revitBenefits: pickBenefits(entry?.revitBenefits, fallback.revitBenefits),
+    revitImageAlt: pickText(entry?.revitImageAlt, fallback.revitImageAlt),
+    vrEyebrow: pickText(entry?.vrEyebrow, fallback.vrEyebrow),
+    vrTitle: pickText(entry?.vrTitle, fallback.vrTitle),
+    vrIntro: pickParagraphs(entry?.vrIntro, fallback.vrIntro),
+    vrBenefits: pickBenefits(entry?.vrBenefits, fallback.vrBenefits),
+    vrClosing: pickParagraphs(entry?.vrClosing, fallback.vrClosing),
+    vrImageAlt: pickText(entry?.vrImageAlt, fallback.vrImageAlt),
+    leicaEyebrow: pickText(entry?.leicaEyebrow, fallback.leicaEyebrow),
+    leicaTitle: pickText(entry?.leicaTitle, fallback.leicaTitle),
+    leicaIntro: pickParagraphs(entry?.leicaIntro, fallback.leicaIntro),
+    leicaBenefits: pickBenefits(entry?.leicaBenefits, fallback.leicaBenefits),
+    leicaClosing: pickParagraphs(entry?.leicaClosing, fallback.leicaClosing),
+  };
+}
 
 type ContactEntry = {
   email: string;
@@ -117,6 +228,16 @@ export async function getHomeHeroVideoSrc(): Promise<string> {
 export async function getAboutBackgroundSrc(): Promise<string> {
   const entry = (await reader.singletons.about.read()) as AboutEntry | null;
   return entry?.background?.trim() || DEFAULT_ABOUT_BACKGROUND;
+}
+
+export async function getTechnologiesContent(
+  locale: string,
+): Promise<TechnologiesContent> {
+  const loc = toLocale(locale);
+  const entry = (await reader.singletons.technologies.read()) as
+    | TechnologiesEntry
+    | null;
+  return mapTechnologiesLocale(entry?.[loc], FALLBACK_TECH[loc]);
 }
 
 export async function getTechnologiesMedia(): Promise<{

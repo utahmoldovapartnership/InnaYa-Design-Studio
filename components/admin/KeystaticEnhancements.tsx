@@ -5,6 +5,7 @@ import type {
   GalleryMediaPreview,
   ProjectMediaPreview,
 } from "@/lib/admin-project-media";
+import type { PageMediaPreview } from "@/lib/admin-page-media";
 import { installGithubSavePreservation } from "@/components/admin/install-github-save-preservation";
 import {
   adminChromeReplacements,
@@ -47,6 +48,21 @@ const EMPTY_PROJECT_MEDIA: ProjectMediaPreview = {
   gallery: [],
 };
 
+const EMPTY_PAGE_MEDIA: PageMediaPreview = {
+  page: "home",
+  heroVideo: null,
+  aboutBackground: null,
+  revitImage: null,
+  vrImage: null,
+};
+
+const PAGE_UPLOAD_LABELS = new Set<string>([
+  f.homeHeroVideo,
+  f.aboutBackground,
+  f.revitImage,
+  f.vrImage,
+]);
+
 /** GitHub mode inserts `/branch/{name}` after `/edit`. */
 function getEditRoutePath(pathname = window.location.pathname): string {
   return pathname.replace(/\/edit\/branch\/[^/]+/, "/edit");
@@ -56,7 +72,7 @@ function isLocaleTabForm(): boolean {
   const path = getEditRoutePath();
   return (
     /\/edit\/collection\/projects\/(item|create)/.test(path) ||
-    /\/edit\/singleton\/about/.test(path)
+    /\/edit\/singleton\/(about|technologies)/.test(path)
   );
 }
 
@@ -73,9 +89,15 @@ function isProjectEditForm(): boolean {
   );
 }
 
-function isPageMediaForm(): boolean {
-  const path = getEditRoutePath();
-  return /\/edit\/singleton\/(home|about|technologies)/.test(path);
+function getPageIdFromPath(): PageMediaPreview["page"] | null {
+  const match = getEditRoutePath().match(
+    /\/edit\/singleton\/(home|about|technologies)/,
+  );
+  const page = match?.[1];
+  if (page === "home" || page === "about" || page === "technologies") {
+    return page;
+  }
+  return null;
 }
 
 function isProjectsList(): boolean {
@@ -1127,25 +1149,62 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
   }
 }
 
-function enhanceStandaloneUploadFields(): void {
-  for (const group of document.querySelectorAll('[role="group"]')) {
-    if (group.closest('[role="dialog"]')) continue;
-    if (!isUploadFieldGroup(group)) continue;
+function resolvePageUploadPreview(
+  label: string,
+  page: PageMediaPreview,
+  group: Element,
+): { src: string | null; kind: GalleryMediaPreview["kind"] } {
+  if (label === f.homeHeroVideo) {
+    return { src: page.heroVideo, kind: "video" };
+  }
+  if (label === f.aboutBackground) {
+    return { src: page.aboutBackground, kind: "image" };
+  }
+  if (label === f.revitImage) {
+    return { src: page.revitImage, kind: "image" };
+  }
+  if (label === f.vrImage) {
+    return { src: page.vrImage, kind: "image" };
+  }
 
-    const label = getDirectUploadFieldLabel(group);
-    if (!label) continue;
+  return { src: getPreviewFromGroup(group), kind: "image" };
+}
 
-    const kind: GalleryMediaPreview["kind"] =
-      label === f.homeHeroVideo || label === f.videoFile ? "video" : "image";
+function enhancePageUploadFields(page: PageMediaPreview): void {
+  for (const label of PAGE_UPLOAD_LABELS) {
+    const uploadGroup = findInnerUploadGroup(document, label);
+    if (!uploadGroup) continue;
+
+    const { src: previewSrc, kind } = resolvePageUploadPreview(
+      label,
+      page,
+      uploadGroup,
+    );
+
+    const section =
+      uploadGroup.parentElement?.closest<HTMLElement>('[role="group"]') ??
+      uploadGroup;
+    section?.classList.add("portfolio-section", "portfolio-section--cover");
 
     enhanceUploadField(
-      group as HTMLElement,
-      group as HTMLElement,
+      uploadGroup,
+      uploadGroup,
       label,
-      getPreviewFromGroup(group),
+      previewSrc,
       kind,
       false,
     );
+  }
+}
+
+function applyPageMedia(page: PageMediaPreview): void {
+  const userIsTyping = document.activeElement?.matches(
+    "input, textarea, [contenteditable='true']",
+  );
+
+  if (!userIsTyping) {
+    wrapFormSections();
+    enhancePageUploadFields(page);
   }
 }
 
@@ -1228,13 +1287,7 @@ function wrapFormSections(): void {
     break;
   }
 
-  for (const label of [
-    f.homeHeroVideo,
-    f.aboutBackground,
-    f.revitSection,
-    f.vrSection,
-    f.leicaSection,
-  ]) {
+  for (const label of [f.revitSection, f.vrSection, f.leicaSection]) {
     const panel = findLabeledPanel(document, label);
     panel?.classList.add("portfolio-section");
   }
@@ -1282,24 +1335,37 @@ function scheduleModalRefresh(project: ProjectMediaPreview): void {
 }
 
 function setupPageMediaEnhancements(): (() => void) | null {
-  if (!isPageMediaForm()) return null;
+  const pageId = getPageIdFromPath();
+  if (!pageId) return null;
 
   let cancelled = false;
+  let lastData: PageMediaPreview = { ...EMPTY_PAGE_MEDIA, page: pageId };
   let enhanceTimer: number | null = null;
 
-  const apply = () => {
-    wrapFormSections();
-    enhanceStandaloneUploadFields();
+  const apply = (data: PageMediaPreview) => {
+    lastData = data;
+    applyPageMedia(data);
   };
 
   const scheduleEnhance = () => {
     if (enhanceTimer) window.clearTimeout(enhanceTimer);
     enhanceTimer = window.setTimeout(() => {
-      if (!cancelled) apply();
+      if (!cancelled) applyPageMedia(lastData);
     }, 120);
   };
 
-  apply();
+  const refresh = async () => {
+    if (cancelled) return;
+
+    try {
+      const response = await fetch(`/api/admin/page-media/${pageId}`);
+      if (!response.ok || cancelled) return;
+
+      apply((await response.json()) as PageMediaPreview);
+    } catch {
+      // Keystatic may render before the API route is ready.
+    }
+  };
 
   const observer = new MutationObserver(() => {
     if (cancelled) return;
@@ -1310,9 +1376,15 @@ function setupPageMediaEnhancements(): (() => void) | null {
 
   observer.observe(document.body, { childList: true, subtree: true });
 
+  void refresh();
+  const interval = window.setInterval(() => {
+    void refresh();
+  }, 3000);
+
   return () => {
     cancelled = true;
     if (enhanceTimer) window.clearTimeout(enhanceTimer);
+    clearInterval(interval);
     observer.disconnect();
   };
 }

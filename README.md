@@ -44,7 +44,7 @@ In **`/edit` → Pages** you can manage:
 - **Home** — hero background video
 - **Portfolio** — projects (slug, year, area, EN/UK/RU text, cover, gallery)
 - **About** — studio bio in all three languages and background image
-- **Technologies** — Revit/VR section images and Leica YouTube video ID
+- **Technologies** — Revit/VR section images, Leica YouTube video ID, and page copy in all three languages
 - **Contact** — email, phone numbers, Instagram, TikTok
 
 Each portfolio project includes:
