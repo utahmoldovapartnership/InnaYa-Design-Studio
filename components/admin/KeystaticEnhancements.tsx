@@ -1170,9 +1170,33 @@ function resolvePageUploadPreview(
   return { src: getPreviewFromGroup(group), kind: "image" };
 }
 
+/**
+ * Finds a page media field group by its label, whether it is empty (shows a
+ * "Choose file" button) or already filled (shows a native preview + "Remove").
+ * `findInnerUploadGroup` only matches the empty state, so filled fields need
+ * this fallback to keep the preview visible after upload.
+ */
+function findPageUploadGroup(label: string): HTMLElement | null {
+  const empty = findInnerUploadGroup(document, label);
+  if (empty) return empty;
+
+  const matches: HTMLElement[] = [];
+  for (const group of document.querySelectorAll('[role="group"]')) {
+    if (group.closest('[role="dialog"]')) continue;
+    if (getDirectUploadFieldLabel(group) !== label) continue;
+    matches.push(group as HTMLElement);
+  }
+
+  if (!matches.length) return null;
+
+  return matches.sort(
+    (left, right) => left.textContent!.length - right.textContent!.length,
+  )[0];
+}
+
 function enhancePageUploadFields(page: PageMediaPreview): void {
   for (const label of PAGE_UPLOAD_LABELS) {
-    const uploadGroup = findInnerUploadGroup(document, label);
+    const uploadGroup = findPageUploadGroup(label);
     if (!uploadGroup) continue;
 
     const { src: previewSrc, kind } = resolvePageUploadPreview(
