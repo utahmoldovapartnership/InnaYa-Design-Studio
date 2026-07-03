@@ -133,10 +133,13 @@ const aboutPath = path.join(root, "content/about/index.yaml");
 const about = fs.existsSync(aboutPath)
   ? yaml.load(fs.readFileSync(aboutPath, "utf8"))
   : {};
-about.background = media.aboutBackground;
+const { background: _background, ...aboutLocales } = about;
 fs.writeFileSync(
   aboutPath,
-  yaml.dump(about, { lineWidth: 120, noRefs: true }),
+  yaml.dump(
+    { background: media.aboutBackground, ...aboutLocales },
+    { lineWidth: 120, noRefs: true },
+  ),
 );
 
 const technologies = {

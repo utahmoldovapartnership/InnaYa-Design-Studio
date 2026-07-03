@@ -63,6 +63,15 @@ const PAGE_UPLOAD_LABELS = new Set<string>([
   f.vrImage,
 ]);
 
+const PAGE_UPLOAD_LABELS_BY_PAGE: Record<
+  PageMediaPreview["page"],
+  readonly string[]
+> = {
+  home: [f.homeHeroVideo],
+  about: [f.aboutBackground],
+  technologies: [f.revitImage, f.vrImage],
+};
+
 /** GitHub mode inserts `/branch/{name}` after `/edit`. */
 function getEditRoutePath(pathname = window.location.pathname): string {
   return pathname.replace(/\/edit\/branch\/[^/]+/, "/edit");
@@ -428,6 +437,14 @@ function getDirectUploadFieldLabel(group: Element): string | null {
       return text;
     }
   }
+
+  for (const node of group.querySelectorAll<HTMLElement>('[id$="-label"]')) {
+    const text = node.textContent?.trim();
+    if (text && UPLOAD_FIELD_LABELS.has(text)) {
+      return text;
+    }
+  }
+
   return null;
 }
 
@@ -477,6 +494,16 @@ function getPreviewFromGroup(group: Element): string | null {
       return image.src;
     }
   }
+
+  for (const video of group.querySelectorAll("video[src]")) {
+    if (
+      video instanceof HTMLVideoElement &&
+      !video.closest(".portfolio-media-slot")
+    ) {
+      return video.src;
+    }
+  }
+
   return null;
 }
 
@@ -529,8 +556,10 @@ function triggerUploadRemove(uploadGroup: HTMLElement): void {
 }
 
 function markKeystaticFileUi(group: HTMLElement): void {
-  const buttons = findButtonByText(group, "Вибрати файл")?.parentElement ??
-    findButtonByText(group, "Choose file")?.parentElement;
+  const buttons =
+    findButtonByText(group, "Вибрати файл")?.parentElement ??
+    findButtonByText(group, "Choose file")?.parentElement ??
+    findButtonByText(group, "Remove")?.parentElement;
   if (buttons) {
     buttons.classList.add("portfolio-ks-actions");
   }
@@ -538,6 +567,11 @@ function markKeystaticFileUi(group: HTMLElement): void {
   for (const image of group.querySelectorAll("img[src]")) {
     if (image.closest(".portfolio-media-slot")) continue;
     image.closest("div")?.classList.add("portfolio-ks-preview");
+  }
+
+  for (const video of group.querySelectorAll("video[src]")) {
+    if (video.closest(".portfolio-media-slot")) continue;
+    video.closest("div")?.classList.add("portfolio-ks-preview");
   }
 }
 
@@ -1219,15 +1253,27 @@ function findPageUploadGroup(label: string): HTMLElement | null {
     matches.push(group as HTMLElement);
   }
 
-  if (!matches.length) return null;
+  if (matches.length) {
+    return matches.sort(
+      (left, right) => left.textContent!.length - right.textContent!.length,
+    )[0];
+  }
 
-  return matches.sort(
-    (left, right) => left.textContent!.length - right.textContent!.length,
-  )[0];
+  for (const labelNode of document.querySelectorAll<HTMLElement>(
+    '[id$="-label"]',
+  )) {
+    if (labelNode.textContent?.trim() !== label) continue;
+    const group = labelNode.closest('[role="group"]');
+    if (group instanceof HTMLElement && !group.closest('[role="dialog"]')) {
+      return group;
+    }
+  }
+
+  return null;
 }
 
 function enhancePageUploadFields(page: PageMediaPreview): void {
-  for (const label of PAGE_UPLOAD_LABELS) {
+  for (const label of PAGE_UPLOAD_LABELS_BY_PAGE[page.page]) {
     const uploadGroup = findPageUploadGroup(label);
     if (!uploadGroup) continue;
 
