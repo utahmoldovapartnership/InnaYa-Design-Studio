@@ -1,6 +1,329 @@
 revit:
-  image: null
+  image: revit-feature.jpg
 vr:
   image: null
 leica:
   videoId: CpSLmy0iI_g
+en:
+  pageTitle: Technologies
+  metaDescription: >-
+    Revit BIM, VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision
+    interior projects.
+  revitEyebrow: BIM / Revit
+  revitTitle: 'Our secret to flawless precision: why we design in Revit'
+  revitIntro: >-
+    When you entrust us with creating your interior, you receive not just beautiful images, but a maximally accurate
+    digital model of your future space. We have moved away from outdated flat drafting in favor of advanced BIM
+    technology (Building Information Modeling) using Autodesk Revit.
+
+
+    For you as a client, this means a guarantee of staying within budget, fewer builder errors, and saved time.
+  revitBenefitsTitle: Top 4 advantages of BIM design for your interior
+  revitBenefits:
+    - title: 100% protection from drawing errors
+      body: >-
+        In traditional programs, drawings are created separately from one another. If a designer moves a socket or wall
+        on one plan, they may forget to update the wall elevation. In Revit, that is impossible. We work with a single
+        3D model: any change in one place automatically updates all plans, sections, and schemes. Builders receive
+        perfectly coordinated documentation.
+    - title: Ideally accurate estimates without overpaying
+      body: >-
+        Forget buying tile or parquet "by eye." Revit instantly and accurately reads areas, volumes, and item counts
+        directly from the project. You receive an honest and transparent bill of materials and furniture, where every
+        square centimetre is accounted for. No sudden extra costs for additional materials during renovation.
+    - title: Volumetric planning instead of flat schemes
+      body: >-
+        You no longer need to imagine from a flat drawing whether a cabinet will fit or whether a wardrobe door will
+        open comfortably. Designing in Revit, we see the interior in volume from the start. This allows us to perfect
+        ergonomics, lighting scenarios, and spatial details before construction begins.
+    - title: Full control of engineering communications
+      body: >-
+        An interior is not only décor, but also ventilation, air conditioning, pipes, and hidden access panels. Revit
+        allows design solutions and engineering networks to be combined in one model. We immediately see if a pipe
+        "crosses" a built-in cabinet and fix it on screen, not on the construction site.
+  revitImageAlt: Revit 3D architectural rendering of a modern residential house
+  vrEyebrow: Virtual reality
+  vrTitle: Why we use VR headsets
+  vrIntro: >-
+    With VR technology, you can literally step inside your future home or apartment before renovation work begins. By
+    putting on a virtual reality headset, you can freely explore every room, assess the layout, ceiling height,
+    furniture placement, lighting, and decorative elements.
+  vrBenefits:
+    - title: A real sense of space
+      body: >-
+        On ordinary images, it can be difficult to understand the true size of rooms and the proportions of objects. In
+        virtual reality, the interior is perceived at natural scale, which helps you make more considered decisions and
+        avoid unpleasant surprises after the project is built.
+    - title: The ability to make changes in advance
+      body: >-
+        During a virtual walkthrough, many details become more noticeable: furniture placement, ease of circulation,
+        combinations of materials and colours. This allows the project to be adjusted in time and an ideal result to be
+        achieved before renovation begins, saving time and budget.
+    - title: Confidence in every decision
+      body: >-
+        A VR presentation helps you better understand the future interior and feel its atmosphere. You make decisions
+        not from drawings and separate images, but based on a full experience of being in the space.
+    - title: A modern approach to design
+      body: >-
+        Using virtual reality is a new standard of professional design that makes the process of creating an interior
+        clearer, more comfortable, and more engaging for the client.
+  vrClosing: >-
+    We create not just beautiful visualisations — we give you the opportunity to see and feel your future interior
+    before its implementation begins.
+  vrImageAlt: Client using VR to preview a furnished interior in an empty space
+  leicaEyebrow: Site survey
+  leicaTitle: Precise surveys with the Leica DISTO X6 P2P Package
+  leicaIntro: >-
+    A quality design project begins with accurate measurements. Any error at the survey stage can lead to inaccuracies
+    in drawings, additional costs, and complications during renovation. That is why we use the professional Leica DISTO
+    X6 P2P Package measurement system — one of the most advanced solutions for high-precision surveys of apartments,
+    homes, and commercial spaces.
+  leicaBenefits:
+    - title: Maximum measurement accuracy
+      body: >-
+        The Leica system allows measurements to be taken with high precision even in complex rooms with many corners,
+        niches, projections, and non-standard structures. This ensures a correct digital model of the property and
+        eliminates errors when developing the design project.
+    - title: Fast completion of a full room plan
+      body: >-
+        Point-to-Point (P2P) technology measures distances between any points in space without physically reaching each
+        one. Surveys are completed significantly faster than with traditional methods, and the client receives a
+        finished project in shorter timeframes.
+    - title: An ideal foundation for design
+      body: >-
+        All dimensions are recorded in digital format and used to create accurate room plans. This is especially
+        important when designing built-in furniture, kitchens, wardrobe systems, engineering communications, and other
+        elements where every centimetre matters.
+    - title: Work with complex architecture
+      body: >-
+        High ceilings, panoramic windows, staircases, attic spaces, columns, and other architectural features are easily
+        captured with professional Leica equipment. We obtain complete and reliable information about the geometry of
+        the property, which allows us to create projects of any complexity.
+    - title: Fewer errors — lower costs
+      body: >-
+        Accurate surveys help avoid rework, mismatches during furniture and equipment installation, and additional
+        expenses during renovation. The more accurate the initial data, the more predictable the result of project
+        implementation becomes.
+    - title: A modern approach to interior design
+      body: >-
+        Using the Leica DISTO X6 P2P Package is part of our professional approach to work. We invest in modern
+        technology to guarantee clients maximum accuracy, quality of design, and confidence in the final result.
+  leicaClosing: >-
+    Precise design begins with precise measurements. That is why every one of our projects is based on professional
+    surveys carried out with advanced Leica measurement equipment.
+uk:
+  pageTitle: Технології
+  metaDescription: >-
+    Revit BIM, VR-прогулянки та обміри Leica — технології, завдяки яким InnaYa Design Studio створює точні інтер'єрні
+    проєкти.
+  revitEyebrow: BIM / Revit
+  revitTitle: 'Наш секрет бездоганної точності: чому ми проєктуємо в Revit'
+  revitIntro: >-
+    Коли ви довіряєте нам створення інтер'єру, ви отримуєте не просто гарні зображення, а максимально точну цифрову
+    модель вашого майбутнього простору. Ми відмовилися від застарілого плоского креслення на користь передової
+    BIM-технології (Building Information Modeling) на базі програми Autodesk Revit.
+
+
+    Для вас як для замовника це означає гарантію дотримання бюджету, відсутність помилок будівельників і економію часу.
+  revitBenefitsTitle: Топ-4 переваги BIM-проєктування для вашого інтер'єру
+  revitBenefits:
+    - title: 100% захист від помилок у кресленнях
+      body: >-
+        У традиційних програмах креслення робляться окремо одне від одного. Якщо дизайнер пересунув розетку або стіну на
+        плані, він може забути виправити це на розгортці стіни. У Revit таке виключено. Ми працюємо з єдиною 3D-моделлю:
+        будь-яка зміна в одному місці автоматично оновлює всі плани, розрізи та схеми. Будівельники отримають ідеально
+        узгоджену документацію.
+    - title: Ідеально точні кошториси без «переплат»
+      body: >-
+        Забудьте про закупівлю плитки чи паркету «на око». Revit миттєво і без помилок зчитує площі, об'єми та кількість
+        предметів безпосередньо з проєкту. Ви отримаєте чесну й прозору відомість матеріалів і меблів, де врахований
+        кожен квадратний сантиметр. Жодних раптових витрат на докупівлю матеріалів під час ремонту.
+    - title: Об'ємне планування замість плоских схем
+      body: >-
+        Вам більше не потрібно намагатися уявити за плоским кресленням, чи поміститься тумба і чи зручно
+        відкриватиметься двері шафи. Проєктуючи в Revit, ми одразу бачимо інтер'єр в об'ємі. Це дозволяє ідеально
+        вивірити ергономіку, сценарії освітлення та просторові вузли ще до початку будівельних робіт.
+    - title: Повний контроль інженерних комунікацій
+      body: >-
+        Інтер'єр — це не лише декор, а й вентиляція, кондиціонування, труби та приховані люки. Технологія Revit дозволяє
+        поєднати в одній моделі дизайнерські рішення з інженерними мережами. Ми одразу побачимо, якщо труба
+        «перетинається» зі вбудованою шафою, і виправимо це на екрані комп'ютера, а не на будмайданчику.
+  revitImageAlt: 3D-візуалізація сучасного будинку в Revit
+  vrEyebrow: Віртуальна реальність
+  vrTitle: Навіщо ми використовуємо VR-окуляри
+  vrIntro: >-
+    За допомогою VR-технології ви зможете буквально опинитися всередині свого майбутнього будинку чи квартири ще до
+    початку ремонтних робіт. Одягнувши окуляри віртуальної реальності, ви зможете вільно оглянути кожне приміщення,
+    оцінити планування, висоту стель, розташування меблів, освітлення та декоративні елементи.
+  vrBenefits:
+    - title: Реальне відчуття простору
+      body: >-
+        На звичайних зображеннях буває складно зрозуміти реальні розміри кімнат і пропорції предметів. У віртуальній
+        реальності інтер'єр сприймається в натуральному масштабі, що допомагає прийняти більш зважені рішення й уникнути
+        неприємних сюрпризів після реалізації проєкту.
+    - title: Можливість внести зміни заздалегідь
+      body: >-
+        Під час віртуальної прогулянки інтер'єром багато деталей стають помітнішими: розташування меблів, зручність
+        проходів, поєднання матеріалів і кольорів. Це дозволяє вчасно скоригувати проєкт і досягти ідеального результату
+        ще до початку ремонту, економлячи час і бюджет.
+    - title: Впевненість у кожному рішенні
+      body: >-
+        VR-презентація допомагає краще зрозуміти майбутній інтер'єр і відчути його атмосферу. Ви приймаєте рішення не за
+        кресленнями й окремими зображеннями, а на основі повноцінного досвіду перебування в просторі.
+    - title: Сучасний підхід до дизайну
+      body: >-
+        Використання віртуальної реальності — це новий стандарт професійного проєктування, який робить процес створення
+        інтер'єру зрозумілішим, комфортнішим і захопливішим для замовника.
+  vrClosing: >-
+    Ми створюємо не просто гарні візуалізації — ми даємо можливість побачити й відчути ваш майбутній інтер'єр ще до
+    того, як почнеться його втілення.
+  vrImageAlt: Клієнт у VR-окулярах переглядає мебльований інтер'єр у порожньому просторі
+  leicaEyebrow: Обмір на об'єкті
+  leicaTitle: Точні обміри з використанням Leica DISTO X6 P2P Package
+  leicaIntro: >-
+    Якісний дизайн-проєкт починається з точних вимірювань. Будь-яка помилка на етапі обмірів може призвести до
+    неточностей у кресленнях, додаткових витрат і ускладнень під час ремонту. Тому у своїй роботі ми використовуємо
+    професійну вимірювальну систему Leica DISTO X6 P2P Package — одне з найсучасніших рішень для високоточних обмірів
+    квартир, будинків і комерційних приміщень.
+  leicaBenefits:
+    - title: Максимальна точність вимірювань
+      body: >-
+        Система Leica дозволяє виконувати вимірювання з високою точністю навіть у складних приміщеннях з великою
+        кількістю кутів, ніш, виступів і нестандартних конструкцій. Це забезпечує створення коректної цифрової моделі
+        об'єкта й виключає помилки під час розробки дизайн-проєкту.
+    - title: Швидке отримання повного плану приміщення
+      body: >-
+        Технологія Point-to-Point (P2P) дозволяє вимірювати відстані між будь-якими точками в просторі без необхідності
+        фізично підходити до кожної з них. Завдяки цьому обміри виконуються значно швидше порівняно з традиційними
+        методами, а замовник отримує готовий проєкт у коротші терміни.
+    - title: Ідеальна основа для проєктування
+      body: >-
+        Усі розміри фіксуються в цифровому форматі й використовуються для створення точних планів приміщень. Це особливо
+        важливо під час проєктування вбудованих меблів, кухонь, гардеробних систем, інженерних комунікацій та інших
+        елементів, де кожен сантиметр має значення.
+    - title: Робота зі складною архітектурою
+      body: >-
+        Високі стелі, панорамні вікна, сходи, мансардні приміщення, колони та інші архітектурні особливості легко
+        фіксуються за допомогою професійного обладнання Leica. Ми отримуємо повну й достовірну інформацію про геометрію
+        об'єкта, що дозволяє створювати проєкти будь-якої складності.
+    - title: Менше помилок — менше витрат
+      body: >-
+        Точні обміри допомагають уникнути переробок, невідповідностей під час монтажу меблів і обладнання, а також
+        додаткових витрат у процесі ремонту. Чим точніші вихідні дані, тим передбачуванішим стає результат реалізації
+        проєкту.
+    - title: Сучасний підхід до дизайну інтер'єру
+      body: >-
+        Використання Leica DISTO X6 P2P Package є частиною нашого професійного підходу до роботи. Ми інвестуємо в
+        сучасні технології, щоб гарантувати клієнтам максимальну точність, якість проєктування й впевненість у кінцевому
+        результаті.
+  leicaClosing: >-
+    Точний дизайн починається з точних вимірювань. Саме тому кожен наш проєкт ґрунтується на професійних обмірах,
+    виконаних із використанням передового вимірювального обладнання Leica.
+ru:
+  pageTitle: Технологии
+  metaDescription: >-
+    Revit BIM, VR-прогулки и обмеры Leica — технологии, благодаря которым InnaYa Design Studio создаёт точные
+    интерьерные проекты.
+  revitEyebrow: BIM / Revit
+  revitTitle: 'Наш секрет безупречной точности: почему мы проектируем в Revit'
+  revitIntro: >-
+    Когда вы доверяете нам создание интерьера, вы получаете не просто красивые картинки, а максимально точную цифровую
+    модель вашего будущего пространства. Мы отказались от устаревшего плоского черчения в пользу передовой
+    BIM-технологии (Building Information Modeling) на базе программы Autodesk Revit.
+
+
+    Для вас как для заказчика это означает гарантию соблюдения бюджета, отсутствие ошибок строителей и экономию времени.
+  revitBenefitsTitle: Топ-4 преимущества BIM-проектирования для вашего интерьера
+  revitBenefits:
+    - title: 100% защита от ошибок в чертежах
+      body: >-
+        В традиционных программах чертежи делаются отдельно друг от друга. Если дизайнер передвинул розетку или стену на
+        плане, он может забыть исправить это на развертке стены. В Revit такое исключено. Мы работаем с единой
+        3D-моделью: любое изменение в одном месте автоматически обновляет все планы, разрезы и схемы. Строители получат
+        идеально согласованную документацию.
+    - title: Идеально точные сметы без «переплат»
+      body: >-
+        Забудьте про закупку плитки или паркета «на глаз». Revit мгновенно и без ошибок считывает площади, объемы и
+        количество предметов напрямую из проекта. Вы получите честную и прозрачную ведомость материалов и мебели, где
+        учтен каждый квадратный сантиметр. Никаких внезапных трат на докупку материалов в процессе ремонта.
+    - title: Объемное планирование вместо плоских схем
+      body: >-
+        Вам больше не нужно пытаться представить по плоскому чертежу, поместится ли тумба и удобно ли будет открываться
+        дверь шкафа. Проектируя в Revit, мы изначально видим интерьер в объеме. Это позволяет идеально выверить
+        эргономику, сценарии освещения и пространственные узлы еще до начала строительных работ.
+    - title: Полный контроль инженерных коммуникаций
+      body: >-
+        Интерьер — это не только декор, но и вентиляция, кондиционирование, трубы и скрытые люки. Технология Revit
+        позволяет совместить в одной модели дизайнерские решения с инженерными сетями. Мы сразу увидим, если труба
+        «пересекается» со встроенным шкафом, и исправим это на экране компьютера, а не на стройплощадке.
+  revitImageAlt: 3D-визуализация современного дома в Revit
+  vrEyebrow: Виртуальная реальность
+  vrTitle: Зачем мы используем VR-очки
+  vrIntro: >-
+    С помощью VR-технологии вы сможете буквально оказаться внутри своего будущего дома или квартиры еще до начала
+    ремонтных работ. Надев очки виртуальной реальности, вы сможете свободно осмотреть каждое помещение, оценить
+    планировку, высоту потолков, расположение мебели, освещение и декоративные элементы.
+  vrBenefits:
+    - title: Реальное ощущение пространства
+      body: >-
+        На обычных изображениях бывает сложно понять реальные размеры комнат и пропорции предметов. В виртуальной
+        реальности интерьер воспринимается в натуральном масштабе, что помогает принять более взвешенные решения и
+        избежать неприятных сюрпризов после реализации проекта.
+    - title: Возможность внести изменения заранее
+      body: >-
+        Во время виртуальной прогулки по интерьеру многие детали становятся заметнее: расположение мебели, удобство
+        проходов, сочетание материалов и цветов. Это позволяет своевременно скорректировать проект и достичь идеального
+        результата еще до начала ремонта, экономя время и бюджет.
+    - title: Уверенность в каждом решении
+      body: >-
+        VR-презентация помогает лучше понять будущий интерьер и почувствовать его атмосферу. Вы принимаете решения не по
+        чертежам и отдельным изображениям, а на основе полноценного опыта пребывания в пространстве.
+    - title: Современный подход к дизайну
+      body: >-
+        Использование виртуальной реальности — это новый стандарт профессионального проектирования, который делает
+        процесс создания интерьера более понятным, комфортным и увлекательным для заказчика.
+  vrClosing: >-
+    Мы создаем не просто красивые визуализации — мы даем возможность увидеть и почувствовать ваш будущий интерьер еще до
+    того, как начнется его воплощение.
+  vrImageAlt: Клиент в VR-очках просматривает обставленный интерьер в пустом пространстве
+  leicaEyebrow: Обмер на объекте
+  leicaTitle: Точные обмеры с использованием Leica DISTO X6 P2P Package
+  leicaIntro: >-
+    Качественный дизайн-проект начинается с точных измерений. Любая ошибка на этапе обмеров может привести к неточностям
+    в чертежах, дополнительным расходам и сложностям во время ремонта. Поэтому в своей работе мы используем
+    профессиональную измерительную систему Leica DISTO X6 P2P Package — одно из самых современных решений для
+    высокоточных обмеров квартир, домов и коммерческих помещений.
+  leicaBenefits:
+    - title: Максимальная точность измерений
+      body: >-
+        Система Leica позволяет выполнять измерения с высокой точностью даже в сложных помещениях с большим количеством
+        углов, ниш, выступов и нестандартных конструкций. Это обеспечивает создание корректной цифровой модели объекта и
+        исключает ошибки при разработке дизайн-проекта.
+    - title: Быстрое получение полного плана помещения
+      body: >-
+        Технология Point-to-Point (P2P) позволяет измерять расстояния между любыми точками в пространстве без
+        необходимости физически подходить к каждой из них. Благодаря этому обмеры выполняются значительно быстрее по
+        сравнению с традиционными методами, а заказчик получает готовый проект в более короткие сроки.
+    - title: Идеальная основа для проектирования
+      body: >-
+        Все размеры фиксируются в цифровом формате и используются для создания точных планов помещений. Это особенно
+        важно при проектировании встроенной мебели, кухонь, гардеробных систем, инженерных коммуникаций и других
+        элементов, где каждый сантиметр имеет значение.
+    - title: Работа со сложной архитектурой
+      body: >-
+        Высокие потолки, панорамные окна, лестницы, мансардные помещения, колонны и другие архитектурные особенности
+        легко фиксируются с помощью профессионального оборудования Leica. Мы получаем полную и достоверную информацию о
+        геометрии объекта, что позволяет создавать проекты любой сложности.
+    - title: Меньше ошибок — меньше затрат
+      body: >-
+        Точные обмеры помогают избежать переделок, несоответствий при монтаже мебели и оборудования, а также
+        дополнительных расходов в процессе ремонта. Чем точнее исходные данные, тем более предсказуемым становится
+        результат реализации проекта.
+    - title: Современный подход к дизайну интерьера
+      body: >-
+        Использование Leica DISTO X6 P2P Package является частью нашего профессионального подхода к работе. Мы
+        инвестируем в современные технологии, чтобы гарантировать клиентам максимальную точность, качество
+        проектирования и уверенность в конечном результате.
+  leicaClosing: >-
+    Точный дизайн начинается с точных измерений. Именно поэтому каждый наш проект основывается на профессиональных
+    обмерах, выполненных с использованием передового измерительного оборудования Leica.
