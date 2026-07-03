@@ -10,8 +10,10 @@ export const localeTabLabels = {
 export const adminNav = {
   brand: "Керування",
   pages: "Сторінки",
+  home: "Головна",
   projects: "Портфоліо",
   about: "Про студію",
+  technologies: "Технології",
   contact: "Контакти",
 } as const;
 
@@ -65,6 +67,22 @@ export const adminFields = {
   galleryDescription: "Підпис",
   galleryDescriptionHint: "Короткий підпис для зображення або відео.",
   aboutTextHint: "Розділяйте абзаци порожнім рядком.",
+  aboutBackground: "Фонове зображення",
+  aboutBackgroundHint:
+    "Повноекранний фон сторінки «Про студію». Перетягніть або натисніть для завантаження.",
+  homeHeroVideo: "Відео на головній",
+  homeHeroVideoHint:
+    "Фонове відео на головній сторінці. Перетягніть MP4 сюди або натисніть для вибору.",
+  revitSection: "Revit",
+  revitImage: "Зображення Revit",
+  revitImageHint: "Ілюстрація для розділу Revit.",
+  vrSection: "VR",
+  vrImage: "Зображення VR",
+  vrImageHint: "Ілюстрація для розділу віртуальної реальності.",
+  leicaSection: "Leica",
+  leicaVideoId: "YouTube ID відео",
+  leicaVideoIdHint:
+    "Ідентифікатор відео з YouTube, напр. CpSLmy0iI_g (частина URL після watch?v=).",
   email: "Електронна пошта",
   moldovaPhone: "Молдова",
   moldovaPhoneHint: "Номер телефону для Молдови.",

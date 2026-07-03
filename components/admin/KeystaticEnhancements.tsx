@@ -23,6 +23,10 @@ const UPLOAD_FIELD_LABELS = new Set<string>([
   f.imageFile,
   f.videoFile,
   f.coverThumbnail,
+  f.homeHeroVideo,
+  f.aboutBackground,
+  f.revitImage,
+  f.vrImage,
 ]);
 
 const UPLOAD_DESCRIPTION_SNIPPETS = [
@@ -30,6 +34,10 @@ const UPLOAD_DESCRIPTION_SNIPPETS = [
   f.coverImageHint,
   f.videoFileHint,
   f.coverThumbnailHint,
+  f.homeHeroVideoHint,
+  f.aboutBackgroundHint,
+  f.revitImageHint,
+  f.vrImageHint,
 ];
 
 const EMPTY_PROJECT_MEDIA: ProjectMediaPreview = {
@@ -63,6 +71,11 @@ function isProjectEditForm(): boolean {
   return /\/edit\/collection\/projects\/(item|create)/.test(
     getEditRoutePath(),
   );
+}
+
+function isPageMediaForm(): boolean {
+  const path = getEditRoutePath();
+  return /\/edit\/singleton\/(home|about|technologies)/.test(path);
 }
 
 function isProjectsList(): boolean {
@@ -412,6 +425,14 @@ function isUploadFieldGroup(group: Element): boolean {
 
   if (label === f.coverThumbnail) {
     return !group.textContent?.includes(f.videoFile);
+  }
+
+  if (label === f.homeHeroVideo) {
+    return true;
+  }
+
+  if (label === f.aboutBackground || label === f.revitImage || label === f.vrImage) {
+    return true;
   }
 
   return true;
@@ -1106,6 +1127,28 @@ function enhanceGalleryEditModal(project: ProjectMediaPreview): void {
   }
 }
 
+function enhanceStandaloneUploadFields(): void {
+  for (const group of document.querySelectorAll('[role="group"]')) {
+    if (group.closest('[role="dialog"]')) continue;
+    if (!isUploadFieldGroup(group)) continue;
+
+    const label = getDirectUploadFieldLabel(group);
+    if (!label) continue;
+
+    const kind: GalleryMediaPreview["kind"] =
+      label === f.homeHeroVideo || label === f.videoFile ? "video" : "image";
+
+    enhanceUploadField(
+      group as HTMLElement,
+      group as HTMLElement,
+      label,
+      getPreviewFromGroup(group),
+      kind,
+      false,
+    );
+  }
+}
+
 function enhanceUploadFields(
   project: ProjectMediaPreview,
 ): void {
@@ -1184,6 +1227,17 @@ function wrapFormSections(): void {
     section?.classList.add("portfolio-section", "portfolio-section--cover");
     break;
   }
+
+  for (const label of [
+    f.homeHeroVideo,
+    f.aboutBackground,
+    f.revitSection,
+    f.vrSection,
+    f.leicaSection,
+  ]) {
+    const panel = findLabeledPanel(document, label);
+    panel?.classList.add("portfolio-section");
+  }
 }
 
 function formHasUnenhancedUploadFields(): boolean {
@@ -1225,6 +1279,42 @@ function scheduleModalRefresh(project: ProjectMediaPreview): void {
       }
     }, delay);
   }
+}
+
+function setupPageMediaEnhancements(): (() => void) | null {
+  if (!isPageMediaForm()) return null;
+
+  let cancelled = false;
+  let enhanceTimer: number | null = null;
+
+  const apply = () => {
+    wrapFormSections();
+    enhanceStandaloneUploadFields();
+  };
+
+  const scheduleEnhance = () => {
+    if (enhanceTimer) window.clearTimeout(enhanceTimer);
+    enhanceTimer = window.setTimeout(() => {
+      if (!cancelled) apply();
+    }, 120);
+  };
+
+  apply();
+
+  const observer = new MutationObserver(() => {
+    if (cancelled) return;
+    if (formHasUnenhancedUploadFields()) {
+      scheduleEnhance();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  return () => {
+    cancelled = true;
+    if (enhanceTimer) window.clearTimeout(enhanceTimer);
+    observer.disconnect();
+  };
 }
 
 function setupMediaThumbnails(): (() => void) | null {
@@ -1398,7 +1488,9 @@ export function KeystaticEnhancements() {
     const tryMountEnhancements = () => {
       if (!cleanupMedia) {
         cleanupMedia =
-          setupMediaThumbnails() ?? setupProjectListThumbnails();
+          setupMediaThumbnails() ??
+          setupPageMediaEnhancements() ??
+          setupProjectListThumbnails();
       }
 
       if (mounted && !(isLocaleTabForm() && !document.getElementById("portfolio-locale-tabs"))) {

@@ -6,10 +6,34 @@ import uk from "@/messages/uk.json";
 type Locale = "en" | "uk" | "ru";
 
 type AboutEntry = {
+  background?: string | null;
   en: string;
   uk: string;
   ru: string;
 };
+
+type HomeEntry = {
+  heroVideo?: string | null;
+};
+
+type TechnologiesEntry = {
+  revit?: { image?: string | null } | null;
+  vr?: { image?: string | null } | null;
+  leica?: { videoId?: string | null } | null;
+};
+
+const DEFAULT_HOME_HERO_VIDEO =
+  "https://www.pexels.com/download/video/5384977/";
+
+const DEFAULT_ABOUT_BACKGROUND =
+  "https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920";
+
+const DEFAULT_TECH_IMAGES = {
+  revit: "/images/technologies/revit-feature.jpg",
+  vr: "https://www.kanikadesign.com/wp-content/uploads/2023/09/virtual-reality-world-of-interior-design-img-1.jpg",
+} as const;
+
+const DEFAULT_LEICA_VIDEO_ID = "CpSLmy0iI_g";
 
 type ContactEntry = {
   email: string;
@@ -83,6 +107,34 @@ export function splitBodyParagraphs(body: string): string[] {
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
+}
+
+export async function getHomeHeroVideoSrc(): Promise<string> {
+  const entry = (await reader.singletons.home.read()) as HomeEntry | null;
+  return entry?.heroVideo?.trim() || DEFAULT_HOME_HERO_VIDEO;
+}
+
+export async function getAboutBackgroundSrc(): Promise<string> {
+  const entry = (await reader.singletons.about.read()) as AboutEntry | null;
+  return entry?.background?.trim() || DEFAULT_ABOUT_BACKGROUND;
+}
+
+export async function getTechnologiesMedia(): Promise<{
+  revitImageSrc: string;
+  vrImageSrc: string;
+  leicaVideoId: string;
+}> {
+  const entry = (await reader.singletons.technologies.read()) as
+    | TechnologiesEntry
+    | null;
+
+  return {
+    revitImageSrc:
+      entry?.revit?.image?.trim() || DEFAULT_TECH_IMAGES.revit,
+    vrImageSrc: entry?.vr?.image?.trim() || DEFAULT_TECH_IMAGES.vr,
+    leicaVideoId:
+      entry?.leica?.videoId?.trim() || DEFAULT_LEICA_VIDEO_ID,
+  };
 }
 
 export async function getAboutBody(locale: string): Promise<string> {

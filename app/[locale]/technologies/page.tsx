@@ -6,7 +6,7 @@ import {
   TechFeatureImage,
   type TechBenefit,
 } from "@/components/technology/TechChapter";
-import { revitFeatureImage, vrFeatureImage } from "@/content/tech-photos";
+import { getTechnologiesMedia } from "@/lib/site-content";
 import { buildLocaleAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -30,6 +30,8 @@ export default async function TechnologiesPage({
 }) {
   await params;
   const t = await getTranslations("services");
+  const { revitImageSrc, vrImageSrc, leicaVideoId } =
+    await getTechnologiesMedia();
 
   const revitIntro = t.raw("revitIntro") as string[];
   const revitBenefits = t.raw("revitBenefits") as TechBenefit[];
@@ -58,7 +60,7 @@ export default async function TechnologiesPage({
                 benefitsTitle={t("revitBenefitsTitle")}
                 media={
                   <TechFeatureImage
-                    src={revitFeatureImage.src}
+                    src={revitImageSrc}
                     alt={t("revitImageAlt")}
                     priority
                   />
@@ -74,7 +76,7 @@ export default async function TechnologiesPage({
                 closing={vrClosing}
                 media={
                   <TechFeatureImage
-                    src={vrFeatureImage.src}
+                    src={vrImageSrc}
                     alt={t("vrImageAlt")}
                   />
                 }
@@ -91,7 +93,7 @@ export default async function TechnologiesPage({
                   <div className="mx-auto w-full max-w-md overflow-hidden rounded-sm md:max-w-none">
                     <MeasurementVideoHero
                       embedded
-                      videoId="CpSLmy0iI_g"
+                      videoId={leicaVideoId}
                       title={t("measurementVideoTitle")}
                       muteLabel={t("muteVideo")}
                       unmuteLabel={t("unmuteVideo")}

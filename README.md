@@ -41,8 +41,10 @@ Inna can add and edit portfolio projects in the browser at **`/edit`** (e.g. `ht
 
 In **`/edit` → Pages** you can manage:
 
+- **Home** — hero background video
 - **Portfolio** — projects (slug, year, area, EN/UK/RU text, cover, gallery)
-- **About** — studio bio in all three languages
+- **About** — studio bio in all three languages and background image
+- **Technologies** — Revit/VR section images and Leica YouTube video ID
 - **Contact** — email, phone numbers, Instagram, TikTok
 
 Each portfolio project includes:

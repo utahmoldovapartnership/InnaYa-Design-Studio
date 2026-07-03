@@ -13,6 +13,11 @@ const portfolioMedia = {
   publicPath: "/images/portfolio/",
 } as const;
 
+const pageMedia = {
+  directory: "public/media/pages",
+  publicPath: "/media/pages/",
+} as const;
+
 function localeFields(label: string) {
   return fields.object(
     {
@@ -146,19 +151,80 @@ export default config({
       name: adminNav.brand,
     },
     navigation: {
-      [adminNav.pages]: ["projects", "about", "contact"],
+      [adminNav.pages]: [
+        "home",
+        "about",
+        "projects",
+        "technologies",
+        "contact",
+      ],
     },
   },
   singletons: {
+    home: singleton({
+      label: adminNav.home,
+      path: "content/home/",
+      format: { data: "yaml" },
+      previewUrl: "/uk",
+      schema: {
+        heroVideo: fields.file({
+          label: f.homeHeroVideo,
+          description: f.homeHeroVideoHint,
+          ...pageMedia,
+        }),
+      },
+    }),
     about: singleton({
       label: adminNav.about,
       path: "content/about/",
       format: { data: "yaml" },
       previewUrl: "/uk/about",
       schema: {
+        background: fields.image({
+          label: f.aboutBackground,
+          description: f.aboutBackgroundHint,
+          ...pageMedia,
+        }),
         en: aboutLocaleFields(localeTabLabels.en),
         uk: aboutLocaleFields(localeTabLabels.uk),
         ru: aboutLocaleFields(localeTabLabels.ru),
+      },
+    }),
+    technologies: singleton({
+      label: adminNav.technologies,
+      path: "content/technologies/",
+      format: { data: "yaml" },
+      previewUrl: "/uk/technologies",
+      schema: {
+        revit: fields.object(
+          {
+            image: fields.image({
+              label: f.revitImage,
+              description: f.revitImageHint,
+              ...pageMedia,
+            }),
+          },
+          { label: f.revitSection },
+        ),
+        vr: fields.object(
+          {
+            image: fields.image({
+              label: f.vrImage,
+              description: f.vrImageHint,
+              ...pageMedia,
+            }),
+          },
+          { label: f.vrSection },
+        ),
+        leica: fields.object(
+          {
+            videoId: fields.text({
+              label: f.leicaVideoId,
+              description: f.leicaVideoIdHint,
+            }),
+          },
+          { label: f.leicaSection },
+        ),
       },
     }),
     contact: singleton({

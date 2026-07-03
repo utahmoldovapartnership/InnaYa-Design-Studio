@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 import { buildLocaleAlternates } from "@/lib/seo";
+import { getHomeHeroVideoSrc } from "@/lib/site-content";
 
 export async function generateMetadata({
   params,
@@ -31,6 +32,7 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home.hero" });
+  const heroVideoSrc = await getHomeHeroVideoSrc();
 
   return (
     <>
@@ -46,10 +48,7 @@ export default async function HomePage({
             preload="auto"
             aria-hidden
           >
-            <source
-              src="https://www.pexels.com/download/video/5384977/"
-              type="video/mp4"
-            />
+            <source src={heroVideoSrc} type="video/mp4" />
           </video>
         }
       >

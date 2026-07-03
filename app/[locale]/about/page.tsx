@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { PinnedSocialLinks } from "@/components/layout/PinnedSocialLinks";
 import { EdgeToEdgeHero } from "@/components/ui/EdgeToEdgeHero";
 import { buildLocaleAlternates } from "@/lib/seo";
-import { getAboutParagraphs } from "@/lib/site-content";
+import { getAboutBackgroundSrc, getAboutParagraphs } from "@/lib/site-content";
 
 export async function generateMetadata({
   params,
@@ -29,6 +29,7 @@ export default async function AboutPage({
   const { locale } = await params;
   const t = await getTranslations("about");
   const paragraphs = await getAboutParagraphs(locale);
+  const backgroundSrc = await getAboutBackgroundSrc();
 
   return (
     <>
@@ -36,7 +37,7 @@ export default async function AboutPage({
         media={
           // eslint-disable-next-line @next/next/no-img-element -- hero backdrop uses custom viewport CSS
           <img
-            src="https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            src={backgroundSrc}
             alt=""
             className="hero-fixed-backdrop__media"
           />

@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   env: {
     NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO:
       process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO ??
@@ -21,7 +22,7 @@ const nextConfig: NextConfig = {
     "/[locale]/about": ["./content/**/*"],
     "/[locale]/contact": ["./content/**/*"],
     "/[locale]/portfolio": ["./content/**/*"],
-    "/[locale]/portfolio/[slug]": ["./content/**/*"],
+    "/[locale]/technologies": ["./content/**/*"],
   },
   async redirects() {
     return [
