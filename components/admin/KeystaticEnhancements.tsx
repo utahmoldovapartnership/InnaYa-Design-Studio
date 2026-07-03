@@ -434,7 +434,15 @@ function getDirectUploadFieldLabel(group: Element): string | null {
 function isUploadFieldGroup(group: Element): boolean {
   const label = getDirectUploadFieldLabel(group);
   if (!label) return false;
-  if (!group.textContent?.includes("Вибрати файл") && !group.textContent?.includes("Choose file")) return false;
+
+  const isPageMedia = PAGE_UPLOAD_LABELS.has(label);
+  if (
+    !isPageMedia &&
+    !group.textContent?.includes("Вибрати файл") &&
+    !group.textContent?.includes("Choose file")
+  ) {
+    return false;
+  }
 
   // Match the inner upload field only, not the parent object section.
   if (label === f.coverImage) {
@@ -712,6 +720,44 @@ function ensureMediaSlot(
   slot.dataset.portfolioEnhanceKey = enhanceKey;
 }
 
+function appendPreviewMedia(
+  thumb: HTMLElement,
+  src: string,
+  kind: GalleryMediaPreview["kind"],
+): void {
+  if (kind === "video") {
+    thumb.querySelector("img")?.remove();
+    let video = thumb.querySelector("video");
+    if (!video) {
+      video = document.createElement("video");
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+      video.setAttribute("aria-hidden", "true");
+      thumb.appendChild(video);
+    }
+    const href = new URL(src, window.location.origin).href;
+    if (video.src !== href) {
+      video.src = src;
+    }
+    return;
+  }
+
+  thumb.querySelector("video")?.remove();
+  let image = thumb.querySelector("img");
+  if (!image) {
+    image = document.createElement("img");
+    image.alt = "";
+    image.loading = "lazy";
+    image.decoding = "async";
+    thumb.appendChild(image);
+  }
+  const href = new URL(src, window.location.origin).href;
+  if (image.src !== href) {
+    image.src = src;
+  }
+}
+
 function createThumbnail(
   src: string | null,
   kind: GalleryMediaPreview["kind"],
@@ -726,12 +772,7 @@ function createThumbnail(
   }
 
   if (src) {
-    const image = document.createElement("img");
-    image.src = src;
-    image.alt = "";
-    image.loading = "lazy";
-    image.decoding = "async";
-    thumb.appendChild(image);
+    appendPreviewMedia(thumb, src, kind);
   } else {
     thumb.classList.add("portfolio-media-thumb--placeholder");
     thumb.textContent = kind === "video" ? "▶" : "◇";
@@ -757,21 +798,12 @@ function setPreviewImage(
   thumb.textContent = "";
 
   if (src) {
-    let image = thumb.querySelector("img");
-    if (!image) {
-      image = document.createElement("img");
-      image.alt = "";
-      image.loading = "lazy";
-      image.decoding = "async";
-      thumb.appendChild(image);
-    }
-    if (image.src !== new URL(src, window.location.origin).href) {
-      image.src = src;
-    }
+    appendPreviewMedia(thumb, src, kind);
   } else {
     thumb.classList.add("portfolio-media-thumb--placeholder");
     thumb.textContent = kind === "video" ? "▶" : "◇";
     thumb.querySelector("img")?.remove();
+    thumb.querySelector("video")?.remove();
   }
 }
 
