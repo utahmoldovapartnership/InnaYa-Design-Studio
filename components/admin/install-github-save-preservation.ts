@@ -14,10 +14,14 @@ import {
 } from "@/lib/keystatic-file-encoding";
 import { getGithubAccessTokenFromCookie } from "@/lib/github-path-exists";
 import {
+  isPageSingletonYamlPath,
+} from "@/lib/normalize-page-media-yaml";
+import {
   isProjectYamlPath,
   type ProjectYaml,
 } from "@/lib/merge-project-media";
 import {
+  mergePageSingletonYamlAddition,
   mergeProjectYamlAddition,
   sanitizeKeystaticFileChanges,
 } from "@/lib/sanitize-keystatic-commit";
@@ -50,16 +54,16 @@ function getBranchFromPath(): string {
   return match?.[1] ?? "main";
 }
 
-async function fetchExistingProjectYaml(
+async function fetchExistingYaml(
   filePath: string,
   branch: string,
-): Promise<ProjectYaml | null> {
+): Promise<unknown | null> {
   try {
     const response = await fetch(
       `/api/admin/project-yaml/${filePath}?branch=${encodeURIComponent(branch)}`,
     );
     if (response.ok) {
-      return yaml.load(await response.text()) as ProjectYaml;
+      return yaml.load(await response.text());
     }
   } catch {
     // Fall through to raw GitHub.
@@ -74,7 +78,7 @@ async function fetchExistingProjectYaml(
       { cache: "no-store" },
     );
     if (!response.ok) return null;
-    return yaml.load(await response.text()) as ProjectYaml;
+    return yaml.load(await response.text());
   } catch {
     return null;
   }
@@ -144,19 +148,23 @@ export function installGithubSavePreservation(): () => void {
             inputVars.expectedHeadOid ?? "",
             token,
             async (addition) => {
-              if (!isProjectYamlPath(addition.path)) {
-                return addition;
-              }
-
-              const existing = await fetchExistingProjectYaml(
-                addition.path,
-                branch,
-              );
+              const existing = await fetchExistingYaml(addition.path, branch);
               if (!existing) {
                 return addition;
               }
 
-              return mergeProjectYamlAddition(addition, existing);
+              if (isProjectYamlPath(addition.path)) {
+                return mergeProjectYamlAddition(
+                  addition,
+                  existing as ProjectYaml,
+                );
+              }
+
+              if (isPageSingletonYamlPath(addition.path)) {
+                return mergePageSingletonYamlAddition(addition, existing);
+              }
+
+              return addition;
             },
           );
 

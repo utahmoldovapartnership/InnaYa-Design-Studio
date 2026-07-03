@@ -8,6 +8,7 @@ import {
   isPageSingletonYamlPath,
   normalizePageMediaYaml,
 } from "@/lib/normalize-page-media-yaml";
+import { mergePageMediaYaml } from "@/lib/merge-page-media-yaml";
 import {
   isProjectYamlPath,
   mergeProjectMedia,
@@ -63,20 +64,42 @@ export function mergeProjectYamlAddition(
   };
 }
 
+export function mergePageSingletonYamlAddition(
+  addition: FileAddition,
+  existing: unknown | null,
+): FileAddition {
+  const incoming = yaml.load(
+    decodeKeystaticFileContents(addition.contents),
+  ) as unknown;
+  const normalized = normalizePageMediaYaml(addition.path, incoming);
+  const merged = existing
+    ? mergePageMediaYaml(addition.path, normalized, existing)
+    : normalized;
+
+  return {
+    path: addition.path,
+    contents: encodeKeystaticFileContents(
+      yaml.dump(merged, { lineWidth: -1 }),
+    ),
+  };
+}
+
 export async function sanitizeKeystaticFileChanges(
   fileChanges: FileChanges,
   ref: string,
   token?: string | null,
-  mergeExistingProjectYaml?: (
-    addition: FileAddition,
-  ) => Promise<FileAddition>,
+  mergeExistingYaml?: (addition: FileAddition) => Promise<FileAddition>,
 ): Promise<FileChanges> {
   const additions = await Promise.all(
     (fileChanges.additions ?? []).map(async (addition) => {
       const normalized = normalizeYamlAddition(addition);
 
-      if (isProjectYamlPath(addition.path) && mergeExistingProjectYaml) {
-        return mergeExistingProjectYaml(normalized);
+      if (
+        mergeExistingYaml &&
+        (isProjectYamlPath(addition.path) ||
+          isPageSingletonYamlPath(addition.path))
+      ) {
+        return mergeExistingYaml(normalized);
       }
 
       return normalized;

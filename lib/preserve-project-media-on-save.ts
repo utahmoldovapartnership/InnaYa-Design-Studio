@@ -3,11 +3,13 @@ import path from "path";
 import yaml from "js-yaml";
 import { fetchProjectYamlFromGithub } from "@/lib/github-project-yaml";
 import { isKeystaticGithubStorage } from "@/lib/keystatic-admin-access";
+import { isPageSingletonYamlPath } from "@/lib/normalize-page-media-yaml";
 import {
   isProjectYamlPath,
   type ProjectYaml,
 } from "@/lib/merge-project-media";
 import {
+  mergePageSingletonYamlAddition,
   mergeProjectYamlAddition,
   sanitizeKeystaticFileChanges,
 } from "@/lib/sanitize-keystatic-commit";
@@ -23,10 +25,10 @@ function getBranchFromRequest(request: Request): string {
   return match?.[1] ?? "main";
 }
 
-async function loadExistingProjectYaml(
+async function loadExistingYaml(
   relativePath: string,
   request?: Request,
-): Promise<ProjectYaml | null> {
+): Promise<unknown | null> {
   if (isKeystaticGithubStorage() && request) {
     const branch = getBranchFromRequest(request);
     const fromGithub = await fetchProjectYamlFromGithub(
@@ -35,14 +37,14 @@ async function loadExistingProjectYaml(
       request,
     );
     if (fromGithub) {
-      return yaml.load(fromGithub) as ProjectYaml;
+      return yaml.load(fromGithub);
     }
   }
 
   try {
     const filePath = path.join(process.cwd(), relativePath);
     const content = await fs.readFile(filePath, "utf8");
-    return yaml.load(content) as ProjectYaml;
+    return yaml.load(content);
   } catch {
     return null;
   }
@@ -57,16 +59,20 @@ export async function preserveProjectMediaInUpdateRequest(
     "",
     null,
     async (addition) => {
-      if (!isProjectYamlPath(addition.path)) {
-        return addition;
-      }
-
-      const existing = await loadExistingProjectYaml(addition.path, request);
+      const existing = await loadExistingYaml(addition.path, request);
       if (!existing) {
         return addition;
       }
 
-      return mergeProjectYamlAddition(addition, existing);
+      if (isProjectYamlPath(addition.path)) {
+        return mergeProjectYamlAddition(addition, existing as ProjectYaml);
+      }
+
+      if (isPageSingletonYamlPath(addition.path)) {
+        return mergePageSingletonYamlAddition(addition, existing);
+      }
+
+      return addition;
     },
   );
 
