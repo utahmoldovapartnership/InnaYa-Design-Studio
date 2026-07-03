@@ -5,11 +5,15 @@ import {
   decodeKeystaticFileContents,
   encodeKeystaticFileContents,
 } from "@/lib/keystatic-file-encoding";
+import { getGithubAccessTokenFromCookie } from "@/lib/github-path-exists";
 import {
   isProjectYamlPath,
-  mergeProjectMedia,
   type ProjectYaml,
 } from "@/lib/merge-project-media";
+import {
+  mergeProjectYamlAddition,
+  sanitizeKeystaticFileChanges,
+} from "@/lib/sanitize-keystatic-commit";
 
 type FileAddition = {
   path: string;
@@ -20,6 +24,7 @@ type GraphQLRequestBody = {
   query?: string;
   variables?: {
     input?: {
+      expectedHeadOid?: string;
       fileChanges?: {
         additions?: FileAddition[];
         deletions?: Array<{ path: string }>;
@@ -68,42 +73,11 @@ async function fetchExistingProjectYaml(
   }
 }
 
-async function preserveFileChanges(
-  additions: FileAddition[],
-): Promise<FileAddition[]> {
-  const branch = getBranchFromPath();
-
-  return Promise.all(
-    additions.map(async (addition) => {
-      if (!isProjectYamlPath(addition.path)) {
-        return addition;
-      }
-
-      const existing = await fetchExistingProjectYaml(addition.path, branch);
-      if (!existing) {
-        return addition;
-      }
-
-      const incoming = yaml.load(
-        decodeKeystaticFileContents(addition.contents),
-      ) as ProjectYaml;
-      const merged = mergeProjectMedia(incoming, existing);
-
-      return {
-        path: addition.path,
-        contents: encodeKeystaticFileContents(
-          yaml.dump(merged, { lineWidth: -1 }),
-        ),
-      };
-    }),
-  );
-}
-
 function isCreateCommitRequest(body: GraphQLRequestBody): boolean {
   const fileChanges = body.variables?.input?.fileChanges;
   return Boolean(
     body.query?.includes("createCommitOnBranch") &&
-      fileChanges?.additions?.length,
+      (fileChanges?.additions?.length || fileChanges?.deletions?.length),
   );
 }
 
@@ -131,9 +105,33 @@ export function installGithubSavePreservation(): () => void {
         const body = JSON.parse(init.body) as GraphQLRequestBody;
 
         if (isCreateCommitRequest(body)) {
-          const fileChanges = body.variables!.input!.fileChanges!;
-          const preservedAdditions = await preserveFileChanges(
-            fileChanges.additions ?? [],
+          const inputVars = body.variables!.input!;
+          const fileChanges = inputVars.fileChanges ?? {
+            additions: [],
+            deletions: [],
+          };
+          const branch = getBranchFromPath();
+          const token = getGithubAccessTokenFromCookie(document.cookie);
+
+          const sanitized = await sanitizeKeystaticFileChanges(
+            fileChanges,
+            inputVars.expectedHeadOid ?? "",
+            token,
+            async (addition) => {
+              if (!isProjectYamlPath(addition.path)) {
+                return addition;
+              }
+
+              const existing = await fetchExistingProjectYaml(
+                addition.path,
+                branch,
+              );
+              if (!existing) {
+                return addition;
+              }
+
+              return mergeProjectYamlAddition(addition, existing);
+            },
           );
 
           const nextBody: GraphQLRequestBody = {
@@ -141,11 +139,8 @@ export function installGithubSavePreservation(): () => void {
             variables: {
               ...body.variables,
               input: {
-                ...body.variables!.input!,
-                fileChanges: {
-                  ...fileChanges,
-                  additions: preservedAdditions,
-                },
+                ...inputVars,
+                fileChanges: sanitized,
               },
             },
           };
