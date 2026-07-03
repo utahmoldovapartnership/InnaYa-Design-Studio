@@ -5,8 +5,8 @@ import {
   extractCommitShaFromGraphQLResponse,
   hideDeployWaitOverlay,
   isDeployWaitActive,
+  onKeystaticSaveCommitted,
   showDeployWaitOverlay,
-  startDeployWaitForCommit,
 } from "@/components/admin/deploy-wait-overlay";
 import {
   decodeKeystaticFileContents,
@@ -186,11 +186,7 @@ export function installGithubSavePreservation(): () => void {
                 hideDeployWaitOverlay();
               } else {
                 const sha = extractCommitShaFromGraphQLResponse(payload);
-                if (sha) {
-                  startDeployWaitForCommit(sha);
-                } else {
-                  hideDeployWaitOverlay();
-                }
+                void onKeystaticSaveCommitted(sha);
               }
             } else {
               hideDeployWaitOverlay();

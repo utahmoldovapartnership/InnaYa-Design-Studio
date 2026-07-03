@@ -7,6 +7,7 @@ import type {
 } from "@/lib/admin-project-media";
 import type { PageMediaPreview } from "@/lib/admin-page-media";
 import { installGithubSavePreservation } from "@/components/admin/install-github-save-preservation";
+import { stripSavedQueryParam } from "@/lib/clear-keystatic-draft";
 import {
   adminChromeReplacements,
   adminFields as f,
@@ -1716,6 +1717,7 @@ function setupAdminLabels(): () => void {
 export function KeystaticEnhancements() {
   useEffect(() => {
     document.body.classList.add("portfolio-admin");
+    stripSavedQueryParam();
 
     const cleanupGithubSave = installGithubSavePreservation();
 

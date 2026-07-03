@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  clearCurrentKeystaticDraft,
+  stripSavedQueryParam,
+} from "@/lib/clear-keystatic-draft";
 const OVERLAY_ID = "portfolio-deploy-wait";
 const POLL_INTERVAL_MS = 4000;
 const MAX_WAIT_MS = 10 * 60 * 1000;
@@ -116,9 +120,13 @@ function finishWithReload(): void {
     "Готово!",
     "Деплой завершено. Оновлюємо сторінку редагування…",
   );
-  window.setTimeout(() => {
-    window.location.reload();
-  }, 800);
+  void clearCurrentKeystaticDraft().finally(() => {
+    window.setTimeout(() => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("saved", String(Date.now()));
+      window.location.replace(url.toString());
+    }, 800);
+  });
 }
 
 export function startDeployWaitForCommit(commitSha: string): void {
@@ -187,4 +195,13 @@ export function extractCommitShaFromGraphQLResponse(
   if (!payload || typeof payload !== "object") return null;
   const data = payload as GraphQLCommitResponse;
   return data.data?.createCommitOnBranch?.ref?.target?.oid ?? null;
+}
+
+export async function onKeystaticSaveCommitted(commitSha: string | null): Promise<void> {
+  await clearCurrentKeystaticDraft();
+  if (commitSha) {
+    startDeployWaitForCommit(commitSha);
+    return;
+  }
+  hideDeployWaitOverlay();
 }
