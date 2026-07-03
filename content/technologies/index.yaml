@@ -1,11 +1,11 @@
 revit:
-  image: revit-feature.jpg
+  image: revit/image.jpg
 vr:
   image: vr-feature.jpg
 leica:
   videoId: CpSLmy0iI_g
 en:
-  pageTitle: Technology
+  pageTitle: Technologies
   metaDescription: Revit BIM, VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision interior projects.
   revitEyebrow: BIM / Revit
   revitTitle: 'Our secret to flawless precision: why we design in Revit'
