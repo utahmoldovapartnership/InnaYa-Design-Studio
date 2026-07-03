@@ -507,6 +507,47 @@ function getPreviewFromGroup(group: Element): string | null {
   return null;
 }
 
+function revokeStoredObjectUrl(input: HTMLInputElement): void {
+  const url = input.dataset.portfolioObjectUrl;
+  if (url) {
+    URL.revokeObjectURL(url);
+  }
+  delete input.dataset.portfolioObjectUrl;
+  delete input.dataset.portfolioFileSignature;
+}
+
+function getPendingFilePreview(group: HTMLElement): string | null {
+  for (const input of group.querySelectorAll<HTMLInputElement>(
+    "input[type='file']",
+  )) {
+    const file = input.files?.[0];
+    if (!file) {
+      revokeStoredObjectUrl(input);
+      continue;
+    }
+
+    const signature = `${file.name}:${file.size}:${file.lastModified}`;
+    if (
+      input.dataset.portfolioFileSignature === signature &&
+      input.dataset.portfolioObjectUrl
+    ) {
+      return input.dataset.portfolioObjectUrl;
+    }
+
+    revokeStoredObjectUrl(input);
+    const url = URL.createObjectURL(file);
+    input.dataset.portfolioObjectUrl = url;
+    input.dataset.portfolioFileSignature = signature;
+    return url;
+  }
+
+  return null;
+}
+
+function getUploadPreviewFromDom(group: Element): string | null {
+  return getPreviewFromGroup(group) ?? getPendingFilePreview(group as HTMLElement);
+}
+
 function fieldHasNativeMedia(group: Element): boolean {
   return Boolean(
     findButtonByText(group, "Remove") || getPreviewFromGroup(group),
@@ -536,12 +577,14 @@ function uploadFieldHasMedia(
   uploadGroup: HTMLElement,
   previewSrc: string | null,
 ): boolean {
-  if (uploadGroup.dataset.clearedByUser === "true") return false;
-
   if (findButtonByText(uploadGroup, "Remove")) {
     delete uploadGroup.dataset.clearedByUser;
     return true;
   }
+
+  if (getPendingFilePreview(uploadGroup)) return true;
+
+  if (uploadGroup.dataset.clearedByUser === "true") return false;
 
   if (getPreviewFromGroup(uploadGroup)) return true;
   if (previewSrc) return true;
@@ -1017,7 +1060,7 @@ function resolveUploadPreview(
     }
   }
 
-  return { src: src ?? getPreviewFromGroup(group), kind };
+  return { src: src ?? getUploadPreviewFromDom(group), kind };
 }
 
 function enhanceUploadField(
@@ -1065,13 +1108,18 @@ function enhanceUploadField(
       setUploadDescriptionsVisible(slotMount, false);
     }
 
-    const src = getPreviewFromGroup(uploadGroup) ?? previewSrc;
+    const src = getUploadPreviewFromDom(uploadGroup) ?? previewSrc;
     ensureMediaSlot(
       slotMount,
       src,
       kind,
       () => {
         uploadGroup.dataset.clearedByUser = "true";
+        for (const input of uploadGroup.querySelectorAll<HTMLInputElement>(
+          "input[type='file']",
+        )) {
+          revokeStoredObjectUrl(input);
+        }
         findGalleryItemModal()?.removeAttribute("data-portfolio-enhance-key");
         triggerUploadRemove(uploadGroup);
         showEmptyState();
@@ -1220,20 +1268,31 @@ function resolvePageUploadPreview(
   page: PageMediaPreview,
   group: Element,
 ): { src: string | null; kind: GalleryMediaPreview["kind"] } {
+  const uploadGroup = group as HTMLElement;
+  let kind: GalleryMediaPreview["kind"] = "image";
+  let apiSrc: string | null = null;
+
   if (label === f.homeHeroVideo) {
-    return { src: page.heroVideo, kind: "video" };
-  }
-  if (label === f.aboutBackground) {
-    return { src: page.aboutBackground, kind: "image" };
-  }
-  if (label === f.revitImage) {
-    return { src: page.revitImage, kind: "image" };
-  }
-  if (label === f.vrImage) {
-    return { src: page.vrImage, kind: "image" };
+    kind = "video";
+    apiSrc = page.heroVideo;
+  } else if (label === f.aboutBackground) {
+    apiSrc = page.aboutBackground;
+  } else if (label === f.revitImage) {
+    apiSrc = page.revitImage;
+  } else if (label === f.vrImage) {
+    apiSrc = page.vrImage;
   }
 
-  return { src: getPreviewFromGroup(group), kind: "image" };
+  const domSrc = getUploadPreviewFromDom(group);
+  if (uploadGroup.dataset.clearedByUser === "true") {
+    return { src: domSrc, kind };
+  }
+
+  if (domSrc) {
+    return { src: domSrc, kind };
+  }
+
+  return { src: apiSrc, kind };
 }
 
 /**
@@ -1471,12 +1530,20 @@ function setupPageMediaEnhancements(): (() => void) | null {
 
   const observer = new MutationObserver(() => {
     if (cancelled) return;
-    if (formHasUnenhancedUploadFields()) {
-      scheduleEnhance();
-    }
+    scheduleEnhance();
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+
+  const onFileInputChange = (event: Event) => {
+    if (cancelled) return;
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement) || input.type !== "file") return;
+    if (!input.closest(".portfolio-upload-field, [role='group']")) return;
+    scheduleEnhance();
+  };
+
+  document.addEventListener("change", onFileInputChange, true);
 
   void refresh();
   const interval = window.setInterval(() => {
@@ -1488,6 +1555,7 @@ function setupPageMediaEnhancements(): (() => void) | null {
     if (enhanceTimer) window.clearTimeout(enhanceTimer);
     clearInterval(interval);
     observer.disconnect();
+    document.removeEventListener("change", onFileInputChange, true);
   };
 }
 
