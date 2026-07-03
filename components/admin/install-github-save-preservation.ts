@@ -2,6 +2,13 @@
 
 import yaml from "js-yaml";
 import {
+  extractCommitShaFromGraphQLResponse,
+  hideDeployWaitOverlay,
+  isDeployWaitActive,
+  showDeployWaitOverlay,
+  startDeployWaitForCommit,
+} from "@/components/admin/deploy-wait-overlay";
+import {
   decodeKeystaticFileContents,
   encodeKeystaticFileContents,
 } from "@/lib/keystatic-file-encoding";
@@ -105,6 +112,25 @@ export function installGithubSavePreservation(): () => void {
         const body = JSON.parse(init.body) as GraphQLRequestBody;
 
         if (isCreateCommitRequest(body)) {
+          if (isDeployWaitActive()) {
+            return new Response(
+              JSON.stringify({
+                errors: [
+                  {
+                    message:
+                      "Зачекайте завершення поточного деплою перед новим збереженням.",
+                  },
+                ],
+              }),
+              {
+                status: 200,
+                headers: { "content-type": "application/json" },
+              },
+            );
+          }
+
+          showDeployWaitOverlay("saving");
+
           const inputVars = body.variables!.input!;
           const fileChanges = inputVars.fileChanges ?? {
             additions: [],
@@ -149,6 +175,32 @@ export function installGithubSavePreservation(): () => void {
             ...init,
             body: JSON.stringify(nextBody),
           };
+
+          try {
+            const response = await originalFetch(input, init);
+            const contentType = response.headers.get("content-type") ?? "";
+
+            if (contentType.includes("application/json")) {
+              const payload = await response.clone().json();
+              if (payload.errors?.length) {
+                hideDeployWaitOverlay();
+              } else {
+                const sha = extractCommitShaFromGraphQLResponse(payload);
+                if (sha) {
+                  startDeployWaitForCommit(sha);
+                } else {
+                  hideDeployWaitOverlay();
+                }
+              }
+            } else {
+              hideDeployWaitOverlay();
+            }
+
+            return response;
+          } catch (error) {
+            hideDeployWaitOverlay();
+            throw error;
+          }
         }
       } catch {
         // If parsing fails, continue with the original request.
