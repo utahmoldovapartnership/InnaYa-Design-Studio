@@ -1,6 +1,6 @@
 /**
- * Seeds CMS YAML from existing site content (messages/*.json and local assets).
- * Safe to re-run — overwrites technologies/index.yaml with current message copy.
+ * Seeds CMS YAML from existing site content (messages/*.json and live fallbacks).
+ * Safe to re-run — refreshes page media files and technologies copy.
  */
 import fs from "fs";
 import path from "path";
@@ -8,6 +8,80 @@ import yaml from "js-yaml";
 import { fileURLToPath } from "url";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const mediaDir = path.join(root, "public/media/pages");
+
+const MEDIA = {
+  heroVideo: {
+    url: "https://www.pexels.com/download/video/5384977/",
+    filename: "hero-home.mp4",
+  },
+  aboutBackground: {
+    url: "https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    filename: "about-background.jpg",
+  },
+  revitImage: {
+    localSrc: path.join(root, "public/images/technologies/revit-feature.jpg"),
+    filename: "revit-feature.jpg",
+  },
+  vrImage: {
+    url: "https://www.kanikadesign.com/wp-content/uploads/2023/09/virtual-reality-world-of-interior-design-img-1.jpg",
+    filename: "vr-feature.jpg",
+  },
+};
+
+async function downloadFile(url, dest) {
+  const response = await fetch(url, {
+    redirect: "follow",
+    headers: { "User-Agent": "InnYa-Design-Seed/1.0" },
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to download ${url}: ${response.status}`);
+  }
+  const buffer = Buffer.from(await response.arrayBuffer());
+  fs.writeFileSync(dest, buffer);
+}
+
+function copyIfExists(src, dest) {
+  if (!fs.existsSync(src)) return false;
+  fs.copyFileSync(src, dest);
+  return true;
+}
+
+async function seedPageMedia() {
+  fs.mkdirSync(mediaDir, { recursive: true });
+
+  const heroDest = path.join(mediaDir, MEDIA.heroVideo.filename);
+  if (!fs.existsSync(heroDest)) {
+    console.log("Downloading home hero video…");
+    await downloadFile(MEDIA.heroVideo.url, heroDest);
+  }
+
+  const aboutDest = path.join(mediaDir, MEDIA.aboutBackground.filename);
+  if (!fs.existsSync(aboutDest)) {
+    console.log("Downloading about background…");
+    await downloadFile(MEDIA.aboutBackground.url, aboutDest);
+  }
+
+  const revitDest = path.join(mediaDir, MEDIA.revitImage.filename);
+  if (!fs.existsSync(revitDest)) {
+    copyIfExists(MEDIA.revitImage.localSrc, revitDest);
+  }
+
+  const vrDest = path.join(mediaDir, MEDIA.vrImage.filename);
+  if (!fs.existsSync(vrDest)) {
+    console.log("Downloading VR image…");
+    await downloadFile(MEDIA.vrImage.url, vrDest);
+  }
+
+  return {
+    heroVideo: fs.existsSync(heroDest) ? MEDIA.heroVideo.filename : null,
+    aboutBackground: fs.existsSync(aboutDest)
+      ? MEDIA.aboutBackground.filename
+      : null,
+    revitImage: fs.existsSync(revitDest) ? MEDIA.revitImage.filename : null,
+    vrImage: fs.existsSync(vrDest) ? MEDIA.vrImage.filename : null,
+  };
+}
 
 function loadServices(locale) {
   const file = path.join(root, "messages", `${locale}.json`);
@@ -48,16 +122,26 @@ function mapTechnologiesLocale(services) {
   };
 }
 
-const revitSrc = path.join(root, "public/images/technologies/revit-feature.jpg");
-const revitDest = path.join(root, "public/media/pages/revit-feature.jpg");
-fs.mkdirSync(path.dirname(revitDest), { recursive: true });
-if (fs.existsSync(revitSrc)) {
-  fs.copyFileSync(revitSrc, revitDest);
-}
+const media = await seedPageMedia();
+
+fs.writeFileSync(
+  path.join(root, "content/home/index.yaml"),
+  yaml.dump({ heroVideo: media.heroVideo }, { lineWidth: 120, noRefs: true }),
+);
+
+const aboutPath = path.join(root, "content/about/index.yaml");
+const about = fs.existsSync(aboutPath)
+  ? yaml.load(fs.readFileSync(aboutPath, "utf8"))
+  : {};
+about.background = media.aboutBackground;
+fs.writeFileSync(
+  aboutPath,
+  yaml.dump(about, { lineWidth: 120, noRefs: true }),
+);
 
 const technologies = {
-  revit: { image: fs.existsSync(revitDest) ? "revit-feature.jpg" : null },
-  vr: { image: null },
+  revit: { image: media.revitImage },
+  vr: { image: media.vrImage },
   leica: { videoId: "CpSLmy0iI_g" },
   en: mapTechnologiesLocale(loadServices("en")),
   uk: mapTechnologiesLocale(loadServices("uk")),
@@ -69,4 +153,8 @@ fs.writeFileSync(
   yaml.dump(technologies, { lineWidth: 120, noRefs: true }),
 );
 
-console.log("Seeded content/technologies/index.yaml");
+console.log("Seeded page media and content YAML:");
+console.log(`  home heroVideo: ${media.heroVideo ?? "(missing)"}`);
+console.log(`  about background: ${media.aboutBackground ?? "(missing)"}`);
+console.log(`  technologies revit: ${media.revitImage ?? "(missing)"}`);
+console.log(`  technologies vr: ${media.vrImage ?? "(missing)"}`);

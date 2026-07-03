@@ -1,4 +1,5 @@
 import { reader } from "@/lib/projects";
+import { pageAssetUrl } from "@/lib/page-media-url";
 import type { TechBenefit } from "@/components/technology/TechChapter";
 import en from "@/messages/en.json";
 import ru from "@/messages/ru.json";
@@ -222,12 +223,18 @@ export function splitBodyParagraphs(body: string): string[] {
 
 export async function getHomeHeroVideoSrc(): Promise<string> {
   const entry = (await reader.singletons.home.read()) as HomeEntry | null;
-  return entry?.heroVideo?.trim() || DEFAULT_HOME_HERO_VIDEO;
+  return (
+    pageAssetUrl(entry?.heroVideo) ||
+    DEFAULT_HOME_HERO_VIDEO
+  );
 }
 
 export async function getAboutBackgroundSrc(): Promise<string> {
   const entry = (await reader.singletons.about.read()) as AboutEntry | null;
-  return entry?.background?.trim() || DEFAULT_ABOUT_BACKGROUND;
+  return (
+    pageAssetUrl(entry?.background) ||
+    DEFAULT_ABOUT_BACKGROUND
+  );
 }
 
 export async function getTechnologiesContent(
@@ -251,8 +258,8 @@ export async function getTechnologiesMedia(): Promise<{
 
   return {
     revitImageSrc:
-      entry?.revit?.image?.trim() || DEFAULT_TECH_IMAGES.revit,
-    vrImageSrc: entry?.vr?.image?.trim() || DEFAULT_TECH_IMAGES.vr,
+      pageAssetUrl(entry?.revit?.image) || DEFAULT_TECH_IMAGES.revit,
+    vrImageSrc: pageAssetUrl(entry?.vr?.image) || DEFAULT_TECH_IMAGES.vr,
     leicaVideoId:
       entry?.leica?.videoId?.trim() || DEFAULT_LEICA_VIDEO_ID,
   };

@@ -1,6 +1,5 @@
 import { reader } from "@/lib/projects";
-
-const PAGE_MEDIA_PUBLIC_PATH = "/media/pages/";
+import { pageAssetUrl } from "@/lib/page-media-url";
 
 export type PageId = "home" | "about" | "technologies";
 
@@ -11,15 +10,6 @@ export type PageMediaPreview = {
   revitImage: string | null;
   vrImage: string | null;
 };
-
-function pageAssetUrl(value: string | null | undefined): string | null {
-  if (!value?.trim()) return null;
-  const trimmed = value.trim();
-  if (trimmed.startsWith("http") || trimmed.startsWith("/")) {
-    return trimmed;
-  }
-  return `${PAGE_MEDIA_PUBLIC_PATH}${trimmed}`;
-}
 
 export async function getPageMediaPreview(
   page: PageId,
