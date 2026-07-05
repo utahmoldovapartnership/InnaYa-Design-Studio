@@ -1,5 +1,5 @@
 slug: istra-house
-year: '2026'
+year: '2016'
 area: '171'
 en:
   title: Private house, Istra
@@ -25,125 +25,99 @@ gallery:
     media:
       discriminant: image
       value:
-        image: istra-house/floor-plan.jpg
         fit: contain
         orientation: landscape
         width: 9934
         height: 7017
+        image: istra-house/floor-plan.jpg
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-1.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-2.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-3.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-4.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-5.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-6.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-7.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-8.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-9.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: istra-house/photo-10.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Construction progress
     media:
       discriminant: image
       value:
-        image: istra-house/photo-11.jpg
         fit: cover
         orientation: landscape
-        width: null
-        height: null
+        image: istra-house/photo-11.jpg
   - alt: Exterior view
     media:
       discriminant: image
       value:
-        image: istra-house/photo-12.jpg
         fit: cover
         orientation: landscape
-        width: null
-        height: null
+        image: istra-house/photo-12.jpg
   - alt: Interior view
     media:
       discriminant: image
       value:
-        image: istra-house/photo-interior.jpg
         fit: cover
         orientation: landscape
-        width: null
-        height: null
+        image: istra-house/photo-interior.jpg
