@@ -1,5 +1,5 @@
 slug: sukhoy-liman-house
-year: '2026'
+year: '2022'
 area: '190'
 en:
   title: Private house, Sukhoy Liman
@@ -25,89 +25,73 @@ gallery:
     media:
       discriminant: image
       value:
-        image: sukhoy-liman-house/floor-1.jpg
         fit: contain
         orientation: landscape
         width: 3509
         height: 4961
+        image: sukhoy-liman-house/floor-1.jpg
   - alt: Second floor plan
     media:
       discriminant: image
       value:
-        image: sukhoy-liman-house/floor-2.jpg
         fit: contain
         orientation: landscape
         width: 3509
         height: 4961
+        image: sukhoy-liman-house/floor-2.jpg
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-1.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-2.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-3.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-4.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-5.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-6.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
+        fit: cover
+        orientation: landscape
         image: sukhoy-liman-house/render-7.jpg
-        fit: cover
-        orientation: landscape
-        width: null
-        height: null
   - alt: Interior view
     media:
       discriminant: image
       value:
-        image: sukhoy-liman-house/render-8.jpg
         fit: cover
         orientation: landscape
-        width: null
-        height: null
+        image: sukhoy-liman-house/render-8.jpg
