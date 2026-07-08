@@ -535,6 +535,18 @@ body.portfolio-admin[data-deploy-wait="true"] {
   line-height: 1.5;
 }
 
+.portfolio-deploy-wait__note {
+  margin: 0.75rem 0 0;
+  color: var(--admin-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
+.portfolio-deploy-wait__note[hidden] {
+  display: none;
+}
+
 .portfolio-deploy-wait__dismiss {
   margin-top: 1.1rem;
   padding: 0.55rem 1rem;

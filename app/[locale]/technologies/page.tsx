@@ -33,8 +33,7 @@ export default async function TechnologiesPage({
   const { locale } = await params;
   const t = await getTranslations("services");
   const content = await getTechnologiesContent(locale);
-  const { revitImageSrc, vrImageSrc, leicaVideoId } =
-    await getTechnologiesMedia();
+  const { vrImageSrc, leicaVideoId } = await getTechnologiesMedia();
 
   return (
     <>
@@ -46,32 +45,17 @@ export default async function TechnologiesPage({
             <div className="[&>section:first-child]:border-t-0">
               <TechFeatureBlock
                 compactTop
-                eyebrow={content.revitEyebrow}
-                title={content.revitTitle}
-                intro={content.revitIntro}
-                imageSide="right"
-                benefits={content.revitBenefits}
-                benefitsTitle={content.revitBenefitsTitle}
-                media={
-                  <TechFeatureImage
-                    src={revitImageSrc}
-                    alt={content.revitImageAlt}
-                    priority
-                  />
-                }
-              />
-
-              <TechFeatureBlock
                 eyebrow={content.vrEyebrow}
                 title={content.vrTitle}
                 intro={content.vrIntro}
-                imageSide="left"
+                imageSide="right"
                 benefits={content.vrBenefits}
                 closing={content.vrClosing}
                 media={
                   <TechFeatureImage
                     src={vrImageSrc}
                     alt={content.vrImageAlt}
+                    priority
                   />
                 }
               />

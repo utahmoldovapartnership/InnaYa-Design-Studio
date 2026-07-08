@@ -1,29 +1,10 @@
-revit:
-  image: revit/image.jpg
 vr:
   image: vr-feature.jpg
 leica:
   videoId: CpSLmy0iI_g
 en:
   pageTitle: Technologies
-  metaDescription: Revit BIM, VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision interior projects.
-  revitEyebrow: BIM / Revit
-  revitTitle: 'Our secret to flawless precision: why we design in Revit'
-  revitIntro: |-
-    When you entrust us with creating your interior, you receive not just beautiful images, but a maximally accurate digital model of your future space. We have moved away from outdated flat drafting in favor of advanced BIM technology (Building Information Modeling) using Autodesk Revit.
-
-    For you as a client, this means a guarantee of staying within budget, fewer builder errors, and saved time.
-  revitBenefitsTitle: Top 4 advantages of BIM design for your interior
-  revitBenefits:
-    - title: 100% protection from drawing errors
-      body: 'In traditional programs, drawings are created separately from one another. If a designer moves a socket or wall on one plan, they may forget to update the wall elevation. In Revit, that is impossible. We work with a single 3D model: any change in one place automatically updates all plans, sections, and schemes. Builders receive perfectly coordinated documentation.'
-    - title: Ideally accurate estimates without overpaying
-      body: Forget buying tile or parquet "by eye." Revit instantly and accurately reads areas, volumes, and item counts directly from the project. You receive an honest and transparent bill of materials and furniture, where every square centimetre is accounted for. No sudden extra costs for additional materials during renovation.
-    - title: Volumetric planning instead of flat schemes
-      body: You no longer need to imagine from a flat drawing whether a cabinet will fit or whether a wardrobe door will open comfortably. Designing in Revit, we see the interior in volume from the start. This allows us to perfect ergonomics, lighting scenarios, and spatial details before construction begins.
-    - title: Full control of engineering communications
-      body: An interior is not only décor, but also ventilation, air conditioning, pipes, and hidden access panels. Revit allows design solutions and engineering networks to be combined in one model. We immediately see if a pipe "crosses" a built-in cabinet and fix it on screen, not on the construction site.
-  revitImageAlt: Revit 3D architectural rendering of a modern residential house
+  metaDescription: VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision interior projects.
   vrEyebrow: Virtual reality
   vrTitle: Why we use VR headsets
   vrIntro: With VR technology, you can literally step inside your future home or apartment before renovation work begins. By putting on a virtual reality headset, you can freely explore every room, assess the layout, ceiling height, furniture placement, lighting, and decorative elements.
@@ -58,7 +39,6 @@ en:
 uk:
   pageTitle: Технології
   metaDescription: VR-прогулянки та обміри Leica — технології, завдяки яким InnaYa Design Studio створює точні інтер'єрні проєкти.
-  revitBenefits: []
   vrEyebrow: Віртуальна реальність
   vrTitle: Навіщо ми використовуємо VR-окуляри
   vrIntro: За допомогою VR-технології ви зможете буквально опинитися всередині свого майбутнього будинку чи квартири ще до початку ремонтних робіт. Одягнувши окуляри віртуальної реальності, ви зможете вільно оглянути кожне приміщення, оцінити планування, висоту стель, розташування меблів, освітлення та декоративні елементи.
@@ -92,8 +72,7 @@ uk:
   leicaClosing: Точний дизайн починається з точних вимірювань. Саме тому кожен наш проєкт ґрунтується на професійних обмірах, виконаних із використанням передового вимірювального обладнання Leica.
 ru:
   pageTitle: Технологии
-  metaDescription: VR-прогулки и обмеры Leica — технологии, благодаря которым InnaYa Design Studio создаёт точные интерьерные проекты
-  revitBenefits: []
+  metaDescription: VR-прогулки и обмеры Leica — технологии, благодаря которым InnaYa Design Studio создаёт точные интерьерные проекты.
   vrEyebrow: Виртуальная реальность
   vrTitle: Зачем мы используем VR-очки
   vrIntro: С помощью VR-технологии вы сможете буквально оказаться внутри своего будущего дома или квартиры еще до начала ремонтных работ. Надев очки виртуальной реальности, вы сможете свободно осмотреть каждое помещение, оценить планировку, высоту потолков, расположение мебели, освещение и декоративные элементы.

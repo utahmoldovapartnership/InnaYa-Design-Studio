@@ -19,10 +19,6 @@ const MEDIA = {
     url: "https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920",
     filename: "about-background.jpg",
   },
-  revitImage: {
-    localSrc: path.join(root, "public/images/technologies/revit-feature.jpg"),
-    filename: "revit-feature.jpg",
-  },
   vrImage: {
     url: "https://www.kanikadesign.com/wp-content/uploads/2023/09/virtual-reality-world-of-interior-design-img-1.jpg",
     filename: "vr-feature.jpg",
@@ -62,11 +58,6 @@ async function seedPageMedia() {
     await downloadFile(MEDIA.aboutBackground.url, aboutDest);
   }
 
-  const revitDest = path.join(mediaDir, MEDIA.revitImage.filename);
-  if (!fs.existsSync(revitDest)) {
-    copyIfExists(MEDIA.revitImage.localSrc, revitDest);
-  }
-
   const vrDest = path.join(mediaDir, MEDIA.vrImage.filename);
   if (!fs.existsSync(vrDest)) {
     console.log("Downloading VR image…");
@@ -78,7 +69,6 @@ async function seedPageMedia() {
     aboutBackground: fs.existsSync(aboutDest)
       ? MEDIA.aboutBackground.filename
       : null,
-    revitImage: fs.existsSync(revitDest) ? MEDIA.revitImage.filename : null,
     vrImage: fs.existsSync(vrDest) ? MEDIA.vrImage.filename : null,
   };
 }
@@ -95,16 +85,7 @@ function joinParagraphs(paragraphs) {
 function mapTechnologiesLocale(services) {
   return {
     pageTitle: services.title,
-    metaDescription: services.metaDescription,
-    revitEyebrow: services.revitEyebrow,
-    revitTitle: services.revitTitle,
-    revitIntro: joinParagraphs(services.revitIntro),
-    revitBenefitsTitle: services.revitBenefitsTitle,
-    revitBenefits: services.revitBenefits.map(({ title, body }) => ({
-      title,
-      body,
-    })),
-    revitImageAlt: services.revitImageAlt,
+    metaDescription: services.metaDescription.replace(/Revit BIM,?\s*/gi, ""),
     vrEyebrow: services.vrEyebrow,
     vrTitle: services.vrTitle,
     vrIntro: joinParagraphs(services.vrIntro),
@@ -143,7 +124,6 @@ fs.writeFileSync(
 );
 
 const technologies = {
-  revit: { image: media.revitImage },
   vr: { image: media.vrImage },
   leica: { videoId: "CpSLmy0iI_g" },
   en: mapTechnologiesLocale(loadServices("en")),
@@ -159,5 +139,4 @@ fs.writeFileSync(
 console.log("Seeded page media and content YAML:");
 console.log(`  home heroVideo: ${media.heroVideo ?? "(missing)"}`);
 console.log(`  about background: ${media.aboutBackground ?? "(missing)"}`);
-console.log(`  technologies revit: ${media.revitImage ?? "(missing)"}`);
 console.log(`  technologies vr: ${media.vrImage ?? "(missing)"}`);

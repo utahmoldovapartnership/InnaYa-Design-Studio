@@ -155,16 +155,6 @@ function technologiesLocaleFields(label: string) {
         label: f.metaDescription,
         multiline: true,
       }),
-      revitEyebrow: fields.text({ label: f.revitEyebrow }),
-      revitTitle: fields.text({ label: f.revitTitle }),
-      revitIntro: techParagraphField(f.revitIntro),
-      revitBenefitsTitle: fields.text({ label: f.revitBenefitsTitle }),
-      revitBenefits: fields.array(techBenefitField(), {
-        label: f.revitBenefits,
-        itemLabel: (props) =>
-          props.fields.title.value?.trim() || f.benefitItem,
-      }),
-      revitImageAlt: fields.text({ label: f.revitImageAlt }),
       vrEyebrow: fields.text({ label: f.vrEyebrow }),
       vrTitle: fields.text({ label: f.vrTitle }),
       vrIntro: techParagraphField(f.vrIntro),
@@ -256,16 +246,6 @@ export default config({
       format: { data: "yaml" },
       previewUrl: "/uk/technologies",
       schema: {
-        revit: fields.object(
-          {
-            image: fields.image({
-              label: f.revitImage,
-              description: f.revitImageHint,
-              ...pageMedia,
-            }),
-          },
-          { label: f.revitSection },
-        ),
         vr: fields.object(
           {
             image: fields.image({

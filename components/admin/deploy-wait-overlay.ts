@@ -28,6 +28,7 @@ function ensureOverlay(): HTMLElement {
       <p class="portfolio-deploy-wait__message">
         Сайт оновлюється на Vercel. Зачекайте, будь ласка — не редагуйте сторінку, поки деплой не завершиться.
       </p>
+      <p class="portfolio-deploy-wait__note">Зазвичай це займає близько 1 хвилини.</p>
       <button type="button" class="portfolio-deploy-wait__dismiss" hidden>
         Закрити
       </button>
@@ -45,15 +46,22 @@ function ensureOverlay(): HTMLElement {
   return overlay;
 }
 
-function setOverlayMessage(title: string, message: string, showDismiss = false): void {
+function setOverlayMessage(
+  title: string,
+  message: string,
+  showDismiss = false,
+  showNote = false,
+): void {
   const overlay = ensureOverlay();
   const titleNode = overlay.querySelector<HTMLElement>(".portfolio-deploy-wait__title");
   const messageNode = overlay.querySelector<HTMLElement>(".portfolio-deploy-wait__message");
+  const noteNode = overlay.querySelector<HTMLElement>(".portfolio-deploy-wait__note");
   const dismiss = overlay.querySelector<HTMLButtonElement>(".portfolio-deploy-wait__dismiss");
   const spinner = overlay.querySelector<HTMLElement>(".portfolio-deploy-wait__spinner");
 
   if (titleNode) titleNode.textContent = title;
   if (messageNode) messageNode.textContent = message;
+  if (noteNode) noteNode.hidden = !showNote;
   if (dismiss) dismiss.hidden = !showDismiss;
   if (spinner) spinner.hidden = showDismiss;
 }
@@ -82,6 +90,8 @@ export function showDeployWaitOverlay(phase: "saving" | "deploying" = "saving"):
     setOverlayMessage(
       "Збереження змін…",
       "Зачекайте, поки зміни буде надіслано до GitHub.",
+      false,
+      true,
     );
     return;
   }
@@ -89,6 +99,8 @@ export function showDeployWaitOverlay(phase: "saving" | "deploying" = "saving"):
   setOverlayMessage(
     "Сайт оновлюється…",
     "Vercel збирає нову версію сайту. Будь ласка, не редагуйте сторінку, поки деплой не завершиться.",
+    false,
+    true,
   );
 }
 

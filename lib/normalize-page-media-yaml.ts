@@ -50,13 +50,6 @@ export function normalizePageMediaYaml(
   if (path === "content/technologies/index.yaml") {
     const next: JsonObject = { ...data };
 
-    if (isObject(data.revit)) {
-      next.revit = {
-        ...data.revit,
-        image: normalizePageMediaFilename(data.revit.image),
-      };
-    }
-
     if (isObject(data.vr)) {
       next.vr = {
         ...data.vr,

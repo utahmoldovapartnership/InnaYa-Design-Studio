@@ -56,16 +56,11 @@ export function mergePageMediaYaml(
 
   if (path === "content/technologies/index.yaml") {
     const next = { ...incoming };
-    const revit = preserveNestedImage(
-      isObject(incoming.revit) ? incoming.revit : undefined,
-      isObject(existing.revit) ? existing.revit : undefined,
-    );
     const vr = preserveNestedImage(
       isObject(incoming.vr) ? incoming.vr : undefined,
       isObject(existing.vr) ? existing.vr : undefined,
     );
 
-    if (revit) next.revit = revit;
     if (vr) next.vr = vr;
 
     return next;

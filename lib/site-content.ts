@@ -23,12 +23,6 @@ type HomeEntry = {
 type TechnologiesLocaleEntry = {
   pageTitle?: string | null;
   metaDescription?: string | null;
-  revitEyebrow?: string | null;
-  revitTitle?: string | null;
-  revitIntro?: string | null;
-  revitBenefitsTitle?: string | null;
-  revitBenefits?: readonly TechBenefit[] | null;
-  revitImageAlt?: string | null;
   vrEyebrow?: string | null;
   vrTitle?: string | null;
   vrIntro?: string | null;
@@ -43,7 +37,6 @@ type TechnologiesLocaleEntry = {
 };
 
 type TechnologiesEntry = {
-  revit?: { image?: string | null } | null;
   vr?: { image?: string | null } | null;
   leica?: { videoId?: string | null } | null;
   en?: TechnologiesLocaleEntry | null;
@@ -54,12 +47,6 @@ type TechnologiesEntry = {
 export type TechnologiesContent = {
   pageTitle: string;
   metaDescription: string;
-  revitEyebrow: string;
-  revitTitle: string;
-  revitIntro: string[];
-  revitBenefitsTitle: string;
-  revitBenefits: TechBenefit[];
-  revitImageAlt: string;
   vrEyebrow: string;
   vrTitle: string;
   vrIntro: string[];
@@ -80,7 +67,6 @@ const DEFAULT_ABOUT_BACKGROUND =
   "https://images.pexels.com/photos/4621657/pexels-photo-4621657.jpeg?auto=compress&cs=tinysrgb&w=1920";
 
 const DEFAULT_TECH_IMAGES = {
-  revit: "/images/technologies/revit-feature.jpg",
   vr: "https://www.kanikadesign.com/wp-content/uploads/2023/09/virtual-reality-world-of-interior-design-img-1.jpg",
 } as const;
 
@@ -124,15 +110,6 @@ function mapTechnologiesLocale(
   return {
     pageTitle: pickText(entry?.pageTitle, fallback.title),
     metaDescription: pickText(entry?.metaDescription, fallback.metaDescription),
-    revitEyebrow: pickText(entry?.revitEyebrow, fallback.revitEyebrow),
-    revitTitle: pickText(entry?.revitTitle, fallback.revitTitle),
-    revitIntro: pickParagraphs(entry?.revitIntro, fallback.revitIntro),
-    revitBenefitsTitle: pickText(
-      entry?.revitBenefitsTitle,
-      fallback.revitBenefitsTitle,
-    ),
-    revitBenefits: pickBenefits(entry?.revitBenefits, fallback.revitBenefits),
-    revitImageAlt: pickText(entry?.revitImageAlt, fallback.revitImageAlt),
     vrEyebrow: pickText(entry?.vrEyebrow, fallback.vrEyebrow),
     vrTitle: pickText(entry?.vrTitle, fallback.vrTitle),
     vrIntro: pickParagraphs(entry?.vrIntro, fallback.vrIntro),
@@ -248,7 +225,6 @@ export async function getTechnologiesContent(
 }
 
 export async function getTechnologiesMedia(): Promise<{
-  revitImageSrc: string;
   vrImageSrc: string;
   leicaVideoId: string;
 }> {
@@ -257,8 +233,6 @@ export async function getTechnologiesMedia(): Promise<{
     | null;
 
   return {
-    revitImageSrc:
-      pageAssetUrl(entry?.revit?.image) || DEFAULT_TECH_IMAGES.revit,
     vrImageSrc: pageAssetUrl(entry?.vr?.image) || DEFAULT_TECH_IMAGES.vr,
     leicaVideoId:
       entry?.leica?.videoId?.trim() || DEFAULT_LEICA_VIDEO_ID,

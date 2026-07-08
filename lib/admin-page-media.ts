@@ -7,7 +7,6 @@ export type PageMediaPreview = {
   page: PageId;
   heroVideo: string | null;
   aboutBackground: string | null;
-  revitImage: string | null;
   vrImage: string | null;
 };
 
@@ -18,7 +17,6 @@ export async function getPageMediaPreview(
     page,
     heroVideo: null,
     aboutBackground: null,
-    revitImage: null,
     vrImage: null,
   };
 
@@ -39,10 +37,8 @@ export async function getPageMediaPreview(
   }
 
   const entry = (await reader.singletons.technologies.read()) as {
-    revit?: { image?: string | null } | null;
     vr?: { image?: string | null } | null;
   } | null;
-  preview.revitImage = pageAssetUrl(entry?.revit?.image);
   preview.vrImage = pageAssetUrl(entry?.vr?.image);
   return preview;
 }

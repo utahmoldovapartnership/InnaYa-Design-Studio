@@ -27,7 +27,6 @@ const UPLOAD_FIELD_LABELS = new Set<string>([
   f.coverThumbnail,
   f.homeHeroVideo,
   f.aboutBackground,
-  f.revitImage,
   f.vrImage,
 ]);
 
@@ -38,7 +37,6 @@ const UPLOAD_DESCRIPTION_SNIPPETS = [
   f.coverThumbnailHint,
   f.homeHeroVideoHint,
   f.aboutBackgroundHint,
-  f.revitImageHint,
   f.vrImageHint,
 ];
 
@@ -53,14 +51,12 @@ const EMPTY_PAGE_MEDIA: PageMediaPreview = {
   page: "home",
   heroVideo: null,
   aboutBackground: null,
-  revitImage: null,
   vrImage: null,
 };
 
 const PAGE_UPLOAD_LABELS = new Set<string>([
   f.homeHeroVideo,
   f.aboutBackground,
-  f.revitImage,
   f.vrImage,
 ]);
 
@@ -70,7 +66,7 @@ const PAGE_UPLOAD_LABELS_BY_PAGE: Record<
 > = {
   home: [f.homeHeroVideo],
   about: [f.aboutBackground],
-  technologies: [f.revitImage, f.vrImage],
+  technologies: [f.vrImage],
 };
 
 /** GitHub mode inserts `/branch/{name}` after `/edit`. */
@@ -479,7 +475,7 @@ function isUploadFieldGroup(group: Element): boolean {
     return true;
   }
 
-  if (label === f.aboutBackground || label === f.revitImage || label === f.vrImage) {
+  if (label === f.aboutBackground || label === f.vrImage) {
     return true;
   }
 
@@ -1278,8 +1274,6 @@ function resolvePageUploadPreview(
     apiSrc = page.heroVideo;
   } else if (label === f.aboutBackground) {
     apiSrc = page.aboutBackground;
-  } else if (label === f.revitImage) {
-    apiSrc = page.revitImage;
   } else if (label === f.vrImage) {
     apiSrc = page.vrImage;
   }
@@ -1449,7 +1443,7 @@ function wrapFormSections(): void {
     break;
   }
 
-  for (const label of [f.revitSection, f.vrSection, f.leicaSection]) {
+  for (const label of [f.vrSection, f.leicaSection]) {
     const panel = findLabeledPanel(document, label);
     panel?.classList.add("portfolio-section");
   }
