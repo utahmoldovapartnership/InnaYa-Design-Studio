@@ -179,6 +179,24 @@ function technologiesLocaleFields(label: string) {
   );
 }
 
+function techExtraSectionLocaleFields(label: string) {
+  return fields.object(
+    {
+      eyebrow: fields.text({ label: f.techSectionEyebrow }),
+      title: fields.text({ label: f.techSectionTitle }),
+      intro: techParagraphField(f.techSectionIntro),
+      benefits: fields.array(techBenefitField(), {
+        label: f.techSectionBenefits,
+        itemLabel: (props) =>
+          props.fields.title.value?.trim() || f.benefitItem,
+      }),
+      closing: techParagraphField(f.techSectionClosing),
+      imageAlt: fields.text({ label: f.techSectionImageAlt }),
+    },
+    { label },
+  );
+}
+
 function getStorage():
   | { kind: "local" }
   | { kind: "github"; repo: `${string}/${string}` } {
@@ -264,6 +282,37 @@ export default config({
             }),
           },
           { label: f.leicaSection },
+        ),
+        sections: fields.array(
+          fields.object(
+            {
+              image: fields.image({
+                label: f.techSectionImage,
+                description: f.techSectionImageHint,
+                ...pageMedia,
+              }),
+              imageSide: fields.select({
+                label: f.techSectionImageSide,
+                options: [
+                  { label: f.techSectionImageRight, value: "right" },
+                  { label: f.techSectionImageLeft, value: "left" },
+                ],
+                defaultValue: "right",
+              }),
+              en: techExtraSectionLocaleFields(localeTabLabels.en),
+              uk: techExtraSectionLocaleFields(localeTabLabels.uk),
+              ru: techExtraSectionLocaleFields(localeTabLabels.ru),
+            },
+            { label: f.techSectionItem },
+          ),
+          {
+            label: f.techSections,
+            description: f.techSectionsHint,
+            itemLabel: (props) =>
+              props.fields.en.fields.title.value?.trim() ||
+              props.fields.uk.fields.title.value?.trim() ||
+              f.techSectionNew,
+          },
         ),
         en: technologiesLocaleFields(localeTabLabels.en),
         uk: technologiesLocaleFields(localeTabLabels.uk),

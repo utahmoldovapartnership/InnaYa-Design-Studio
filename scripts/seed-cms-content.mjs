@@ -126,6 +126,7 @@ fs.writeFileSync(
 const technologies = {
   vr: { image: media.vrImage },
   leica: { videoId: "CpSLmy0iI_g" },
+  sections: [],
   en: mapTechnologiesLocale(loadServices("en")),
   uk: mapTechnologiesLocale(loadServices("uk")),
   ru: mapTechnologiesLocale(loadServices("ru")),

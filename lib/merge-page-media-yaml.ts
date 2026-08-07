@@ -63,6 +63,26 @@ export function mergePageMediaYaml(
 
     if (vr) next.vr = vr;
 
+    if (Array.isArray(incoming.sections) || Array.isArray(existing.sections)) {
+      const incomingSections = Array.isArray(incoming.sections)
+        ? incoming.sections
+        : [];
+      const existingSections = Array.isArray(existing.sections)
+        ? existing.sections
+        : [];
+
+      next.sections = incomingSections.map((section, index) => {
+        if (!isObject(section)) return section;
+        const existingSection = existingSections[index];
+        return (
+          preserveNestedImage(
+            section,
+            isObject(existingSection) ? existingSection : undefined,
+          ) ?? section
+        );
+      });
+    }
+
     return next;
   }
 

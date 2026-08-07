@@ -28,6 +28,7 @@ const UPLOAD_FIELD_LABELS = new Set<string>([
   f.homeHeroVideo,
   f.aboutBackground,
   f.vrImage,
+  f.techSectionImage,
 ]);
 
 const UPLOAD_DESCRIPTION_SNIPPETS = [
@@ -38,6 +39,7 @@ const UPLOAD_DESCRIPTION_SNIPPETS = [
   f.homeHeroVideoHint,
   f.aboutBackgroundHint,
   f.vrImageHint,
+  f.techSectionImageHint,
 ];
 
 const EMPTY_PROJECT_MEDIA: ProjectMediaPreview = {
@@ -52,12 +54,14 @@ const EMPTY_PAGE_MEDIA: PageMediaPreview = {
   heroVideo: null,
   aboutBackground: null,
   vrImage: null,
+  sectionImages: [],
 };
 
 const PAGE_UPLOAD_LABELS = new Set<string>([
   f.homeHeroVideo,
   f.aboutBackground,
   f.vrImage,
+  f.techSectionImage,
 ]);
 
 const PAGE_UPLOAD_LABELS_BY_PAGE: Record<
@@ -475,7 +479,7 @@ function isUploadFieldGroup(group: Element): boolean {
     return true;
   }
 
-  if (label === f.aboutBackground || label === f.vrImage) {
+  if (label === f.aboutBackground || label === f.vrImage || label === f.techSectionImage) {
     return true;
   }
 
@@ -1276,6 +1280,8 @@ function resolvePageUploadPreview(
     apiSrc = page.aboutBackground;
   } else if (label === f.vrImage) {
     apiSrc = page.vrImage;
+  } else if (label === f.techSectionImage) {
+    apiSrc = null;
   }
 
   const domSrc = getUploadPreviewFromDom(group);
@@ -1351,14 +1357,106 @@ function enhancePageUploadFields(page: PageMediaPreview): void {
       false,
     );
   }
+
+  if (page.page === "technologies") {
+    enhanceTechSectionUploadFields(page);
+  }
+}
+
+function findTechSectionsList(): HTMLElement | null {
+  const list = document.querySelector(`[aria-label="${f.techSections}"]`);
+  return list instanceof HTMLElement ? list : null;
+}
+
+function findTechSectionUploadGroups(root: ParentNode = document): HTMLElement[] {
+  const matches: HTMLElement[] = [];
+  for (const group of root.querySelectorAll('[role="group"]')) {
+    if (getDirectUploadFieldLabel(group) !== f.techSectionImage) continue;
+    matches.push(group as HTMLElement);
+  }
+  return matches.sort(
+    (left, right) =>
+      left.getBoundingClientRect().top - right.getBoundingClientRect().top,
+  );
+}
+
+function enhanceTechSectionUploadFields(page: PageMediaPreview): void {
+  const dialog = findGalleryItemModal();
+  if (dialog) {
+    enhanceTechSectionEditModal(page, dialog);
+    return;
+  }
+
+  const groups = findTechSectionUploadGroups().filter(
+    (group) => !group.closest('[role="dialog"]'),
+  );
+  groups.forEach((uploadGroup, index) => {
+    const apiSrc = page.sectionImages[index]?.src ?? null;
+    const domSrc = getUploadPreviewFromDom(uploadGroup);
+    const previewSrc =
+      uploadGroup.dataset.clearedByUser === "true"
+        ? domSrc
+        : domSrc || apiSrc;
+
+    enhanceUploadField(
+      uploadGroup,
+      uploadGroup,
+      f.techSectionImage,
+      previewSrc,
+      "image",
+      false,
+    );
+  });
+}
+
+function enhanceTechSectionEditModal(
+  page: PageMediaPreview,
+  modal: HTMLElement,
+): void {
+  const uploadGroup = findTechSectionUploadGroups(modal)[0];
+  if (!uploadGroup) return;
+
+  const titleValues = new Set(
+    [...modal.querySelectorAll("input, textarea")]
+      .filter(
+        (node): node is HTMLInputElement | HTMLTextAreaElement =>
+          node instanceof HTMLInputElement ||
+          node instanceof HTMLTextAreaElement,
+      )
+      .map((input) => input.value.trim())
+      .filter(Boolean),
+  );
+
+  const matched = page.sectionImages.find(
+    (section) =>
+      (section.enTitle && titleValues.has(section.enTitle)) ||
+      (section.ukTitle && titleValues.has(section.ukTitle)),
+  );
+  const apiSrc =
+    matched?.src ??
+    (page.sectionImages.length === 1 ? page.sectionImages[0]?.src ?? null : null);
+
+  const domSrc = getUploadPreviewFromDom(uploadGroup);
+  const previewSrc =
+    uploadGroup.dataset.clearedByUser === "true" ? domSrc : domSrc || apiSrc;
+
+  enhanceUploadField(
+    uploadGroup,
+    uploadGroup,
+    f.techSectionImage,
+    previewSrc,
+    "image",
+    true,
+  );
 }
 
 function applyPageMedia(page: PageMediaPreview): void {
   const userIsTyping = document.activeElement?.matches(
     "input, textarea, [contenteditable='true']",
   );
+  const modalOpen = Boolean(findGalleryItemModal());
 
-  if (!userIsTyping) {
+  if (!userIsTyping || modalOpen) {
     wrapFormSections();
     enhancePageUploadFields(page);
   }
@@ -1443,10 +1541,14 @@ function wrapFormSections(): void {
     break;
   }
 
-  for (const label of [f.vrSection, f.leicaSection]) {
+  for (const label of [f.vrSection, f.leicaSection, f.techSections]) {
     const panel = findLabeledPanel(document, label);
     panel?.classList.add("portfolio-section");
   }
+
+  findTechSectionsList()
+    ?.closest("div")
+    ?.classList.add("portfolio-section", "portfolio-section--gallery");
 }
 
 function formHasUnenhancedUploadFields(): boolean {

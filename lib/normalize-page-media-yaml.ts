@@ -57,6 +57,16 @@ export function normalizePageMediaYaml(
       };
     }
 
+    if (Array.isArray(data.sections)) {
+      next.sections = data.sections.map((section) => {
+        if (!isObject(section)) return section;
+        return {
+          ...section,
+          image: normalizePageMediaFilename(section.image),
+        };
+      });
+    }
+
     return next;
   }
 

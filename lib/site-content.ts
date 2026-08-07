@@ -36,9 +36,27 @@ type TechnologiesLocaleEntry = {
   leicaClosing?: string | null;
 };
 
+type TechnologiesSectionLocaleEntry = {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  benefits?: readonly TechBenefit[] | null;
+  closing?: string | null;
+  imageAlt?: string | null;
+};
+
+type TechnologiesSectionEntry = {
+  image?: string | null;
+  imageSide?: "left" | "right" | null;
+  en?: TechnologiesSectionLocaleEntry | null;
+  uk?: TechnologiesSectionLocaleEntry | null;
+  ru?: TechnologiesSectionLocaleEntry | null;
+};
+
 type TechnologiesEntry = {
   vr?: { image?: string | null } | null;
   leica?: { videoId?: string | null } | null;
+  sections?: readonly TechnologiesSectionEntry[] | null;
   en?: TechnologiesLocaleEntry | null;
   uk?: TechnologiesLocaleEntry | null;
   ru?: TechnologiesLocaleEntry | null;
@@ -58,6 +76,17 @@ export type TechnologiesContent = {
   leicaIntro: string[];
   leicaBenefits: TechBenefit[];
   leicaClosing: string[];
+};
+
+export type TechnologySectionContent = {
+  imageSrc: string;
+  imageSide: "left" | "right";
+  eyebrow: string;
+  title: string;
+  intro: string[];
+  benefits: TechBenefit[];
+  closing: string[];
+  imageAlt: string;
 };
 
 const DEFAULT_HOME_HERO_VIDEO =
@@ -121,6 +150,29 @@ function mapTechnologiesLocale(
     leicaIntro: pickParagraphs(entry?.leicaIntro, fallback.leicaIntro),
     leicaBenefits: pickBenefits(entry?.leicaBenefits, fallback.leicaBenefits),
     leicaClosing: pickParagraphs(entry?.leicaClosing, fallback.leicaClosing),
+  };
+}
+
+function mapTechnologySection(
+  entry: TechnologiesSectionEntry,
+  locale: Locale,
+): TechnologySectionContent | null {
+  const copy = entry[locale] ?? entry.uk ?? entry.en ?? entry.ru;
+  const title = copy?.title?.trim() ?? "";
+  if (!title) return null;
+
+  const imageSrc = pageAssetUrl(entry.image);
+  if (!imageSrc) return null;
+
+  return {
+    imageSrc,
+    imageSide: entry.imageSide === "left" ? "left" : "right",
+    eyebrow: copy?.eyebrow?.trim() ?? "",
+    title,
+    intro: pickParagraphs(copy?.intro, []),
+    benefits: pickBenefits(copy?.benefits, []),
+    closing: pickParagraphs(copy?.closing, []),
+    imageAlt: copy?.imageAlt?.trim() || title,
   };
 }
 
@@ -237,6 +289,19 @@ export async function getTechnologiesMedia(): Promise<{
     leicaVideoId:
       entry?.leica?.videoId?.trim() || DEFAULT_LEICA_VIDEO_ID,
   };
+}
+
+export async function getTechnologySections(
+  locale: string,
+): Promise<TechnologySectionContent[]> {
+  const loc = toLocale(locale);
+  const entry = (await reader.singletons.technologies.read()) as
+    | TechnologiesEntry
+    | null;
+
+  return (entry?.sections ?? [])
+    .map((section) => mapTechnologySection(section, loc))
+    .filter((section): section is TechnologySectionContent => section !== null);
 }
 
 export async function getAboutBody(locale: string): Promise<string> {

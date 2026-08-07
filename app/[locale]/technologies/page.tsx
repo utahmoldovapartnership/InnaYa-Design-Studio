@@ -8,6 +8,7 @@ import {
 import {
   getTechnologiesContent,
   getTechnologiesMedia,
+  getTechnologySections,
 } from "@/lib/site-content";
 import { buildLocaleAlternates } from "@/lib/seo";
 
@@ -34,6 +35,7 @@ export default async function TechnologiesPage({
   const t = await getTranslations("services");
   const content = await getTechnologiesContent(locale);
   const { vrImageSrc, leicaVideoId } = await getTechnologiesMedia();
+  const sections = await getTechnologySections(locale);
 
   return (
     <>
@@ -82,6 +84,24 @@ export default async function TechnologiesPage({
                   </div>
                 }
               />
+
+              {sections.map((section) => (
+                <TechFeatureBlock
+                  key={`${section.title}-${section.imageSrc}`}
+                  eyebrow={section.eyebrow}
+                  title={section.title}
+                  intro={section.intro}
+                  imageSide={section.imageSide}
+                  benefits={section.benefits}
+                  closing={section.closing}
+                  media={
+                    <TechFeatureImage
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                    />
+                  }
+                />
+              ))}
             </div>
           </div>
         </div>
