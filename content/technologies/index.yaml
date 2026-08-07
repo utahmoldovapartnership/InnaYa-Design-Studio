@@ -2,36 +2,7 @@ vr:
   image: vr-feature.jpg
 leica:
   videoId: CpSLmy0iI_g
-sections:
-  - image: sections/0/image.jpg
-    imageSide: right
-    en:
-      eyebrow: Test sub title
-      title: Test Title
-      intro: Test text goes heree. some more goes here. Test text goes heree. some more goes here. Test text goes heree. some more goes here. Test text goes heree. some more goes here.
-      benefits:
-        - title: Its really good
-          body: Test text goes heree. some more goes here.Test text goes heree. some more goes here.Test text goes heree. some more goes here.
-      closing: I have no idea what this will look like
-      imageAlt: Test text goes heree. some more goes here.Test text goes heree. some more goes here.
-    uk:
-      eyebrow: Test text goes heree. some more goes here.
-      title: Test text goes heree. some more goes here.
-      intro: Test text goes heree. some more goes here.
-      benefits:
-        - title: Test text goes heree. some more goes here.
-          body: Test text goes heree. some more goes here.
-      closing: Test text goes heree. some more goes here.
-      imageAlt: Test text goes heree. some more goes here.
-    ru:
-      eyebrow: Test text goes heree. some more goes here.
-      title: Test text goes heree. some more goes here.
-      intro: Test text goes heree. some more goes here.
-      benefits:
-        - title: Test text goes heree. some more goes here.
-          body: Test text goes heree. some more goes here.
-      closing: Test text goes heree. some more goes here.
-      imageAlt: Test text goes heree. some more goes here.
+sections: []
 en:
   pageTitle: Technologies
   metaDescription: VR walkthroughs, and Leica site surveys — the technologies behind InnaYa Design Studio's precision interior projects.
